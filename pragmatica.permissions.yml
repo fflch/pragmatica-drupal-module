@@ -1,0 +1,4 @@
+administer pragmatica configuration:
+  title: 'Administer pragmatica configuration'
+  description: 'Optional description.'
+  restrict access: true

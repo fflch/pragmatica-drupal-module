@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Contains pragmatica.module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function pragmatica_help($route_name, RouteMatchInterface $route_match) {
+    switch ($route_name) {
+        case 'help.page.pragmatica':
+            return 'Importa, gerencia e exibe dados de análises linguísticas do Grupo de Pesquisa - Pragmática (inter)linguística, intercultural e cross-cultural (GPP) (FFLCH-USP).';
+    }
+}

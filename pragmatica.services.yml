@@ -1,0 +1,6 @@
+services:
+  pragmatica.event_subscriber:
+    class: Drupal\pragmatica\EventSubscriber\PragmaticaSubscriber
+    arguments: ['@messenger']
+    tags:
+      - { name: event_subscriber }
