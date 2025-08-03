@@ -8,6 +8,16 @@ pragmatica.dashboard:
   options:
     _admin_route: TRUE
 
+pragmatica.import:
+  path: '/admin/pragmatica/import'
+  defaults:
+    _title: 'Importar dados'
+    _controller: '\Drupal\pragmatica\Controller\ImportController::importForm'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
 ###################################################
 ############### Code routes #######################
 ###################################################

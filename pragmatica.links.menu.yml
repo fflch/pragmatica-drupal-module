@@ -6,6 +6,14 @@ pragmatica.admin:
   parent: system.admin
   weight: 15
 
+pragmatica.import:
+  title: 'Importar dados'
+  description: 'Importar dados para o módulo Pragmática.'
+  route_name: pragmatica.import
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 10
+
 pragmatica.code:
   title: 'Códigos'
   route_name: entity.pragmatica_code.collection

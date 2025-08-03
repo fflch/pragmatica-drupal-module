@@ -28,6 +28,18 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
    */
   public abstract static function getFieldsIds(): array;
 
+  public function getFieldsToXmlMapping(): array {
+    return [
+      'guid' => 'guid',
+      'name' => 'name',
+      'description' => 'Description',
+      'creating_user_id' => 'creatingUser',
+      'modifying_user_id' => 'modifyingUser',
+      'created' => 'creationDateTime',
+      'changed' => 'modifiedDateTime',
+    ];
+  }
+
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
     return array_merge($fields, self::getBaseFieldDefinitions());
