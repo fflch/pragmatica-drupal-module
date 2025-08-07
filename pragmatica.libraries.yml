@@ -3,3 +3,11 @@ pragmatica_styles:
   css:
     theme:
       css/pragmatica.css: {}
+
+pragmatica_panel:
+  version: 1.x
+  js:
+    js/pragmatica.panel.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal

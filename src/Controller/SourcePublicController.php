@@ -78,6 +78,9 @@ class SourcePublicController extends ControllerBase {
           'start' => $selection->get('start_position')->value,
           'end' => $selection->get('end_position')->value,
           'code' => $code->label(),
+          'color' => $code->get('color')->value,
+          'code_id' => $code->id(),
+          'description' => $code->get('description')->value,
         ];
       }
     }
@@ -88,6 +91,12 @@ class SourcePublicController extends ControllerBase {
     $build['#attached'] = [
       'library' => [
         'pragmatica/pragmatica_styles',
+        'pragmatica/pragmatica_panel',
+      ],
+      'drupalSettings' => [
+        'pragmatica' => [
+          'sourcePlainText' => $pragmatica_source->get('plain_text')->value,
+        ],
       ],
     ];
 

@@ -26,7 +26,10 @@ function pragmatica_theme($existing, $type, $theme, $path) {
       'variables' => ['sources' => []],
     ],
     'pragmatica_source_item' => [
-      'variables' => ['source' => NULL],
+      'variables' => [
+        'source' => NULL,
+        'codings' => [],
+      ]
     ],
   ];
 }

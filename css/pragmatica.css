@@ -39,6 +39,7 @@
 
   /* Other */
   --box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --panel-height: 90vh;
 }
 
 .pragmatica-header {
@@ -193,4 +194,44 @@
   padding: var(--padding-xl);
   border: var(--border-width) solid var(--border-color-light);
   border-radius: var(--border-radius-sm);
+  max-height: var(--panel-height);
+  overflow-y: auto;
+}
+
+/********************************** SIDE PANEL STYLES ***********************************/
+
+.pragmatica-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.pragmatica-main-content {
+  flex: 4;
+}
+
+.pragmatica-side-panel {
+  flex: 1;
+  max-height: var(--panel-height);
+  overflow-y: hidden;
+  position: sticky;
+  top: 30px;
+  border: var(--border-width) solid var(--border-color-light);
+  padding: var(--padding-lg);
+}
+
+.pragmatica-side-panel-inner {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.pragmatica-coding-item {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pragmatica-coding-item:hover {
+  background-color: var(--color-bg-muted);
 }
