@@ -53,6 +53,14 @@
   font-family: var(--font-family-serif);
   font-size: var(--font-size-xl);
   color: var(--color-text-dark);
+  font-weight: 700;
+}
+
+.pragmatica-subtitle {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-dark);
+  font-weight: 500;
 }
 
 .pragmatica-tag {
@@ -160,18 +168,14 @@
   color: var(--color-text-dark);
 }
 
-.pragmatica-card-content p {
-  margin: 0 0 1rem;
-}
-
 .pragmatica-card-description {
   font-size: var(--font-size-md);
   color: var(--color-text-medium);
   margin-bottom: var(--gap);
 }
 
-.pragmatica-card-excerpt {
-  color: var(--color-text-dark);
+.pragmatica-excerpt {
+  color: var(--color-text-muted);
   font-size: var(--font-size-sm);
   margin: 0.5rem 0;
   background-color: var(--color-bg-light);
@@ -234,4 +238,19 @@
 
 .pragmatica-coding-item:hover {
   background-color: var(--color-bg-muted);
+}
+
+.pragmatica-tag-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pragmatica-justify-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

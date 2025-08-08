@@ -7,6 +7,13 @@ pragmatica.sources:
   menu_name: main
   weight: 1
 
+pragmatica.codes:
+  title: 'Códigos'
+  description: 'Visualizar códigos'
+  route_name: pragmatica.code_public_list
+  menu_name: main
+  weight: 2
+
 #################### PRAGMÁTICA ADMIN MENU ####################
 
 pragmatica.admin:

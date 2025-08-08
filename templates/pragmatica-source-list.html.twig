@@ -15,7 +15,7 @@
               <p class="pragmatica-card-description">{{ source.description.value }}</p>
             {% endif %}
             {% if source.plain_text.value %}
-              <p class="pragmatica-card-excerpt">
+              <p class="pragmatica-excerpt">
                 {{ source.plain_text.value|striptags|slice(0, 300) }}...
               </p>
             {% endif %}

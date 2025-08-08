@@ -31,5 +31,14 @@ function pragmatica_theme($existing, $type, $theme, $path) {
         'codings' => [],
       ]
     ],
+    'pragmatica_code_list' => [
+      'variables' => ['codes' => []],
+    ],
+    'pragmatica_code_item' => [
+      'variables' => [
+        'code' => NULL,
+        'selections' => [],
+      ],
+    ]
   ];
 }

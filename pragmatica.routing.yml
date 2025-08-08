@@ -18,6 +18,10 @@ pragmatica.import:
   options:
     _admin_route: TRUE
 
+###################################################
+######## Source public routes #######################
+###################################################
+
 pragmatica.source_public_list:
   path: '/pragmatica/fontes'
   defaults:
@@ -38,6 +42,27 @@ pragmatica.source_public_item:
     parameters:
       pragmatica_source:
         type: 'entity:pragmatica_source'
+
+###################################################
+######## Code public routes #######################
+###################################################
+
+pragmatica.code_public_list:
+  path: '/pragmatica/codigos'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\CodePublicController::list'
+    _title: 'Códigos'
+  requirements:
+    _access: 'TRUE'
+
+pragmatica.code_public_item:
+  path: '/pragmatica/codigo/{pragmatica_code}'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\CodePublicController::item'
+    _title_callback: '\Drupal\pragmatica\Controller\CodePublicController::itemTitle'
+  requirements:
+    pragmatica_code: \d+
+    _access: 'TRUE'
 
 ###################################################
 ############### Code routes #######################
