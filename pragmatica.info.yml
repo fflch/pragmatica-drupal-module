@@ -1,5 +1,9 @@
-name: Pragmatica
+name: Pragmática
 type: module
 description: 'Importa, gerencia e exibe dados de análises linguísticas do Grupo de Pesquisa - Pragmática (inter)linguística, intercultural e cross-cultural (GPP) (FFLCH-USP).'
 core_version_requirement: ^9 || ^10
 package: Custom
+dependencies:
+  - field
+  - text
+  - user

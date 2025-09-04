@@ -1,0 +1,41 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_install().
+ */
+function pragmatica_install() {
+  $types = [
+    'pragmatica_source_type' => [
+      'Texto',
+      'Documento (PDF)',
+      'Áudio',
+      'Vídeo',
+      'Imagem'
+    ],
+    'pragmatica_selection_type' => [
+      'Texto',
+      'Áudio',
+      'Transcrição',
+      'Vídeo',
+      'Imagem',
+      'Documento (PDF)',
+    ],
+  ];
+
+  foreach ($types as $type => $values) {
+    $entity_type = Drupal::entityTypeManager()->getDefinition($type);
+    if ($entity_type) {
+      foreach ($values as $label) {
+        if (!Drupal::entityTypeManager()->getStorage($type)->loadByProperties(['name' => $label])) {
+          $classType = $entity_type->getClass();
+          $classType = $classType::create([
+            'name' => $label,
+          ]);
+          $classType->save();
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,97 @@
-pragmatica.settings_form:
-  title: Pragmática
-  description: Configure Pragmática.
-  parent: system.admin_config_system
-  route_name: pragmatica.settings_form
+#################### PRAGMÁTICA PUBLIC MENU ####################
+
+pragmatica.search:
+  title: 'Buscar'
+  description: 'Buscar códigos e fontes'
+  route_name: pragmatica.search_public
+  menu_name: main
+  weight: 0
+
+pragmatica.sources:
+  title: 'Fontes'
+  description: 'Visualizar fontes'
+  route_name: pragmatica.source_public_list
+  menu_name: main
+  weight: 1
+
+pragmatica.codes:
+  title: 'Códigos'
+  description: 'Visualizar códigos'
+  route_name: pragmatica.code_public_list
+  menu_name: main
+  weight: 2
+
+#################### PRAGMÁTICA ADMIN MENU ####################
+
+pragmatica.admin:
+  title: 'Pragmática'
+  description: 'Acessar o módulo Pragmática.'
+  route_name: pragmatica.dashboard
+  menu_name: admin
+  parent: system.admin
+  weight: 15
+
+pragmatica.import:
+  title: 'Importar dados'
+  description: 'Importar dados para o módulo Pragmática.'
+  route_name: pragmatica.import
+  parent: pragmatica.admin
+  menu_name: admin
   weight: 10
+
+pragmatica.code:
+  title: 'Códigos'
+  route_name: entity.pragmatica_code.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 1
+
+pragmatica.source:
+  title: 'Fontes'
+  route_name: entity.pragmatica_source.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 2
+
+pragmatica.selection:
+  title: 'Seleções'
+  route_name: entity.pragmatica_selection.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 3
+
+pragmatica.coding:
+  title: 'Codificações'
+  route_name: entity.pragmatica_coding.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 4
+
+pragmatica.config:
+  title: 'Configurações'
+  description: 'Configurações'
+  route_name: <none>
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 20
+
+pragmatica.user:
+  title: 'Usuários'
+  route_name: entity.pragmatica_user.collection
+  parent: pragmatica.config
+  menu_name: admin
+  weight: 0
+
+pragmatica.config.source_type:
+  title: 'Tipos de fontes'
+  route_name: entity.pragmatica_source_type.collection
+  parent: pragmatica.config
+  menu_name: admin
+  weight: 1
+
+pragmatica.config.selection_type:
+  title: 'Tipos de seleções'
+  route_name: entity.pragmatica_selection_type.collection
+  parent: pragmatica.config
+  menu_name: admin
+  weight: 2

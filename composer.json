@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Paramosoftware\\Pragmatica\\": "src/"
+            "Drupal\\pragmatica\\": "src/"
         }
     },
     "repositories": [
@@ -20,5 +20,8 @@
             "email": "contato@paramosoftware.com.br"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-simplexml": "*",
+        "ext-zip": "*"
+    }
 }

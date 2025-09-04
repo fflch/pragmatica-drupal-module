@@ -1,0 +1,39 @@
+entity.pragmatica_code.canonical:
+  route_name: entity.pragmatica_code.canonical
+  base_route: entity.pragmatica_code.canonical
+  title: View
+
+entity.pragmatica_code.edit_form:
+  route_name: entity.pragmatica_code.edit_form
+  base_route: entity.pragmatica_code.canonical
+  title: Edit
+
+entity.pragmatica_source.canonical:
+  route_name: entity.pragmatica_source.canonical
+  base_route: entity.pragmatica_source.canonical
+  title: View
+
+entity.pragmatica_source.edit_form:
+  route_name: entity.pragmatica_source.edit_form
+  base_route: entity.pragmatica_source.canonical
+  title: Edit
+
+entity.pragmatica_selection.canonical:
+  route_name: entity.pragmatica_selection.canonical
+  base_route: entity.pragmatica_selection.canonical
+  title: View
+
+entity.pragmatica_selection.edit_form:
+  route_name: entity.pragmatica_selection.edit_form
+  base_route: entity.pragmatica_selection.canonical
+  title: Edit
+
+entity.pragmatica_user.canonical:
+  route_name: entity.pragmatica_user.canonical
+  base_route: entity.pragmatica_user.canonical
+  title: View
+
+entity.pragmatica_user.edit_form:
+  route_name: entity.pragmatica_user.edit_form
+  base_route: entity.pragmatica_user.canonical
+  title: Edit

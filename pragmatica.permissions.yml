@@ -1,4 +1,3 @@
-administer pragmatica configuration:
-  title: 'Administer pragmatica configuration'
-  description: 'Optional description.'
-  restrict access: true
+pragmatica:
+  title: 'Administrar o módulo Pragmática'
+  description: 'Permite gerenciar as páginas e entidades do módulo Pragmática.'

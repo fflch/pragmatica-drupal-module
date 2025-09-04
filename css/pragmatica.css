@@ -1,0 +1,301 @@
+:root {
+
+  --color-primary: #273e74;
+  --color-primary-hover: #1f2a4d;
+  --color-text-dark: #111;
+  --color-text-medium: #555;
+  --color-text-muted: #666;
+  --color-text-light: #888;
+  --color-bg-light: #fafafa;
+  --color-bg-muted: #f0f0f0;
+  --color-bg-card: #fff;
+  --color-border-light: #ddd;
+  --color-border-lighter: #eee;
+  --color-accent: #273e74;
+
+  /* Font */
+  --font-family-serif: "LFT Etica", Georgia, Times, "Times New Roman", serif;
+  --font-family-sans: lft-etica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+  /* Font Sizes */
+  --font-size-xl: 2rem;
+  --font-size-lg: 1.5rem;
+  --font-size-md: 1rem;
+  --font-size-sm: 0.9rem;
+
+  /* Spacing */
+  --gap: 1rem;
+  --padding-sm: 0.1rem 0.75rem;
+  --padding-md: 0.5rem 0;
+  --padding-lg: 1rem;
+  --padding-xl: 1.5rem;
+
+  /* Borders */
+  --border-radius-sm: 4px;
+  --border-radius-lg: 8px;
+  --border-width: 1px;
+  --border-color-light: var(--color-border-light);
+  --border-color-lighter: var(--color-border-lighter);
+
+  /* Other */
+  --box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --panel-height: 90vh;
+}
+
+.pragmatica-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--gap);
+}
+
+.pragmatica-title {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-xl);
+  color: var(--color-text-dark);
+  font-weight: 700;
+}
+
+.pragmatica-subtitle {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-dark);
+  font-weight: 500;
+}
+
+.pragmatica-tag {
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-medium);
+  padding: var(--padding-sm);
+  border-radius: var(--border-radius-lg);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  align-self: center;
+}
+
+.pragmatica-meta {
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.pragmatica-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pragmatica-list-item {
+  border-bottom: var(--border-width) solid var(--border-color-lighter);
+  padding: var(--padding-xl) 0;
+  display: block;
+}
+
+.pragmatica-content {
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+  color: var(--color-text-dark);
+}
+
+.pragmatica-list-item:last-child {
+  border-bottom: none;
+}
+
+.pragmatica-link {
+  text-decoration: none;
+  padding: var(--padding-md);
+  color: var(--color-primary);
+  transition: all 0.2s;
+}
+
+.pragmatica-link:hover {
+  text-decoration: underline;
+  color: var(--color-primary-hover);
+}
+
+.pragmatica-no-results {
+  text-align: left;
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.pragmatica-back-link {
+  font-size: var(--font-size-sm);
+  display: inline-block;
+  color: var(--color-text-light);
+  transition: color 0.2s;
+  margin-top: var(--gap);
+}
+
+.pragmatica-back-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+
+/********************************** CARD STYLES ***********************************/
+
+.pragmatica-card {
+  background-color: var(--color-bg-card);
+  border: var(--border-width) solid var(--border-color-light);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+  padding: var(--padding-lg);
+  margin-bottom: 1.5rem;
+}
+
+.pragmatica-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--gap);
+}
+
+.pragmatica-card-title {
+  font-size: var(--font-size-lg);
+  margin: 0;
+}
+
+.pragmatica-card-meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.pragmatica-card-content {
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+  color: var(--color-text-dark);
+}
+
+.pragmatica-card-description {
+  font-size: var(--font-size-md);
+  color: var(--color-text-medium);
+  margin-bottom: var(--gap);
+}
+
+.pragmatica-excerpt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  margin: 0.5rem 0;
+  background-color: var(--color-bg-light);
+  padding: 0.5rem;
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--border-radius-sm);
+}
+
+/********************************** ITEM PAGE STYLES ***********************************/
+
+.pragmatica-plain-text {
+  font-size: var(--font-size-md);
+  line-height: 2;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  font-family: var(--font-family-sans);
+  background-color: var(--color-bg-light);
+  margin: 0;
+  padding: var(--padding-xl);
+  border: var(--border-width) solid var(--border-color-light);
+  border-radius: var(--border-radius-sm);
+  max-height: var(--panel-height);
+  overflow-y: auto;
+}
+
+/********************************** SIDE PANEL STYLES ***********************************/
+
+.pragmatica-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.pragmatica-main-content {
+  flex: 4;
+}
+
+.pragmatica-side-panel {
+  flex: 1;
+  max-height: var(--panel-height);
+  overflow-y: hidden;
+  position: sticky;
+  top: 30px;
+  border: var(--border-width) solid var(--border-color-light);
+  padding: var(--padding-lg);
+}
+
+.pragmatica-side-panel-inner {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.pragmatica-coding-item {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pragmatica-coding-item:hover {
+  background-color: var(--color-bg-muted);
+}
+
+.pragmatica-tag-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pragmatica-justify-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+/********************************** SEARCH STYLES ***********************************/
+.pragmatica-search-form {
+  margin-bottom: 20px;
+}
+
+.pragmatica-search-form input[type="text"] {
+  width: calc(100% - 130px);
+  border: var(--border-width) solid var(--border-color-light);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.pragmatica-search-form button {
+  padding: var(--padding-sm);
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  margin-left: var(--gap);
+}
+
+.pragmatica-search-form button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.pragmatica-results-row {
+  display: flex;
+  gap: 16px;
+}
+
+.pragmatica-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+@media (max-width: 800px) {
+  .pragmatica-results-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,50 @@
+<div class="pragmatica">
+  <div class="pragmatica-header">
+    <h1 class="pragmatica-title">{{ 'Pesquisa'|t }}</h1>
+  </div>
+
+  <div class="pragmatica-search-form">
+    <form action="{{ path('pragmatica.search_public') }}" method="get">
+      <input type="text" name="q" value="{{ query }}" placeholder="{{ 'Termo de busca'|t }}" required>
+      <button type="submit">{{ 'Pesquisar'|t }}</button>
+    </form>
+  </div>
+
+  {% if query %}
+    <div class="pragmatica-search-results">
+      <h2 class="pragmatica-subtitle">{{ 'Resultados para '|t }} "{{ query }}"</h2>
+
+      {% if results.sources or results.codes %}
+        <div class="pragmatica-results-row">
+          {% if results.sources %}
+            <div class="pragmatica-column">
+              <h3>{{ 'Fontes'|t }}</h3>
+              <ul class="pragmatica-list">
+                {% for source in results.sources %}
+                  <li class="pragmatica-list-item pragmatica-card">
+                    <a href="{{ source.url }}">{{ source.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% if results.codes %}
+            <div class="pragmatica-column">
+              <h3>{{ 'Códigos'|t }}</h3>
+              <ul class="pragmatica-list">
+                {% for code in results.codes %}
+                  <li class="pragmatica-list-item pragmatica-card">
+                    <a href="{{ code.url }}">{{ code.name }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      {% else %}
+        <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
