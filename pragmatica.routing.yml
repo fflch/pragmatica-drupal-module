@@ -458,7 +458,7 @@ entity.pragmatica_coding.delete_form:
 
 
 ###################################################
-############## gender routes ################
+############## Gender routes ################
 ###################################################
 
 entity.pragmatica_gender.collection:
@@ -506,6 +506,61 @@ entity.pragmatica_gender.delete_form:
   defaults:
     _entity_form: 'pragmatica_gender.delete'
     _title: 'Apagar gênero'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+
+###################################################
+############## Language routes ################
+###################################################
+
+entity.pragmatica_language.collection:
+  path: '/admin/pragmatica/language'
+  defaults:
+    _entity_list: 'pragmatica_language'
+    _title: 'Linguagens'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_language.canonical:
+  path: '/admin/pragmatica/language/{pragmatica_language}'
+  defaults:
+    _entity_view: 'pragmatica_language'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_language.add_form:
+  path: '/admin/pragmatica/language/add'
+  defaults:
+    _entity_form: 'pragmatica_language.add'
+    _title: 'Adicionar linguagem'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_language.edit_form:
+  path: '/admin/pragmatica/language/{pragmatica_language}/edit'
+  defaults:
+    _entity_form: 'pragmatica_language.edit'
+    _title: 'Editar linguagem'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+
+entity.pragmatica_language.delete_form:
+  path: '/admin/pragmatica/language/{pragmatica_language}/delete'
+  defaults:
+    _entity_form: 'pragmatica_language.delete'
+    _title: 'Apagar linguagem'
   requirements:
     _permission: 'pragmatica'
   options:

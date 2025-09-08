@@ -33,3 +33,9 @@ entity.pragmatica_gender.add:
   title: 'Adicionar gênero'
   appears_on:
     - entity.pragmatica_gender.collection
+
+entity.pragmatica_language.add:
+  route_name: entity.pragmatica_language.add_form
+  title: 'Adicionar linguagem'
+  appears_on:
+    - entity.pragmatica_language.collection

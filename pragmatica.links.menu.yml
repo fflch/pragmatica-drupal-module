@@ -101,4 +101,11 @@ pragmatica.config.gender:
   route_name: entity.pragmatica_gender.collection
   parent: pragmatica.admin
   menu_name: admin
-  weight: 2
+  weight: 5
+
+pragmatica.config.language:
+  title: 'Linguagens'
+  route_name: entity.pragmatica_language.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 5
