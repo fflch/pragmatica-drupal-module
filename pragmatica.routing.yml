@@ -455,3 +455,58 @@ entity.pragmatica_coding.delete_form:
     _permission: 'pragmatica'
   options:
     admin_route: TRUE
+
+
+###################################################
+############## gender routes ################
+###################################################
+
+entity.pragmatica_gender.collection:
+  path: '/admin/pragmatica/gender'
+  defaults:
+    _entity_list: 'pragmatica_gender'
+    _title: 'Gêneros'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_gender.canonical:
+  path: '/admin/pragmatica/gender/{pragmatica_gender}'
+  defaults:
+    _entity_view: 'pragmatica_gender'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_gender.add_form:
+  path: '/admin/pragmatica/gender/add'
+  defaults:
+    _entity_form: 'pragmatica_gender.add'
+    _title: 'Adicionar gênero'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_gender.edit_form:
+  path: '/admin/pragmatica/gender/{pragmatica_gender}/edit'
+  defaults:
+    _entity_form: 'pragmatica_gender.edit'
+    _title: 'Editar gênero'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+
+entity.pragmatica_gender.delete_form:
+  path: '/admin/pragmatica/gender/{pragmatica_gender}/delete'
+  defaults:
+    _entity_form: 'pragmatica_gender.delete'
+    _title: 'Apagar gênero'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE

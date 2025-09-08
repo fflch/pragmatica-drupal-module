@@ -27,3 +27,9 @@ entity.pragmatica_coding.add:
   title: 'Adicionar codificação'
   appears_on:
     - entity.pragmatica_coding.collection
+
+entity.pragmatica_gender.add:
+  route_name: entity.pragmatica_gender.add_form
+  title: 'Adicionar gênero'
+  appears_on:
+    - entity.pragmatica_gender.collection

@@ -95,3 +95,10 @@ pragmatica.config.selection_type:
   parent: pragmatica.config
   menu_name: admin
   weight: 2
+
+pragmatica.config.gender:
+  title: 'Gêneros'
+  route_name: entity.pragmatica_gender.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 2
