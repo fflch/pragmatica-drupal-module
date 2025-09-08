@@ -671,3 +671,57 @@ entity.pragmatica_region.delete_form:
     _permission: 'pragmatica'
   options:
     _admin_route: TRUE
+
+
+###################################################
+############## City routes ################
+###################################################
+
+entity.pragmatica_city.collection:
+  path: '/admin/pragmatica/city'
+  defaults:
+    _entity_list: 'pragmatica_city'
+    _title: 'Cidades'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_city.canonical:
+  path: '/admin/pragmatica/city/{pragmatica_city}'
+  defaults:
+    _entity_view: 'pragmatica_city'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_city.add_form:
+  path: '/admin/pragmatica/city/add'
+  defaults:
+    _entity_form: 'pragmatica_city.add'
+    _title: 'Adicionar cidade'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_city.edit_form:
+  path: '/admin/pragmatica/city/{pragmatica_city}/edit'
+  defaults:
+    _entity_form: 'pragmatica_city.edit'
+    _title: 'Editar cidade'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE
+
+entity.pragmatica_city.delete_form:
+  path: '/admin/pragmatica/city/{pragmatica_city}/delete'
+  defaults:
+    _entity_form: 'pragmatica_city.delete'
+    _title: 'Apagar cidade'
+  requirements:
+    _permission: 'pragmatica'
+  options:
+    _admin_route: TRUE

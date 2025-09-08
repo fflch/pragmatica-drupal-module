@@ -123,3 +123,10 @@ pragmatica.config.region:
   parent: pragmatica.admin
   menu_name: admin
   weight: 7
+
+pragmatica.config.city:
+  title: 'Cidades'
+  route_name: entity.pragmatica_city.collection
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 8

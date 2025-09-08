@@ -51,3 +51,9 @@ entity.pragmatica_region.add:
   title: 'Adicionar região'
   appears_on:
     - entity.pragmatica_region.collection
+
+entity.pragmatica_city.add:
+  route_name: entity.pragmatica_city.add_form
+  title: 'Adicionar cidade'
+  appears_on:
+    - entity.pragmatica_city.collection
