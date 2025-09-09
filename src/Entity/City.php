@@ -44,6 +44,7 @@ class City extends PragmaticaBaseEntity {
       'name',
       'created',
       'changed',
+      'country_id',
       'region_id'
     ];
   }
@@ -54,8 +55,16 @@ class City extends PragmaticaBaseEntity {
 
   public function getListHeaders(): array {
     $parent = parent::getListHeaders();
+    $header['country_id'] = t('País');
     $header['region_id'] = t('Região');
     return $this->addItemsAfterKeyInArray($header, $parent, 'id');
+  }
+
+  public function getCountryLabel(): string {
+    if ($this->get('country_id')->entity) {
+      return $this->get('country_id')->entity->label();
+    }
+    return '';
   }
 
   public function getRegionLabel(): string {
@@ -68,16 +77,32 @@ class City extends PragmaticaBaseEntity {
   public function buildListRow(PragmaticaBaseEntity $entity): array {
     /** @var self $entity */
     $row = parent::buildListRow($entity);
+    $row['country_id'] = $entity->getCountryLabel();
     $row['region_id'] = $entity->getRegionLabel();
     return $row;
   }
 
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+    $fields['country_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('País'))
+      ->setDescription(t('País associado'))
+      ->setSetting('target_type', 'pragmatica_country')
+      ->setRequired(FALSE)
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'entity_reference_label',
+        'weight' => 0,
+      ]);
+
     $fields['region_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Região'))
       ->setDescription(t('Região associada'))
       ->setSetting('target_type', 'pragmatica_region')
-      ->setRequired(TRUE)
+      ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
         'weight' => 0,
