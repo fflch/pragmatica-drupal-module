@@ -610,3 +610,40 @@ class QDEImporter {
     return $informants;
   }
 
+  /**
+   * Parses the Informant's header into XML.
+   *
+   * @param string $text header text for parsing.
+   *
+   * @return ($class_name is null ? \SimpleXMLElement : T)|false an object of class SimpleXMLElement with properties containing the data held within the xml document, or FALSE on failure.
+   *
+   */
+  protected function parseInformantHeader(string $text) {
+    $terms = [
+      "cabeçalho",
+      "età",
+      "idade",
+      "genere",
+      "gênero",
+      "città di nascita",
+      "cidade natal",
+      "città di residenza",
+      "cidade de residência",
+      "lingua materna",
+      "língua materna",
+      "profissão",
+    ];
+
+    $original_terms = [];
+    $replacing_terms = [];
+    foreach($terms as $term) {
+      $original_terms[] = "<" . $term . ">";
+      $original_terms[] = "</" . $term . ">";
+
+      $replacing_terms[] = "<" . $this->getDefaultXmlElementInformant($term) . ">";
+      $replacing_terms[] = "</" . $this->getDefaultXmlElementInformant($term) . ">";
+    }
+
+    return simplexml_load_string(str_replace($original_terms, $replacing_terms, $text));
+  }
+}
