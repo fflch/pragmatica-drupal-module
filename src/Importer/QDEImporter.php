@@ -646,4 +646,32 @@ class QDEImporter {
 
     return simplexml_load_string(str_replace($original_terms, $replacing_terms, $text));
   }
+
+  /**
+   * Parses the Informant's answers into an associative array.
+   *
+   * @param string $text text block with the informant's answers for parsing.
+   *
+   * @return array parsed array with the following format: [answer number => "answer string"]
+   */
+  protected function parseInformantAnswers(string $text) {
+    $text = explode(PHP_EOL, $text);
+    $answers = array();
+    $matches = array();
+    $answer_number = -1;
+    foreach($text as $line) {
+      if(empty(trim($line))) {
+        continue;
+      }
+      elseif(preg_match('/^\d+/', $line, $matches)) {
+        $answer_number = $matches[0];
+        $answers[$answer_number] = "";
+      }
+      if($answer_number != -1) {
+        $answers[$answer_number] .= (isset($matches[0]) ? '' : PHP_EOL) . ltrim($line, $answer_number);
+      }
+    }
+
+    return $answers;
+  }
 }
