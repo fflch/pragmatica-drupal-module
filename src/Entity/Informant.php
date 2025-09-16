@@ -40,17 +40,16 @@ class Informant extends PragmaticaBaseEntity {
   public static function getFieldsIds(): array {
     return [
       'id',
-      'guid',
       'name',
-      'created',
-      'changed',
       'age',
       'gender_id',
       'language_id',
       'education_id',
       'profession_id',
       'city_birth_id',
-      'city_residency_id'
+      'city_residency_id',
+      'created',
+      'changed',
     ];
   }
 
@@ -60,6 +59,9 @@ class Informant extends PragmaticaBaseEntity {
 
   public function getListHeaders(): array {
     $parent = parent::getListHeaders();
+    unset($parent['name']);
+    $header['name'] = t('Código');
+    $header['age'] = t('Idade');
     $header['gender_id'] = t('Gênero');
     $header['language_id'] = t('Língua materna');
     $header['education_id'] = t('Escolaridade');
@@ -72,6 +74,8 @@ class Informant extends PragmaticaBaseEntity {
   public function buildListRow(PragmaticaBaseEntity $entity): array {
     /** @var self $entity */
     $row = parent::buildListRow($entity);
+    $row['name'] = $entity->get('name')->value;
+    $row['age'] = $entity->get('age')->value;
     $row['gender_id'] = $entity->get('gender_id')->entity ? $entity->get('gender_id')->entity->label() : '';
     $row['language_id'] = $entity->get('language_id')->entity ? $entity->get('language_id')->entity->label() : '';
     $row['education_id'] = $entity->get('education_id')->entity ? $entity->get('education_id')->entity->label() : '';
@@ -82,6 +86,20 @@ class Informant extends PragmaticaBaseEntity {
   }
 
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
+    $fields['name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Código'))
+      ->setRequired(TRUE)
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => 1,
+      ])
+      ->setDisplayOptions('view', [
+        'type' => 'string',
+        'label' => 'above',
+        'weight' => 1,
+      ]);
+
     $fields['age'] = BaseFieldDefinition::create('integer')
       ->setLabel(t('Idade'))
       ->setDescription(t('Idade informada'))
@@ -102,12 +120,12 @@ class Informant extends PragmaticaBaseEntity {
       ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 0,
+        'weight' => 6,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'entity_reference_label',
-        'weight' => 0,
+        'weight' => 6,
       ]);
 
     $fields['language_id'] = BaseFieldDefinition::create('entity_reference')
@@ -117,12 +135,12 @@ class Informant extends PragmaticaBaseEntity {
       ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 0,
+        'weight' => 7,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'entity_reference_label',
-        'weight' => 0,
+        'weight' => 7,
       ]);
 
     $fields['education_id'] = BaseFieldDefinition::create('entity_reference')
@@ -132,12 +150,12 @@ class Informant extends PragmaticaBaseEntity {
       ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 0,
+        'weight' => 8,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'entity_reference_label',
-        'weight' => 0,
+        'weight' => 8,
       ]);
 
     $fields['profession_id'] = BaseFieldDefinition::create('entity_reference')
@@ -147,12 +165,12 @@ class Informant extends PragmaticaBaseEntity {
       ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 0,
+        'weight' => 9,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'entity_reference_label',
-        'weight' => 0,
+        'weight' => 9,
       ]);
 
     $fields['city_birth_id'] = BaseFieldDefinition::create('entity_reference')
@@ -162,12 +180,12 @@ class Informant extends PragmaticaBaseEntity {
       ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 0,
+        'weight' => 10,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'entity_reference_label',
-        'weight' => 0,
+        'weight' => 10,
       ]);
 
     $fields['city_residency_id'] = BaseFieldDefinition::create('entity_reference')
@@ -177,12 +195,12 @@ class Informant extends PragmaticaBaseEntity {
       ->setRequired(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'entity_reference_autocomplete',
-        'weight' => 0,
+        'weight' => 11,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'entity_reference_label',
-        'weight' => 0,
+        'weight' => 11,
       ]);
 
     return self::addBaseFieldDefinitions($fields, self::getFieldsIds());

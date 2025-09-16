@@ -37,3 +37,13 @@ entity.pragmatica_user.edit_form:
   route_name: entity.pragmatica_user.edit_form
   base_route: entity.pragmatica_user.canonical
   title: Edit
+
+entity.pragmatica_informant.canonical:
+  route_name: entity.pragmatica_informant.canonical
+  base_route: entity.pragmatica_informant.canonical
+  title: View
+
+entity.pragmatica_informant.edit_form:
+  route_name: entity.pragmatica_informant.edit_form
+  base_route: entity.pragmatica_informant.canonical
+  title: Edit
