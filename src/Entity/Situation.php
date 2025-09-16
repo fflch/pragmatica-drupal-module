@@ -16,7 +16,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "name"
+ *     "label" = "code"
  *   },
  *   handlers = {
  *     "list_builder" = "Drupal\pragmatica\ListBuilder\PragmaticaBaseListBuilder",
@@ -40,12 +40,11 @@ class Situation extends PragmaticaBaseEntity {
   public static function getFieldsIds(): array {
     return [
       'id',
-      'guid',
+      'code',
       'name',
-      'created',
-      'changed',
       'short_name',
-      'code_id'
+      'created',
+      'changed'
     ];
   }
 
@@ -53,53 +52,34 @@ class Situation extends PragmaticaBaseEntity {
     return parent::addFieldsToXmlMapping([], self::getFieldsIds());
   }
 
-  public function getListHeaders(): array {
-    $parent = parent::getListHeaders();
-    $header['code_id'] = t('Código');
-    return $this->addItemsAfterKeyInArray($header, $parent, 'id');
-  }
-
-  public function getCodeLabel(): string {
-    if ($this->get('code_id')->entity) {
-      return $this->get('code_id')->entity->label();
-    }
-    return '';
-  }
-
-  public function buildListRow(PragmaticaBaseEntity $entity): array {
-    /** @var self $entity */
-    $row = parent::buildListRow($entity);
-    $row['code_id'] = $entity->getCodeLabel();
-    return $row;
-  }
-
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
-      $fields['code_id'] = BaseFieldDefinition::create('entity_reference')
-        ->setLabel(t('Código'))
-        ->setDescription(t('Código associado'))
-        ->setSetting('target_type', 'pragmatica_code')
-        ->setRequired(FALSE)
-        ->setDisplayOptions('form', [
-          'type' => 'entity_reference_autocomplete',
-          'weight' => 0,
-        ])
-        ->setDisplayOptions('view', [
-          'label' => 'above',
-          'type' => 'entity_reference_label',
-          'weight' => 0,
-        ]);
+
+    $fields['name'] = BaseFieldDefinition::create('string_long')
+      ->setLabel(t('Nome'))
+      ->setDescription(t('Situação apresentada na pesquisa.'))
+      ->setRequired(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'text_textarea',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('view', [
+        'type' => 'text_default',
+        'label' => 'above',
+        'weight' => 0,
+      ]);
 
     $fields['short_name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Nome abreviado'))
-      ->setSettings(['max_length' => 36])
+      ->setDescription(t('Situação resumida para facilitar exibição em listas.'))
+      ->setSettings(['max_length' => 128])
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
-        'weight' => 9,
+        'weight' => 1,
       ])
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'string',
-        'weight' => 9,
+        'weight' => 1,
       ]);
 
     return self::addBaseFieldDefinitions($fields, self::getFieldsIds());
