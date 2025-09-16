@@ -39,6 +39,21 @@ pragmatica.import:
   menu_name: admin
   weight: 10
 
+pragmatica.config:
+  title: 'Configurações'
+  description: 'Configurações'
+  route_name: <none>
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 20
+
+pragmatica.auxiliary:
+  title: 'Cadastros auxiliares'
+  route_name: <none>
+  parent: pragmatica.admin
+  menu_name: admin
+  weight: 19
+
 pragmatica.code:
   title: 'Códigos'
   route_name: entity.pragmatica_code.collection
@@ -67,14 +82,6 @@ pragmatica.coding:
   menu_name: admin
   weight: 4
 
-pragmatica.config:
-  title: 'Configurações'
-  description: 'Configurações'
-  route_name: <none>
-  parent: pragmatica.admin
-  menu_name: admin
-  weight: 20
-
 pragmatica.user:
   title: 'Usuários'
   route_name: entity.pragmatica_user.collection
@@ -99,49 +106,49 @@ pragmatica.config.selection_type:
 pragmatica.config.gender:
   title: 'Gêneros'
   route_name: entity.pragmatica_gender.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
   weight: 6
 
 pragmatica.config.language:
-  title: 'Linguagens'
+  title: 'Línguas'
   route_name: entity.pragmatica_language.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
   weight: 6
 
 pragmatica.config.country:
   title: 'Países'
   route_name: entity.pragmatica_country.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
   weight: 7
 
 pragmatica.config.region:
   title: 'Regiões'
   route_name: entity.pragmatica_region.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
   weight: 8
 
 pragmatica.config.city:
   title: 'Cidades'
   route_name: entity.pragmatica_city.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
-  weight: 9
+  weight: 5
 
 pragmatica.config.profession:
   title: 'Profissões'
   route_name: entity.pragmatica_profession.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
   weight: 6
 
 pragmatica.config.education:
   title: 'Escolaridades'
   route_name: entity.pragmatica_education.collection
-  parent: pragmatica.admin
+  parent: pragmatica.auxiliary
   menu_name: admin
   weight: 6
 
