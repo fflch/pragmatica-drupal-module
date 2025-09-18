@@ -54,7 +54,58 @@ class Informant extends PragmaticaBaseEntity {
   }
 
   public static function getFieldsToXmlMapping(): array {
-    return parent::addFieldsToXmlMapping([], self::getFieldsIds());
+    $mapping = [
+      'age' => [
+        'xml' => [
+          'idade', 
+          'età'
+        ],
+      ],
+      'gender_id' => [
+        'entity_type' => 'pragmatica_gender',
+        'xml' => [
+          'gênero', 
+          'genere'
+        ]
+      ],
+      'language_id' => [
+        'entity_type' => 'pragmatica_language',
+        'xml' => [
+          'língua materna', 
+          'lingua materna'
+        ]
+      ],
+      'education_id' => [
+        'entity_type' => 'pragmatica_education',
+        'xml' => [
+          'escolaridade', 
+          'titolo di studio'
+        ]
+      ],
+      'profession_id' => [
+        'entity_type' => 'pragmatica_profession',
+        'xml' => [
+          'profissão', 
+          'professione'
+        ]
+      ],
+      'city_birth_id' => [
+        'entity_type' => 'pragmatica_city',
+        'xml' => [
+          'cidade natal', 
+          'città di nascita'
+        ]
+      ],
+      'city_residency_id' => [
+        'entity_type' => 'pragmatica_city',
+        'xml' => [
+          'cidade de residência', 
+          'città di residenza'
+        ]
+      ]
+    ];
+
+    return parent::addFieldsToXmlMapping($mapping, self::getFieldsIds());
   }
 
   public function getListHeaders(): array {
