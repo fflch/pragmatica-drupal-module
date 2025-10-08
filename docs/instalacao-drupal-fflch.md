@@ -146,6 +146,19 @@ No arquivo `conditional_fields/src/DependencyHelper.php`, na função `resolveBu
          $this->dependencies[$this->entity_type][$this->bundle] = [];
       ```
 
-11. A instalação pode ser acessada usando o endereço [http://localhost/fflch-drupal/web](http://localhost/fflch-drupal/web) (ou o caminho usado).
+11. Verifique se a leitura do .htaccess está habilitada pelo web server (apache), caso contrário:<br>
+    Em `/etc/apache2/sites-available` adicione (dentro de VirtualHost)
+    ```
+    AccessFileName .htaccess
 
-12. Faça login com o usuário `fflch` e a senha `admin` em [http://localhost/fflch-drupal/web/user/login](http://localhost/fflch-drupal/web/user/login).
+    <Directory /var/www/>
+      Options Indexes FollowSymLinks Includes
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+    </Directory>
+    ```
+
+12. A instalação pode ser acessada usando o endereço [http://localhost/fflch-drupal/web](http://localhost/fflch-drupal/web) (ou o caminho usado).
+
+13. Faça login com o usuário `fflch` e a senha `admin` em [http://localhost/fflch-drupal/web/user/login](http://localhost/fflch-drupal/web/user/login).
