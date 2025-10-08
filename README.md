@@ -15,8 +15,9 @@ Depois de instalar o Drupal, siga as instruções abaixo para instalar o módulo
    ```bash
    git clone https://github.com/paramosoftware/pragmatica-drupal-module.git web/modules/custom/pragmatica
    ```
-
-2. Instale o módulo usando Drush:
+2. Importante: verifique qual é a branch mais recente e faça checkout pra evitar instalar uma versão desatualizada do módulo
+    
+3. Instale o módulo usando Drush:
    ```bash
    ./vendor/bin/drush en pragmatica -y
    ```
