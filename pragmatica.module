@@ -31,6 +31,15 @@ function pragmatica_theme($existing, $type, $theme, $path) {
         'selections' => [],
       ],
     ],
+    'pragmatica_situation_list' => [
+      'variables' => ['situations' => []],
+    ],
+    'pragmatica_situation_item' => [
+      'variables' => [
+        'situation' => NULL,
+        'selections' => [],
+      ],
+    ],
     'pragmatica_search_results' => [
       'variables' => [
         'query' => NULL,

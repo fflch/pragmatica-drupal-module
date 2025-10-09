@@ -813,6 +813,19 @@ entity.pragmatica_situation.delete_form:
     _admin_route: TRUE
 
 
+###################################################
+############## Situation public routes ################
+###################################################
+
+pragmatica.situation_item:
+  path: '/pragmatica/situation/{pragmatica_situation}'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\SituationPublicController::item'
+    _title: 'Etiquetas'
+  requirements:
+    _access: 'TRUE'
+
+
 
 ###################################################
 ############## Informant routes ################

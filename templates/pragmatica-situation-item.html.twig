@@ -1,0 +1,17 @@
+<div class="pragmatica">
+  <div class="pragmatica-header pragmatica-justify-between">
+    <h1 class="pragmatica-title">{{ situation.name.value }}</h1>
+    <span class="pragmatica-tag-circle" style="background-color: {{ situation.color.value }}; color: #fff;"></span>
+  </div>
+  <div class="pragmatica-meta">
+    <p>{{ 'Adicionado em'|t }} {{ situation.created.value|date('d/m/Y') }}</p>
+  </div>
+
+  <div class="pragmatica-content">
+    <p>{{ situation.code.value }}</p>
+  </div>
+
+
+  <h2 class="pragmatica-subtitle">{{ 'Utilizado em'|t }}</h2>
+
+</div>
