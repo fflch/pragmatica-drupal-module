@@ -12,6 +12,15 @@
   </div>
 
 
-  <h2 class="pragmatica-subtitle">{{ 'Utilizado em'|t }}</h2>
+  <h2 class="pragmatica-subtitle">{{ 'Respondida em'|t }}</h2>
+  <ul class="pragmatica-list">
+    {% for response in responses %}
+      <li class="pragmatica-list-item pragmatica-justify-between pragmatica-card">
+        <p class="pragmatica-excerpt">{{ response.name }} </p>
+      </li>
+    {% else %}
+      <li>{{ 'Esta situação não foi respondida por nenhum informante.'|t }}</li>
+    {% endfor %}
+  </ul>
 
 </div>

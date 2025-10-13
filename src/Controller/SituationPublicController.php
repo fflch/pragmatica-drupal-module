@@ -31,10 +31,24 @@ class SituationPublicController extends ControllerBase {
    * Displays a single situation entity.
    */
   public function item(Situation $pragmatica_situation): array {
+    $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
+    $query = $response_storage->getQuery();
+    $query->condition('situation_id', $pragmatica_situation->id());
 
+    $response_ids = $query->execute();
+    $responses = $response_storage->loadMultiple($response_ids);
+    $processed_responses = [];
+
+    foreach ($responses as $response) {
+      $processed_responses[] = [
+        'name' => $response->label(),
+        'id' => $response->id(),
+      ];
+    }
 
     $build['#theme'] = 'pragmatica_situation_item';
     $build['#situation'] = $pragmatica_situation;
+    $build['#responses'] = $processed_responses;
     $build['#attached'] = [
       'library' => [
         'pragmatica/pragmatica_styles',
@@ -45,6 +59,6 @@ class SituationPublicController extends ControllerBase {
   }
 
   public function itemTitle(Situation $pragmatica_situation) {
-    return $pragmatica_situation->situation();
+    return $pragmatica_situation->label();
   }
 }
