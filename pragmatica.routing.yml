@@ -881,6 +881,19 @@ entity.pragmatica_informant.delete_form:
     _admin_route: TRUE
 
 ###################################################
+############## Informant public routes ################
+###################################################
+
+pragmatica.informant_item:
+  path: '/pragmatica/informant/{pragmatica_informant}'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\InformantPublicController::item'
+    _title: 'Informante'
+  requirements:
+    _access: 'TRUE'
+
+
+###################################################
 ############### response routes #######################
 ###################################################
 

@@ -47,6 +47,12 @@ function pragmatica_theme($existing, $type, $theme, $path) {
         'labels' => [],
       ],
     ],
+    'pragmatica_informant_item' => [
+      'variables' => [
+        'informant' => NULL,
+        'responses' => [],
+      ],
+    ],
     'pragmatica_search_results' => [
       'variables' => [
         'query' => NULL,

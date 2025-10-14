@@ -1,0 +1,23 @@
+<div class="pragmatica">
+  <div class="pragmatica-header pragmatica-justify-between">
+    <h1 class="pragmatica-title" >{{ informant.code }}</h1>
+    <span class="pragmatica-tag-circle" style="background-color: {{ label.color }}; color: #fff;"></span>
+  </div>
+  <div class="pragmatica-meta">
+    <p>{{ 'Adicionado em'|t }} {{ informant.created|date('d/m/Y') }}</p>
+  </div>
+
+  <div class="pragmatica-content">
+    <p><strong>{{ 'Código' }}:</strong> {{ informant.code }}</p>
+    <p><strong>{{ 'Idade' }}:</strong> {{ informant.age }}</p>
+    <p><strong>{{ 'Gênero' }}:</strong> {{ informant.gender }}</p>
+    <p><strong>{{ 'Línguagem' }}:</strong> {{ informant.language }}</p>
+    <p><strong>{{ 'Escolaridade' }}:</strong> {{ informant.education }}</p>
+    <p><strong>{{ 'Profissão' }}:</strong> {{ informant.profession }}</p>
+    <p><strong>{{ 'Cidade natal' }}:</strong> {{ informant.city_birth }}</p>
+    <p><strong>{{ 'Cidade de residência' }}:</strong> {{ informant.city_residency }}</p>
+  </div>
+
+  <h2 class="pragmatica-subtitle">{{ 'Utilizado em'|t }}</h2>
+
+</div>
