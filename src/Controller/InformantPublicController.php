@@ -49,8 +49,27 @@ class InformantPublicController extends ControllerBase {
     }
 
 
+    // response selections
+    $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
+    $query = $response_storage->getQuery();
+    $query->condition('informant_id', $pragmatica_informant->get('id')->value);
+    $response_ids = $query->execute();
+    $responses = $response_storage->loadMultiple($response_ids);
+    $processed_responses = [];
+
+    foreach ($responses as $response) {
+      $processed_responses[] = [
+        'name' => $response->label(),
+        'situation' =>  $response->get('situation_id')->entity->label()
+        ];
+
+
+    }
+
+
     $build['#theme'] = 'pragmatica_informant_item';
     $build['#informant'] = $processed_informant;
+    $build['#responses'] = $processed_responses;
     $build['#attached'] = [
       'library' => [
         'pragmatica/pragmatica_styles',

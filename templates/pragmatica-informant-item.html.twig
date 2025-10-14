@@ -18,6 +18,15 @@
     <p><strong>{{ 'Cidade de residência' }}:</strong> {{ informant.city_residency }}</p>
   </div>
 
-  <h2 class="pragmatica-subtitle">{{ 'Utilizado em'|t }}</h2>
-
+  <h2 class="pragmatica-subtitle">{{ 'Respostas do informante'|t }}</h2>
+  <ul class="pragmatica-list">
+    {% for response in responses %}
+      <li class="pragmatica-list-item pragmatica-justify-between pragmatica-card">
+        <p class="pragmatica-excerpt">{{ response.name }}
+        </p><p class="pragmatica-excerpt">{{ response.situation }} </p>
+      </li>
+    {% else %}
+      <li>{{ 'Este informante não respondeu nenhuma situação.'|t }}</li>
+    {% endfor %}
+  </ul>
 </div>
