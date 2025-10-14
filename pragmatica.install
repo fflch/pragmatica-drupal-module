@@ -8,23 +8,31 @@ use Drupal\Core\Entity\EntityInterface;
 function pragmatica_install() {
   $types = [
     'pragmatica_source_type' => [
-      'Texto',
-      'Documento (PDF)',
-      'Áudio',
-      'Vídeo',
-      'Imagem'
+      ['name' => 'Texto'],
+      ['name' =>'Documento (PDF)'],
+      ['name' =>'Áudio'],
+      ['name' =>'Vídeo'],
+      ['name' =>'Imagem'],
+    ],
+    'pragmatica_label_type' => [
+      ['name' => 'Ato principal', 'id' => 1],
+      ['name' => 'Perspectiva', 'id' => 2],
+      ['name' => 'Modificadores morfossintáticos', 'id' => 3],
+      ['name' => 'Modificadores lexicais', 'id' => 4],
+      ['name' => 'Modificadores discursivos', 'id' => 5],
+      ['name' => 'Atos de Suporte', 'id' => 6],
+
     ]
   ];
 
-  foreach ($types as $type => $values) {
+  foreach ($types as $type => $items) {
     $entity_type = Drupal::entityTypeManager()->getDefinition($type);
     if ($entity_type) {
-      foreach ($values as $label) {
-        if (!Drupal::entityTypeManager()->getStorage($type)->loadByProperties(['name' => $label])) {
+      foreach ($items as $item) {
+        if (!Drupal::entityTypeManager()->getStorage($type)->loadByProperties(['name' => $item['name']])) {
           $classType = $entity_type->getClass();
-          $classType = $classType::create([
-            'name' => $label,
-          ]);
+
+          $classType = $classType::create($item);
           $classType->save();
         }
       }
