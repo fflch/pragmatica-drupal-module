@@ -16,7 +16,7 @@
   <ul class="pragmatica-list">
     {% for response in responses %}
       <li class="pragmatica-list-item pragmatica-justify-between pragmatica-card">
-        <p class="pragmatica-excerpt">{{ response.name }} </p>
+        <a href="{{ path('pragmatica.informant_item', {'pragmatica_informant': response.informant_id}) }}" class="pragmatica-excerpt">{{ response.name }}</a>
       </li>
     {% else %}
       <li>{{ 'Esta situação não foi respondida por nenhum informante.'|t }}</li>

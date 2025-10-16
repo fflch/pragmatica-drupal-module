@@ -43,6 +43,7 @@ class SituationPublicController extends ControllerBase {
       $processed_responses[] = [
         'name' => $response->label(),
         'id' => $response->id(),
+        'informant_id' => $response->get('informant_id')->entity->id()
       ];
     }
 
