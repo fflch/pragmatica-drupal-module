@@ -63,6 +63,7 @@ class LabelPublicController extends ControllerBase {
         $processed_selections[] = [
           'name' => $selection->label(),
           'id' => $selection->id(),
+          'response_id' => $selection->get('response_id')->entity->id()
         ];
     }
 

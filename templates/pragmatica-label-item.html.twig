@@ -16,7 +16,7 @@
   <ul class="pragmatica-list">
       {% for selection in selections %}
         <li class="pragmatica-list-item pragmatica-justify-between pragmatica-card">
-          <p class="pragmatica-excerpt">...{{ selection.name }}... </p>
+          <a href="{{ path('pragmatica.response_item', {'pragmatica_response': selection.response_id}) }}" class="pragmatica-excerpt">{{ selection.name }}</a>
         </li>
       {% else %}
         <li>{{ 'Esta etiqueta não foi utilizado em nenhuma marcação.'|t }}</li>
