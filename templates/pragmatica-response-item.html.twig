@@ -3,28 +3,32 @@
     <h1 class="pragmatica-title" style="color: red">{{ response.name.value }}</h1>
     <span class="pragmatica-tag-circle" style="background-color: {{ label.color.value }}; color: #fff;"></span>
   </div>
-  <div class="pragmatica-meta">
-    <p>{{ 'Adicionado em'|t }} {{ response.created.value|date('d/m/Y') }}</p>
-  </div>
-
   <div class="pragmatica-content">
     <p>{{ response.description.value }}</p>
   </div>
   <div class="pragmatica-content">
+    <p>Informante: </p>
     <a href="{{ path('pragmatica.public_informant_item', {'pragmatica_informant': informant.id}) }}" class="pragmatica-excerpt">{{ informant.name }}</a>
-
   </div>
 
+  <p>Marcações: </p>
+  {% for label in labels %}
+      <a href="{{ path('pragmatica.label_public_item', {'pragmatica_label': label.id}) }}" class="pragmatica-excerpt">{{ label.name }}</a>
+  {% else %}
+    <p>{{ 'Esta etiqueta não foi utilizado em nenhuma marcação.'|t }}</p>
+  {% endfor %}
+  <div class="pragmatica-meta">
+    <p>{{ 'Adicionado em'|t }} {{ response.created.value|date('d/m/Y') }}</p>
+  </div>
 
-  <h2 class="pragmatica-subtitle">{{ 'Utilizado em'|t }}</h2>
-  <ul class="pragmatica-list">
-      {% for label in labels %}
-        <li class="pragmatica-list-item pragmatica-justify-between pragmatica-card">
-          <a href="{{ path('pragmatica.label_public_item', {'pragmatica_label': label.id}) }}" class="pragmatica-excerpt">{{ label.name }}</a>
-        </li>
-      {% else %}
-        <li>{{ 'Esta etiqueta não foi utilizado em nenhuma marcação.'|t }}</li>
-      {% endfor %}
-  </ul>
+{#  <ul class="pragmatica-list">#}
+{#      {% for label in labels %}#}
+{#        <li class="pragmatica-list-item pragmatica-justify-between pragmatica-card">#}
+{#          <a href="{{ path('pragmatica.label_public_item', {'pragmatica_label': label.id}) }}" class="pragmatica-excerpt">{{ label.name }}</a>#}
+{#        </li>#}
+{#      {% else %}#}
+{#        <li>{{ 'Esta etiqueta não foi utilizado em nenhuma marcação.'|t }}</li>#}
+{#      {% endfor %}#}
+{#  </ul>#}
 
 </div>
