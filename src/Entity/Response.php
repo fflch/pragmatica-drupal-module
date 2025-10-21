@@ -2,8 +2,10 @@
 
 namespace Drupal\pragmatica\Entity;
 
+use Drupal;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Url;
 
 /**
  * Defines the Response content entity.
@@ -128,4 +130,35 @@ class Response extends PragmaticaBaseEntity {
 
     return self::addBaseFieldDefinitions($fields, self::getFieldsIds());
   }
+
+  public function getLabels() {
+    $selection_storage = Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
+    $query = $selection_storage->getQuery();
+    $query->condition('response_id', $this->id());
+    $selection_ids = $query->execute();
+    $selections = $selection_storage->loadMultiple($selection_ids);
+    $processed_labels = [];
+
+    foreach ($selections as $selection) {
+      $selection_label_entity = $selection->get('label_id')->entity;
+//      $selection_label_type_entity = $selection_label_entity->get('type_id')->entity;
+
+      $processed_labels[] = [
+        'label' => $selection_label_entity->label(),
+        'url' => Url::fromRoute('pragmatica.label_public_item', ['pragmatica_label' => $selection_label_entity->id()])->toString(),
+        'tooltip' => $selection_label_entity->get('name')->value,
+
+        'code' => $selection_label_entity->get('code')->value,
+        'color' => $selection_label_entity->get('color')->value,
+
+        'start_position' => $selection->get('start_position')->value,
+        'end_position' => $selection->get('end_position')->value,
+
+      ];
+
+  }
+    return $processed_labels;
+
+}
+
 }

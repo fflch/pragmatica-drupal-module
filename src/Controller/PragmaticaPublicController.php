@@ -48,7 +48,7 @@ class PragmaticaPublicController extends ControllerBase {
     $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
     $query = $response_storage->getQuery();
     $query = $form->buildSearchQuery($query);
-   
+
     $response_ids = $query->execute();
 
     // TODO: Only show labels related responses (this is already done in the buildSearchQuery, it should be keep and used it here).
@@ -65,6 +65,9 @@ class PragmaticaPublicController extends ControllerBase {
 
 
     if (!empty($response_ids)) {
+//     TODO: pagination
+      $response_ids = array_slice($response_ids, 0, 50);
+
       $responses = $response_storage->loadMultiple($response_ids);
       $results['responses'] = [];
       foreach ($responses as $response) {
@@ -75,14 +78,15 @@ class PragmaticaPublicController extends ControllerBase {
           'informant' => [
             'label' => 'Informante: ' . $response->get('informant_id')->entity->label(),
             'url' => Url::fromRoute('pragmatica.public_informant_item', ['pragmatica_informant' => $response->get('informant_id')->entity->id()])->toString(),
-            'tooltip' => $response->get('informant_id')->entity->getDisplay(),
+            'tooltip' => $response->get('informant_id')->entity->getLabelValueDisplay(),
           ],
           'situation' => [
             'label' => 'Situacão: ' . $response->get('situation_id')->entity->label(),
             'url' => Url::fromRoute('pragmatica.public_situation_item', ['pragmatica_situation' => $response->get('situation_id')->entity->id()])->toString(),
             'tooltip' => $response->get('situation_id')->entity->get('name')->value
           ],
-          'tags' => array_slice($tags_display, 0, mt_rand(5, 8))
+//          'tags' => array_slice($tags_display, 0, mt_rand(5, 8))
+           'tags' => $response->getLabels()
         ];
       }
     }
