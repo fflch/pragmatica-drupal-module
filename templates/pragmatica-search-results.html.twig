@@ -1,4 +1,27 @@
 
+  <style>
+    .badge-square {
+      border-radius: 0 !important;
+      font-weight: 500;
+      padding: 0.4em 0.6em;
+    }
+    .card-text {
+      font-size: 1.25rem;
+      line-height: 1.6;
+    }
+    .tooltip-inner {
+      max-width: 400px !important;
+      text-align: left;
+    }
+    .hover-link {
+      text-decoration: none;
+    }
+    .hover-link:hover {
+      text-decoration: underline;
+      color: #000 !important;
+    }
+  </style>
+
 <div class="pragmatica">
   <h2 class="pragmatica-title">{{ 'Filtros'|t }}</h2>
 
@@ -17,36 +40,20 @@
     <button type="submit" class="btn btn-primary">{{ 'Buscar'|t }}</button>
   </form>
 
+  <div class="pragmatica-search-results">
+    <h2 class="pragmatica-subtitle mt-4">{{ 'Resultados'|t }}</h2>
+    {% if results.responses %}
+      {% for response in results.responses %}
+        {{ _self.annotation_card(response.label, response.url, response.situation, response.informant, response.tags) }}
+      {% endfor %}
+    {% else %}
+      <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
+    {% endif %}
+  </div>
 
-  {% if true %}
-    <div class="pragmatica-search-results">
-      <h2 class="pragmatica-subtitle">{{ 'Resultados'|t }}</h2>
-
-      {% if results.responses %}
-        <div class="pragmatica-results-row">
-          {% if results.responses %}
-            <div class="pragmatica-column">
-              <h3>{{ 'Respostas'|t }}</h3>
-              <ul class="pragmatica-list">
-                {% for response in results.responses %}
-                  <li class="pragmatica-list-item pragmatica-card">
-                    <a href="{{ response.url }}">{{ response.name }}</a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        </div>
-      {% else %}
-        <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
-      {% endif %}
-    </div>
-  {% endif %}
 </div>
 
 
-
-{# macros.twig #}
 
 {% macro renderField(field) %}
 <div class="mb-3">
@@ -71,4 +78,32 @@
       <p class="error">Unsupported field type: {{ field.type }}</p>
     {% endif %}
 </div>
+{% endmacro %}
+
+
+
+{% macro annotation_card(content, content_url, header_left, header_right, tags) %}
+  <div class="card border rounded-0 shadow-sm mb-3">
+    <div class="card-header bg-light text-muted rounded-0 py-1 d-flex justify-content-between align-items-center">
+      <a href="{{ header_left.url }}" class="text-muted hover-link" data-bs-toggle="tooltip"  data-bs-html="true" title="{{ header_left.tooltip }}">{{ header_left.label }}</a>
+      <a href="{{ header_right.url }}" class="text-muted hover-link" data-bs-toggle="tooltip" data-bs-html="true" title="{{ header_right.tooltip }}">{{ header_right.label }}</a>
+    </div>
+    <div class="card-body">
+      <p class="card-text mb-3">
+        {{ content|raw }}
+        <a href="{{ content_url }}" target="_blank">
+          ⬈
+        </a>
+      </p>
+      <div>
+        {% for tag in tags %}
+          <span class="badge badge-square me-1" style="background-color: {{ tag.color }};" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ tag.tooltip }}">
+            <a href="{{ tag.url }}" class="hover-link text-white">
+              {{ tag.label }}
+            </a>
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 {% endmacro %}
