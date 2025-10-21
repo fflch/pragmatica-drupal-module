@@ -206,6 +206,59 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
     return '';
   }
 
+  /**
+   * Returns an associative array of field labels and their values.
+   *
+   * @param bool $as_html
+   *   Whether to return the fields as an associative array or as a formatted HTML string.
+   *
+   * @return array|string
+   *   An associative array of field labels and their values, or a formatted HTML string.
+   */
+  public function getLabelValueDisplay(bool $as_html = true) {
+    $skip_fields = ['id', 'guid', 'code', 'description', 'created', 'changed', 'modifying_user', 'creating_user'];
+    $fields = $this->getFieldsIds();
+    $fields_with_values = [];
+
+    foreach ($fields as $field) {
+      if (in_array($field, $skip_fields) || !$this->hasField($field)) {
+        continue;
+      }
+
+      $field_get = $this->get($field);
+
+      if ($field_get->isEmpty()) {
+        continue;
+      }
+
+      if ($field_get->entity) {
+        $fields_with_values[$field] = $field_get->entity->label();
+      } else {
+        $fields_with_values[$field] = $field_get->value;
+      }
+    }
+
+    $form_fields = $this->baseFieldDefinitions($this->getEntityType());
+    $label_fields = [];
+    foreach ($fields_with_values as $field => $value) {
+      if (isset($form_fields[$field])) {
+        $label_fields[(string)$form_fields[$field]->getLabel()] = $value;
+      }
+    }
+
+    if (!$as_html) {
+      return $label_fields;
+    }
+
+    $output = '';
+    foreach ($label_fields as $label => $value) {
+      $output .= '<strong>' . $label . ':</strong> ' . $value . '<br/>';
+    }
+
+    return $output;
+  }
+
+
   public static function getBaseFieldDefinitions() {
     $fields['id'] = BaseFieldDefinition::create('integer')
       ->setLabel('ID')
