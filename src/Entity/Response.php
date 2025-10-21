@@ -141,7 +141,7 @@ class Response extends PragmaticaBaseEntity {
 
     foreach ($selections as $selection) {
       $selection_label_entity = $selection->get('label_id')->entity;
-//      $selection_label_type_entity = $selection_label_entity->get('type_id')->entity;
+//     $selection_label_type_entity = $selection_label_entity->get('type_id')->entity;
 
       $processed_labels[] = [
         'label' => $selection_label_entity->label(),
@@ -158,6 +158,17 @@ class Response extends PragmaticaBaseEntity {
 
   }
     return $processed_labels;
+
+}
+
+public function buildDataForDisplay() {
+    return [
+      'label' => $this->label(),
+      'url' => Url::fromRoute('pragmatica.public_response_item', ['pragmatica_response' => $this->id()])->toString(),
+      'informant' => $this->getForeignEntityDataForDisplay('informant_id', $this, 'Informante: '),
+      'situation' => $this->getForeignEntityDataForDisplay('situation_id', $this, 'Situação: '),
+      'tags' => $this->getLabels()
+    ];
 
 }
 

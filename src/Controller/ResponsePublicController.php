@@ -37,28 +37,13 @@ class ResponsePublicController extends ControllerBase
    */
   public function item(Response $pragmatica_response): array
   {
-//    todo: maybe move processing to entity to avoid duplication? (PragmaticaPublicController::75)
-    $processed_response = [
-      'label' => $pragmatica_response->label(),
-      'url' => Url::fromRoute('pragmatica.public_response_item', ['pragmatica_response' => $pragmatica_response->id()])->toString(),
-      'informant' => [
-        'label' => 'Informante: ' . $pragmatica_response->get('informant_id')->entity->label(),
-        'url' => Url::fromRoute('pragmatica.public_informant_item', ['pragmatica_informant' => $pragmatica_response->get('informant_id')->entity->id()])->toString(),
-        'tooltip' => $pragmatica_response->get('informant_id')->entity->getLabelValueDisplay(),
-      ],
-      'situation' => [
-        'label' => 'Situacão: ' . $pragmatica_response->get('situation_id')->entity->label(),
-        'url' => Url::fromRoute('pragmatica.public_situation_item', ['pragmatica_situation' => $pragmatica_response->get('situation_id')->entity->id()])->toString(),
-        'tooltip' => $pragmatica_response->get('situation_id')->entity->get('name')->value
-      ],
-      'tags' => $pragmatica_response->getLabels()
-      ];
+    $processed_response = $pragmatica_response->buildDataForDisplay();
 
     $build['#theme'] = 'pragmatica_response_item';
     $build['#response'] = $processed_response;
     $build['#attached'] = [
       'library' => [
-        'pragmatica/pragmatica_styles',
+        'pragmatica/pragmatica',
       ],
     ];
 

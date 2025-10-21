@@ -7,6 +7,7 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Url;
 use Exception;
 
 /**
@@ -363,6 +364,14 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
       ]);
 
     return $fields;
+  }
+
+  public static function getForeignEntityDataForDisplay($target_entity_id, $base_entity, $label_identifier = null) {
+    return [
+      'label' => ($label_identifier ?? '') . $base_entity->get($target_entity_id)->entity->label(),
+      'url' => Url::fromRoute('pragmatica.public_informant_item', ['pragmatica_informant' => $base_entity->get($target_entity_id)->entity->id()])->toString(),
+      'tooltip' => $base_entity->get($target_entity_id)->entity->getLabelValueDisplay(),
+    ];
   }
 }
 
