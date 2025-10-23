@@ -62,7 +62,11 @@ class LabelPublicController extends ControllerBase {
 
     $selections = array_slice($selections, 0, 50);
     foreach ($selections as $selection) {
-      $processed_responses[] = $selection->get('response_id')->entity->buildSimplifiedDataForDisplay();
+      $current_response = $selection->get('response_id')->entity->buildSimplifiedDataForDisplay();
+      $current_response['fragments'] = $selection->get('response_id')->entity->buildResponseLabelForPublicDisplay($pragmatica_label->id(), $pragmatica_label->get('color')->value);
+
+
+      $processed_responses[] = $current_response;
 
     }
 
@@ -80,7 +84,7 @@ class LabelPublicController extends ControllerBase {
     $build['#label_type'] = $processed_label_type;
     $build['#attached'] = [
       'library' => [
-        'pragmatica/pragmatica_styles',
+        'pragmatica/pragmatica',
       ],
     ];
 

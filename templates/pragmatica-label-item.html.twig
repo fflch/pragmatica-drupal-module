@@ -1,20 +1,32 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
 
-<div class="pragmatica">
-  <div class="pragmatica-header pragmatica-justify-between">
-    <h1 class="pragmatica-title">{{ 'Etiqueta'|t }}</h1>
-    <span class="pragmatica-tag-circle" style="background-color: {{ label.color.value }}; color: #fff;"></span>
+<div class="d-flex flex-column gap-3 mt-3">
+
+  <div class="d-flex flex-column align-self-start mb-3">
+    <h1 class="badge-square badge align-self-start" style="background-color: {{ label.color.value ?? '#36454F' }}; font-size: 28px">
+      <span style="color: white" > {{ label.code.value  }}</span>
+    </h1>
+    <h1 class="pragmatica-title">Marcador de vínculo e/ou empatia</h1>
   </div>
 
-  <div class="pragmatica-content">
-    <p>{{ label.description.value|slice(0,400,true) }}...</p>
-    <p>{{ 'Tipo de etiqueta'|t }}:
+  <div id="response-labels" class="d-flex flex-column gap-3 align-items-start mb-1">
+
+    <div>
+      <p class="fs-5 mb-0 me-2 fw-bold">Descrição</p>
+      <p>{{ label.description.value|slice(0,400,true) }}...</p>
+    </div>
+
+    <div>
+      <p class="fs-5 me-2 fw-bold mb-3">Tipo de etiqueta</p>
       <a href="{{ path('pragmatica.public_label_type_item', {'pragmatica_label_type': label_type.id}) }}" class="pragmatica-excerpt"> {{ label_type.name }}</a>
+    </div>
 
-    </p>
-
-    <p>{{ 'Código'|t }}: <span style="color:{{ label.color.value }}" > {{ label.code.value  }}</span>  </p>
-
+    <div>
+      <p class="fs-5 mb-0 me-2 fw-bold mb-3">Exemplos</p>
+      <p class="mb-0 pb-0 text-muted fs-6" style="color: var(--color-text-light)">
+       Sem exemplos.
+      </p>
+    </div>
   </div>
 
 
@@ -22,7 +34,7 @@
 
   {% if responses %}
     {% for response in responses %}
-      {{ macros.annotation_card(response.label, response.url, response.situation, response.informant, response.tags) }}
+      {{ macros.annotation_card2(response.label, response.url, response.situation, response.informant, response.tags, response.fragments) }}
     {% endfor %}
   {% else %}
     <p>{{ 'Nenhum resultado encontrado.'|t }}</p>

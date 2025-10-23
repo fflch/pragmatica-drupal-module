@@ -64,6 +64,46 @@
   </div>
 {% endmacro %}
 
+{% macro annotation_card2(content, content_url, header_left, header_right, tags, fragments) %}
+  <div class="card border rounded-0 shadow-sm mb-3">
+    <div class="card-header bg-light text-muted rounded-0 py-1 d-flex
+      {% if header_left is null and count is defined %}
+      justify-content-start
+      gap-4
+      {%  else %}
+      justify-content-between
+      align-items-center"
+      {% endif %}
+    >
+        <a href="{{ header_left.url }}" class="text-muted hover-link" data-bs-toggle="tooltip"  data-bs-html="true" title="{{ header_left.tooltip }}">{{ header_left.label }}</a>
+      <a href="{{ header_right.url }}" class="text-muted hover-link" data-bs-toggle="tooltip" data-bs-html="true" title="{{ header_right.tooltip }}">{{ header_right.label }}</a>
+    </div>
+    <div class="card-body">
+      <p class="card-text mb-3">
+        {% for fragment in fragments %}
+          {% if fragment.highlight != false %}
+            <span class="fw-semibold"
+                  style="text-decoration: underline;
+                    text-decoration-color: {{ fragment.color }};
+                    text-decoration-thickness: 2px;">{{ fragment.text }}</span>
+          {% else %}
+            {{ fragment.text }}
+          {% endif %}
+        {% endfor %}
+        <a href="{{ content_url }}" target="_blank">»</a>
+      </p>
+      <div>
+        {% for tag in tags %}
+          <span class="badge badge-square me-1" style="background-color: {{ tag.color }};" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ tag.tooltip }}">
+            <a href="{{ tag.url }}" class="hover-link text-white">
+              {{ tag.label }}
+            </a>
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
 
 
 {% macro page_content(content, content_url, header_left, header_right, tags) %}
