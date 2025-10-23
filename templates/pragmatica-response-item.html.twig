@@ -96,18 +96,22 @@
           <div>
             <p class="fs-5 me-2 fw-bold mb-2">Etiquetas</p>
             <div>
-              {% for tag in response.tags %}
-                <span class="badge badge-square me-1 mb-1" style="font-size: 14px; background-color: {{ tag.color }};" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ tag.tooltip }}">
-            <a href="{{ tag.url }}" class="hover-link text-white">
-              {{ tag.label }}
-            </a>
-          </span>
-              {% endfor %}
+              {% if response.tags is not empty %}
+                {% for tag in response.tags %}
+                  <span class="badge badge-square me-1 mb-1" style="font-size: 14px; background-color: {{ tag.color }};" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ tag.tooltip }}">
+                   <a href="{{ tag.url }}" class="hover-link text-white">{{ tag.label }}</a>
+                  </span>
+                {% endfor %}
+              {% else %}
+                <p style="color: var(--color-text-muted)">Sem etiquetas</p>
+
+              {% endif %}
+
             </div>
           </div>
         </div>
-        <div class="pt-1">
-          <div class="d-flex align-items-end gap-1 mb-3">
+        <div class="mt-2 pt-1">
+          <div class="d-flex align-items-end gap-1 mb-3 pb-1">
             <p class="my-0 py-0 pb-0 fs-5">
               Outras respostas deste informante
             </p>
