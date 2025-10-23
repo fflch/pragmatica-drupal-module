@@ -160,7 +160,7 @@ class Response extends PragmaticaBaseEntity {
     return $processed_labels;
 
 }
-public function buildDataForSearchResultDisplay() {
+public function buildSimplifiedDataForDisplay() {
     return [
       'label' => $this->label(),
       'url' => Url::fromRoute('pragmatica.public_response_item', ['pragmatica_response' => $this->id()])->toString(),

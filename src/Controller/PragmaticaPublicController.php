@@ -72,7 +72,7 @@ class PragmaticaPublicController extends ControllerBase {
       $results['responses'] = [];
       foreach ($responses as $response) {
         shuffle($tags_display);
-        $results['responses'][] = $response->buildDataForSearchResultDisplay();
+        $results['responses'][] = $response->buildSimplifiedDataForDisplay();
 
       }
     }
