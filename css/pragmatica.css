@@ -73,3 +73,6 @@
 #response-labels .badge-square {
   padding: 0.5em 1em;
 }
+#informant strong {
+  color: var(--color-text-dark)
+}

@@ -58,26 +58,17 @@ class InformantPublicController extends ControllerBase {
     $processed_responses = [];
 
     foreach ($responses as $response) {
-      $processed_responses[] = [
-        'name' => $response->label(),
-        'id' => $response->id(),
-        'created' =>  $response->get('created')->value,
-        'situation_name' =>  $response->get('situation_id')->entity->get('name')->value,
-        'situation_code' =>  $response->get('situation_id')->entity->get('code')->value,
-        'situation_id' =>  $response->get('situation_id')->entity->id()
-        ];
-
+      $processed_responses[] = $response->buildDataForDisplay();
 
     }
 
-//    var_dump($processed_responses);
-//    exit;
+
     $build['#theme'] = 'pragmatica_informant_item';
     $build['#informant'] = $processed_informant;
     $build['#responses'] = $processed_responses;
     $build['#attached'] = [
       'library' => [
-        'pragmatica/pragmatica_styles',
+        'pragmatica/pragmatica',
       ],
     ];
 
