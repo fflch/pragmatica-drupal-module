@@ -22,8 +22,10 @@ function pragmatica_help($route_name, RouteMatchInterface $route_match) {
  */
 function pragmatica_theme($existing, $type, $theme, $path) {
   return [
-    'pragmatica_label_list' => [
-      'variables' => ['labels' => []],
+    'pragmatica_label_type_list' => [
+      'variables' => [
+        'label_types' => []
+      ],
     ],
     'pragmatica_label_item' => [
       'variables' => [

@@ -76,3 +76,12 @@
 #informant strong {
   color: var(--color-text-dark)
 }
+
+.pragmatica-tag-circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -37,14 +37,6 @@ pragmatica.search_public:
 ######## Label public routes #######################
 ###################################################
 
-pragmatica.label_public_list:
-  path: '/pragmatica/etiquetas'
-  defaults:
-    _controller: '\Drupal\pragmatica\Controller\LabelPublicController::list'
-    _title: 'Etiquetas'
-  requirements:
-    _access: 'TRUE'
-
 pragmatica.label_public_item:
   path: '/pragmatica/etiqueta/{pragmatica_label}'
   defaults:
@@ -173,6 +165,14 @@ pragmatica.public_label_type_item:
     _title: 'Situation'
   requirements:
     _access: 'TRUE'
+
+    pragmatica.public_label_type_list:
+      path: '/pragmatica/tipo_etiqueta/{pragmatica_label_type}'
+      defaults:
+        _controller: '\Drupal\pragmatica\Controller\LabelTypePublicController::list'
+        _title: 'Situation'
+      requirements:
+        _access: 'TRUE'
 
 ###################################################
 ############### Source routes #####################

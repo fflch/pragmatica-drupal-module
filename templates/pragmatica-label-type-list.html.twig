@@ -1,0 +1,11 @@
+{% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
+
+
+{% for label_type in label_types %}
+  {{ macros.label_type_container(label_type.label, label_type.description, label_type.labels) }}
+{% endfor %}
+
+
+
+
+

@@ -366,12 +366,29 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
     return $fields;
   }
 
+
+  // todo: simplify and unify these 2 | overwrite on children
   public static function getForeignEntityDataForDisplay($target_entity_id, $base_entity, $label_identifier = null) {
     return [
       'label' => ($label_identifier ?? '') . $base_entity->get($target_entity_id)->entity->label(),
-      'url' => Url::fromRoute('pragmatica.public_informant_item', ['pragmatica_informant' => $base_entity->get($target_entity_id)->entity->id()])->toString(),
+//     'url' => Url::fromRoute('pragmatica.public_informant_item', ['pragmatica_informant' => $base_entity->get($target_entity_id)->entity->id()])->toString(),
       'tooltip' => $base_entity->get($target_entity_id)->entity->getLabelValueDisplay(),
     ];
+
   }
+
+  public static function processDataForDisplay($base_entity, $route_id = null, $route_param_id = null, $label_identifier = null) {
+
+    return [
+      'label' => ($label_identifier ?? '') . $base_entity->label(),
+      'description' => $base_entity->hasField('description') ? $base_entity->get('description')->value : '',
+//    'url' => Url::fromRoute('pragmatica.' . $route_id, ['pragmatica_label' => 1])->toString(),
+      'tooltip' => $base_entity->getLabelValueDisplay(),
+    ];
+
+  }
+
+
+
 }
 

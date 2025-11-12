@@ -131,6 +131,77 @@ class Response extends PragmaticaBaseEntity {
     return self::addBaseFieldDefinitions($fields, self::getFieldsIds());
   }
 
+//  todo: rewrite all those build functions
+// remove duplications
+  public function getSelectionPositionByLabelId($label_id = null): array
+  {
+
+    $selection_storage = Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
+    $query = $selection_storage->getQuery();
+    $query
+      ->condition('response_id', $this->id())
+      ->condition('label_id', $label_id);
+
+    $selection_id = $query->execute();
+    $selection = $selection_storage->load($selection_id);
+
+    return [
+      'start_position' => $selection->get('start_position')->value,
+      'end_position' => $selection->get('end_position')->value,
+    ];
+
+  }
+
+
+  public function buildResponseLabelForPublicDisplay($label_id = null, $label_color = null): array
+  {
+    $selection_storage = \Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
+    $query = $selection_storage->getQuery();
+    $query
+      ->condition('response_id', $this->id())
+      ->condition('label_id', $label_id);
+
+    $selection_id = $query->execute();
+    $selection_id = reset($selection_id);
+    $selection = $selection_storage->load($selection_id);
+
+//    var_dump($selection);
+//    exit;
+    $start_pos = (int)$selection->get('start_position')->value;
+    $end_pos = (int)$selection->get('end_position')->value;
+    $full_text = $this->label();
+    $total_length = strlen($full_text);
+
+
+    $fragments = [];
+
+    if ($start_pos > 0) {
+      $fragments[] = [
+        'text' => substr($full_text, 0, $start_pos),
+        'highlight' => null
+      ];
+    }
+
+
+    $fragments[] = [
+      'text' => substr($full_text, $start_pos, $end_pos - $start_pos),
+      'highlight' => true,
+      'color' => $label_color
+    ];
+
+
+    if ($end_pos < $total_length) {
+      $fragments[] = [
+        'text' => substr($full_text, $end_pos),
+        'highlight' => null
+      ];
+    }
+//var_dump($fragments);
+//    exit;
+    return $fragments;
+  }
+
+
   public function getLabels() {
     $selection_storage = Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
     $query = $selection_storage->getQuery();
