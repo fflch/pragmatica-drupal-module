@@ -79,7 +79,7 @@ class PragmaticaPublicSearchForm extends FormBase {
     // TODO: Implement load_options() param.
     $config = [];
 
-    $config['situation_id'] = $this->addField('situation_id', 'Situação',  $this->getEntityOptions('situation'));
+    $config['situation_id'] = $this->addField('situation_id', 'Situação',  $this->getEntityOptions('situation'), true);
 
     $label_types = $this->getEntityOptions('label_type');
 

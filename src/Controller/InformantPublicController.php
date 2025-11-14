@@ -31,24 +31,6 @@ class InformantPublicController extends ControllerBase {
    * Displays a single informant entity.
    */
   public function item(Informant $pragmatica_informant): array {
-
-    $processed_informant = [
-      'code' => $pragmatica_informant->get('code')->value,
-      'name' => $pragmatica_informant->get('code')->value,
-      'age' => $pragmatica_informant->get('age')->value,
-      'created' => $pragmatica_informant->get('created')->value,
-    ];
-
-    $informant_foreign_fields =  array_diff(Informant::getFieldsIds(), array_keys($processed_informant));
-    unset($informant_foreign_fields['id']);
-
-
-    foreach($informant_foreign_fields as $foreign_field) {
-      $processed_informant[substr($foreign_field, 0, -3)] =
-        $pragmatica_informant->get($foreign_field)->entity ? $pragmatica_informant->get($foreign_field)->entity->label() : '';
-    }
-
-
     // response selections
     $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
     $query = $response_storage->getQuery();
@@ -58,13 +40,12 @@ class InformantPublicController extends ControllerBase {
     $processed_responses = [];
 
     foreach ($responses as $response) {
-      $processed_responses[] = $response->buildDataForDisplay();
-
+      /** @var \Drupal\pragmatica\Entity\Response $response */
+      $processed_responses[] = $response->getEntityForDisplay();
     }
 
-
     $build['#theme'] = 'pragmatica_informant_item';
-    $build['#informant'] = $processed_informant;
+    $build['#informant'] = $pragmatica_informant->getEntityForDisplay();
     $build['#responses'] = $processed_responses;
     $build['#attached'] = [
       'library' => [

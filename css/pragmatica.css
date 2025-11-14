@@ -58,10 +58,16 @@
   font-size: 1.25rem;
   line-height: 1.6;
 }
+
 .tooltip-inner {
   max-width: 400px !important;
-  text-align: left;
+  text-align: left !important;
 }
+
+.tooltip {
+  text-align: left !important;
+}
+
 .hover-link {
   text-decoration: none;
 }
@@ -84,4 +90,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.collapse-btn[aria-expanded="true"] .toggle-icon {
+  transform: rotate(135deg);
+}
+  
+.border-bottom-2 {
+  border-bottom: 2px solid #212529;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #212529;
 }

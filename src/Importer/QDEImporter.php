@@ -128,7 +128,9 @@ class QDEImporter {
     EntityStorageInterface $storage,
     $parent_code_id = NULL
   ) {
+    $codeXml[$this->code_key] = strtolower((string)$codeXml[$this->name_key]);
     $codeXml->addAttribute($this->code_key, (string)$codeXml[$this->name_key]);
+    unset($codeXml[$this->name_key]);
     $saved_code = $this->saveXMLEntity($codeXml, $storage, [], $this->code_key);
     $saved_code_id = $saved_code->id();
     $this->original_codes_mapping[(string)$codeXml[$this->guid_key]] = $saved_code_id;

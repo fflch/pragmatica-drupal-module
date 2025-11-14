@@ -35,12 +35,14 @@ class ResponsePublicController extends ControllerBase
   /**
    * Displays a single response entity.
    */
-  public function item(Response $pragmatica_response): array
-  {
-    $processed_response = $pragmatica_response->buildDataForDisplay();
+  public function item(Response $pragmatica_response): array {
+
+    $processed_response = $pragmatica_response->getEntityForDisplay();
+    $informant_controller = new InformantPublicController($this->entityTypeManager);
 
     $build['#theme'] = 'pragmatica_response_item';
     $build['#response'] = $processed_response;
+    $build['#informant_responses'] = $informant_controller->item($pragmatica_response->get('informant_id')->entity)['#responses'] ?? [];
     $build['#attached'] = [
       'library' => [
         'pragmatica/pragmatica',

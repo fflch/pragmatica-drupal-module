@@ -61,7 +61,7 @@ function pragmatica_install() {
 
     ['base' => ['name' => 'Ato principal convencionalmente indireto','code' => 'ap2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
     ['base' => ['name' => 'Ato principal não convencionalmente indireto','code' => 'ap3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
-    ['base' => ['name' => 'Ato principal inexistente','code' => 'ap'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
+    ['base' => ['name' => 'Ato principal inexistente','code' => 'ap0'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
     ['base' => ['name' => '1a pessoa do singular','code' => 'pp1'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],
     ['base' => ['name' => '2a pessoa do singular ou plural','code' => 'pp2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],
     ['base' => ['name' => '1a pessoa do plural (nós)','code' => 'pp3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],

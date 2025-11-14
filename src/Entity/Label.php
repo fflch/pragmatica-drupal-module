@@ -2,7 +2,6 @@
 
 namespace Drupal\pragmatica\Entity;
 
-use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Render\Markup;
@@ -17,7 +16,7 @@ use Drupal\Core\Render\Markup;
  *   base_table = "pragmatica_label",
  *   entity_keys = {
  *     "id" = "id",
- *     "label" = "code"
+ *     "label" = "name"
  *   },
  *   handlers = {
  *     "list_builder" = "Drupal\pragmatica\ListBuilder\PragmaticaBaseListBuilder",
@@ -130,5 +129,33 @@ class Label extends PragmaticaBaseEntity {
       ]);
 
       return self::addBaseFieldDefinitions($fields, self::getFieldsIds());
+  }
+ 
+  
+  public function getEntityForDisplay(
+    PragmaticaBaseEntity $base_entity = null,
+    $label_prefix = '',
+    $add_url = TRUE
+  ) {
+
+    if (!$base_entity) {
+      $base_entity = $this;
+    }
+
+    $display = parent::getEntityForDisplay($base_entity, $label_prefix, $add_url);
+
+    $display['code'] = $base_entity->get('code')->value;
+
+    if (empty($display['label'])) {
+      $display['label'] = $display['code'];
+    }
+
+    $display['color'] = $base_entity->get('color')->value;
+    return $display;
+  }
+
+
+  public static function getIgnoreFieldsForLabelValueDisplay(): array {
+    return array_merge(parent::getIgnoreFieldsForLabelValueDisplay(), ['color']);
   }
 }

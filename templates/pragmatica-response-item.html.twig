@@ -1,136 +1,43 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
-<script>
-  class ResponseBuilder {
-    constructor(response, selections, containerId) {
-      this.response = response;
-      this.selections = selections;
-      this.containerId = containerId;
-
-      this.initialize();
-    }
-
-    initialize() {
-      const responseContainer = document.getElementById(this.containerId)
-      const nonSelectedFragments = []
-      const selectedFragments = []
-      const processedSelections = new Set();
-
-      const filteredSelections = this.selections.filter(selection => {
-        const currentSelectionKey = `${selection.start_position}.${selection.end_position}.${selection.label_id}`;
-
-        if (!processedSelections.has(currentSelectionKey)) {
-          processedSelections.add(currentSelectionKey);
-          return true;
-        }
-
-        return false;
-
-      })
-
-      for (const selection of filteredSelections) {
-        const start_position = selection.start_position - 1;
-        const end_position = selection.end_position - 1;
 
 
-          let selectionFragment = this.response.substring(start_position, end_position);
-          let temp = document.createElement('p');
 
-          console.log(selection)
-          selectedFragments.push(selectionFragment)
-          temp.textContent = selectionFragment;
-          responseContainer.append(temp);
-
-        }
-
-
-      const sortedFilteredSelections = filteredSelections.sort((a, b) => a.start_position - b.start_position);
-
-      sortedFilteredSelections.forEach((sortedFilteredSelection, index) => {
-        let start = sortedFilteredSelection.start_position;
-        if (sortedFilteredSelection.start_position === 0) {
-          start = sortedFilteredSelection.end_position;
-
-        }
-
-        if (sortedFilteredSelection.end_position === this.response.length || index == sortedFilteredSelections.length - 1) {
-          return;
-        }
-
-        if (sortedFilteredSelection[index+1]) {
-          let end = sortedFilteredSelection[index+1].start_position
-          nonSelectedFragments.push({start_position: start, end})
-          console.log()
-        }
-
-
-      })
-      console.log(nonSelectedFragments);
-      }
-  }
-</script>
-
-<div class="pragmatica">
-  <div class="pragmatica-header pragmatica-justify-between">
-    <p>{{ situation.name }}</p>
-    <h1 class="pragmatica-title" style="color: red">{{ response.name.value }}</h1>
-    <span class="pragmatica-tag-circle" style="background-color: {{ label.color.value }}; color: #fff;"></span>
-  </div>
-
-{#  todo: move to macro #}
-  <div class="container px-0">
-    <div class="d-flex flex-column gap-3">
-      <h1 class="fs-1">
-        {{ response.label }}
-      </h1>
-
-
-        <div id="response-labels" class="d-flex flex-column gap-3 align-items-start mb-1">
-
-          <div>
-            <p class="fs-5 mb-0 me-2 fw-bold">Situação</p>
-            <p class="mb-0 pb-0 text-muted fs-6" style="color: var(--color-text-light)">
-              {{ response.situation.label }}
-            </p>
-          </div>
-
-          <div>
-            <p class="fs-5 me-2 fw-bold mb-2">Etiquetas</p>
-            <div>
-              {% if response.tags is not empty %}
-                {% for tag in response.tags %}
-                  <span class="badge badge-square me-1 mb-1" style="font-size: 14px; background-color: {{ tag.color }};" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ tag.tooltip }}">
-                   <a href="{{ tag.url }}" class="hover-link text-white">{{ tag.label }}</a>
-                  </span>
-                {% endfor %}
-              {% else %}
-                <p style="color: var(--color-text-muted)">Sem etiquetas</p>
-
-              {% endif %}
-
-            </div>
-          </div>
-        </div>
-        <div class="mt-2 pt-1">
-          <div class="d-flex align-items-end gap-1 mb-3 pb-1">
-            <p class="my-0 py-0 pb-0 fs-5">
-              Outras respostas deste informante
-            </p>
-            <a href="{{ response.informant.url }}">({{ response.informant.label }}):</a>
-          </div>
-
-          <div class="d-flex flex-column gap-3">
-            {% for response in response.informant.responses %}
-              {{ macros.annotation_card(response.label, response.url, response.situation, null, response.tags) }}
-            {% endfor %}
-          </div>
-       </div>
-      </div>
-
-  </div>
-
-
+<div class="d-flex align-items-center d-flex justify-content-between fs-3 mt-3">            
+    <h1 class="fs-3">{{ response.label }}</h1>
 </div>
 
-<script>
-  {#const responseBuilder = new ResponseBuilder({{ response.name.value | json_encode | raw  }}, {{ selections | json_encode | raw }}, 'selections')#}
-</script>
+{% if response._attributes %}
+<div class="my-3">
+  {{ macros.label_attributes(response, false, 'fw-bold fs-6', 'text-muted fs-6', 'd-block mb-2') }}
+</div>
+{% endif %}
+
+<div class="mb-5">
+  <p class="fs-5 me-2 fw-bold mb-2">Etiquetas</p>
+  {% if response.labels is not empty %}
+    {% for label in response.labels %}
+        {{ macros.label_badge(label) }}
+    {% endfor %}
+  {% else %}
+      <p class="text-muted">Sem etiquetas</p>
+  {% endif %}
+</div>
+
+<h2>Outras respostas do mesmo informante</h2>
+<div class="d-flex flex-column gap-3 mt-3">
+  {% if informant_responses %}
+    {% for informant_response in informant_responses %}
+      {% if informant_response.id != response.id %}
+        {{ macros.response_card(
+          informant_response.label, 
+          informant_response.url, 
+          informant_response.situation, 
+          informant_response.informant, 
+          informant_response.labels
+        ) }}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>{{ 'Nenhuma outra resposta desse informante' }}</p>
+  {% endif %}
+</div>

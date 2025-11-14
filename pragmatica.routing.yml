@@ -19,11 +19,15 @@ pragmatica.import:
     _admin_route: TRUE
 
 
+###################################################################################################################
+############################################ Public routes ########################################################
+###################################################################################################################
+
 ###################################################
-######## Search public route ######################
+############## Search public ######################
 ###################################################
 
-pragmatica.search_public:
+pragmatica.public.search:
   path: '/pragmatica/busca'
   defaults:
       _controller: '\Drupal\pragmatica\Controller\PragmaticaPublicController::search'
@@ -32,12 +36,11 @@ pragmatica.search_public:
       _access: 'TRUE'
 
 
-
 ###################################################
-######## Label public routes #######################
+######## Label public #############################
 ###################################################
 
-pragmatica.label_public_item:
+pragmatica.public.label.item:
   path: '/pragmatica/etiqueta/{pragmatica_label}'
   defaults:
     _controller: '\Drupal\pragmatica\Controller\LabelPublicController::item'
@@ -46,6 +49,57 @@ pragmatica.label_public_item:
     pragmatica_label: \d+
     _access: 'TRUE'
 
+pragmatica.public.label.list:
+  path: '/pragmatica/etiquetas'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\LabelPublicController::list'
+    _title: 'Etiquetas'
+  requirements:
+    _access: 'TRUE'
+
+###################################################
+################# response public #################
+###################################################
+
+
+pragmatica.public.response.item:
+  path: '/pragmatica/resposta/{pragmatica_response}'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\ResponsePublicController::item'
+    _title: 'Resposta'
+  requirements:
+    _access: 'TRUE'
+
+
+###################################################
+################# Situation public ################
+###################################################
+
+pragmatica.public.situation.item:
+  path: '/pragmatica/situacao/{pragmatica_situation}'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\SituationPublicController::item'
+    _title: 'Situação'
+  requirements:
+    _access: 'TRUE'
+
+###################################################
+################# Informant public ################
+###################################################
+
+pragmatica.public.informant.item:
+  path: '/pragmatica/informante/{pragmatica_informant}'
+  defaults:
+    _controller: '\Drupal\pragmatica\Controller\InformantPublicController::item'
+    _title: 'Informante'
+  requirements:
+    _access: 'TRUE'
+
+
+
+###################################################################################################################
+############################################# Admin routes ########################################################
+###################################################################################################################
 
 ###################################################
 ############# Label routes #######################
@@ -89,7 +143,6 @@ entity.pragmatica_label.edit_form:
     _permission: 'pragmatica'
   options:
     _admin_route: TRUE
-
 
 entity.pragmatica_label.delete_form:
   path: '/admin/pragmatica/label/{pragmatica_label}/delete'
@@ -156,25 +209,6 @@ entity.pragmatica_label_type.delete_form:
 
 
 ###################################################
-############ Label type public routes ####################
-###################################################
-pragmatica.public_label_type_item:
-  path: '/pragmatica/tipo_etiqueta/{pragmatica_label_type}'
-  defaults:
-    _controller: '\Drupal\pragmatica\Controller\LabelTypePublicController::item'
-    _title: 'Situation'
-  requirements:
-    _access: 'TRUE'
-
-    pragmatica.public_label_type_list:
-      path: '/pragmatica/tipo_etiqueta/{pragmatica_label_type}'
-      defaults:
-        _controller: '\Drupal\pragmatica\Controller\LabelTypePublicController::list'
-        _title: 'Situation'
-      requirements:
-        _access: 'TRUE'
-
-###################################################
 ############### Source routes #####################
 ###################################################
 
@@ -216,7 +250,6 @@ entity.pragmatica_source.edit_form:
     _permission: 'pragmatica'
   options:
     _admin_route: TRUE
-
 
 entity.pragmatica_source.delete_form:
   path: '/admin/pragmatica/source/{pragmatica_source}/delete'
@@ -271,7 +304,6 @@ entity.pragmatica_source_type.edit_form:
     _permission: 'pragmatica'
   options:
     _admin_route: TRUE
-
 
 entity.pragmatica_source_type.delete_form:
   path: '/admin/pragmatica/source_type/{pragmatica_source_type}/delete'
@@ -825,20 +857,6 @@ entity.pragmatica_situation.delete_form:
 
 
 ###################################################
-############## Situation public routes ################
-###################################################
-
-pragmatica.public_situation_item:
-  path: '/pragmatica/situacao/{pragmatica_situation}'
-  defaults:
-    _controller: '\Drupal\pragmatica\Controller\SituationPublicController::item'
-    _title: 'Situation'
-  requirements:
-    _access: 'TRUE'
-
-
-
-###################################################
 ############## Informant routes ################
 ###################################################
 
@@ -890,18 +908,6 @@ entity.pragmatica_informant.delete_form:
     _permission: 'pragmatica'
   options:
     _admin_route: TRUE
-
-###################################################
-############## Informant public routes ################
-###################################################
-
-pragmatica.public_informant_item:
-  path: '/pragmatica/informante/{pragmatica_informant}'
-  defaults:
-    _controller: '\Drupal\pragmatica\Controller\InformantPublicController::item'
-    _title: 'Informante'
-  requirements:
-    _access: 'TRUE'
 
 
 ###################################################
@@ -956,16 +962,3 @@ entity.pragmatica_response.delete_form:
     _permission: 'pragmatica'
   options:
     admin_route: TRUE
-
-    ###################################################
-    ############### response public routes #######################
-    ###################################################
-
-
-pragmatica.public_response_item:
-  path: '/pragmatica/resposta/{pragmatica_response}'
-  defaults:
-    _controller: '\Drupal\pragmatica\Controller\ResponsePublicController::item'
-    _title: 'Resposta'
-  requirements:
-    _access: 'TRUE'

@@ -3,14 +3,14 @@
 pragmatica.search:
   title: 'Buscar'
   description: 'Buscar etiquetas'
-  route_name: pragmatica.search_public
+  route_name: pragmatica.public.search
   menu_name: main
   weight: 0
 
 pragmatica.labels:
   title: 'Etiquetas'
   description: 'Visualizar etiquetas'
-  route_name: pragmatica.label_public_list
+  route_name: pragmatica.public.label.list
   menu_name: main
   weight: 2
 

@@ -31,18 +31,37 @@ class LabelPublicController extends ControllerBase {
    * Displays all labels.
    */
   public function list(): array {
-    $storage = $this->entityTypeManager->getStorage('pragmatica_label');
-    $query = $storage->getQuery();
-    $entity_ids = $query->execute();
+    $label_type_storage = $this->entityTypeManager->getStorage('pragmatica_label_type');
+    $label_type_query = $label_type_storage->getQuery();
+    $label_type_ids = $label_type_query->execute();
+    $label_types = $label_type_storage->loadMultiple($label_type_ids);
 
-    $labels = $storage->loadMultiple($entity_ids);
+    $label_storage = $this->entityTypeManager->getStorage('pragmatica_label');
+    $processed_label_types = [];
+
+    foreach ($label_types as $label_type) {
+      /** @var \Drupal\pragmatica\Entity\LabelType $label_type */
+      $current_processed_label_type = $label_type->getEntityForDisplay(null, '', false);
+
+      $label_query = $label_storage->getQuery();
+      $label_query->condition('type_id', $label_type->id());
+      $label_ids = $label_query->execute();
+      $labels = $label_storage->loadMultiple($label_ids);
+
+      foreach ($labels as $label) {
+        /** @var \Drupal\pragmatica\Entity\Label $label */
+        $current_processed_label_type['labels'][] = $label->getEntityForDisplay();
+      }
+
+      $processed_label_types[] = $current_processed_label_type;
+    }
 
     return [
       '#theme' => 'pragmatica_label_list',
-      '#labels' => $labels,
+      '#label_types' => $processed_label_types,
       '#attached' => [
         'library' => [
-          'pragmatica/pragmatica_styles',
+          'pragmatica/pragmatica',
         ],
       ],
     ];
@@ -62,26 +81,14 @@ class LabelPublicController extends ControllerBase {
 
     $selections = array_slice($selections, 0, 50);
     foreach ($selections as $selection) {
-      $current_response = $selection->get('response_id')->entity->buildSimplifiedDataForDisplay();
-      $current_response['fragments'] = $selection->get('response_id')->entity->buildResponseLabelForPublicDisplay($pragmatica_label->id(), $pragmatica_label->get('color')->value);
-
-
-      $processed_responses[] = $current_response;
-
+      /** @var \Drupal\pragmatica\Entity\Response $response */
+      $response = $selection->get('response_id')->entity;
+      $processed_responses[] = $response->getEntityForDisplay();
     }
 
-    $label_type = $pragmatica_label->get('type_id')->entity;
-
-    $processed_label_type = [
-      'name' => $label_type->label(),
-      'id'  => $label_type->id()
-    ];
-
-
     $build['#theme'] = 'pragmatica_label_item';
-    $build['#label'] = $pragmatica_label;
+    $build['#label'] = $pragmatica_label->getEntityForDisplay();
     $build['#responses'] = $processed_responses;
-    $build['#label_type'] = $processed_label_type;
     $build['#attached'] = [
       'library' => [
         'pragmatica/pragmatica',

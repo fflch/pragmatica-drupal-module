@@ -131,146 +131,46 @@ class Response extends PragmaticaBaseEntity {
     return self::addBaseFieldDefinitions($fields, self::getFieldsIds());
   }
 
-//  todo: rewrite all those build functions
-// remove duplications
-  public function getSelectionPositionByLabelId($label_id = null): array
-  {
-
-    $selection_storage = Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
-    $query = $selection_storage->getQuery();
-    $query
-      ->condition('response_id', $this->id())
-      ->condition('label_id', $label_id);
-
-    $selection_id = $query->execute();
-    $selection = $selection_storage->load($selection_id);
-
-    return [
-      'start_position' => $selection->get('start_position')->value,
-      'end_position' => $selection->get('end_position')->value,
-    ];
-
-  }
-
-
-  public function buildResponseLabelForPublicDisplay($label_id = null, $label_color = null): array
-  {
-    $selection_storage = \Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
-    $query = $selection_storage->getQuery();
-    $query
-      ->condition('response_id', $this->id())
-      ->condition('label_id', $label_id);
-
-    $selection_id = $query->execute();
-    $selection_id = reset($selection_id);
-    $selection = $selection_storage->load($selection_id);
-
-//    var_dump($selection);
-//    exit;
-    $start_pos = (int)$selection->get('start_position')->value;
-    $end_pos = (int)$selection->get('end_position')->value;
-    $full_text = $this->label();
-    $total_length = strlen($full_text);
-
-
-    $fragments = [];
-
-    if ($start_pos > 0) {
-      $fragments[] = [
-        'text' => substr($full_text, 0, $start_pos),
-        'highlight' => null
-      ];
-    }
-
-
-    $fragments[] = [
-      'text' => substr($full_text, $start_pos, $end_pos - $start_pos),
-      'highlight' => true,
-      'color' => $label_color
-    ];
-
-
-    if ($end_pos < $total_length) {
-      $fragments[] = [
-        'text' => substr($full_text, $end_pos),
-        'highlight' => null
-      ];
-    }
-//var_dump($fragments);
-//    exit;
-    return $fragments;
-  }
-
-
   public function getLabels() {
     $selection_storage = Drupal::service('entity_type.manager')->getStorage('pragmatica_selection');
     $query = $selection_storage->getQuery();
     $query->condition('response_id', $this->id());
     $selection_ids = $query->execute();
+
+    /** @var \Drupal\pragmatica\Entity\Selection[] $selections */
     $selections = $selection_storage->loadMultiple($selection_ids);
     $processed_labels = [];
 
     foreach ($selections as $selection) {
+      /** @var \Drupal\pragmatica\Entity\Label $selection_label_entity */
       $selection_label_entity = $selection->get('label_id')->entity;
-//     $selection_label_type_entity = $selection_label_entity->get('type_id')->entity;
 
-      $processed_labels[] = [
-        'label' => $selection_label_entity->label(),
-        'url' => Url::fromRoute('pragmatica.label_public_item', ['pragmatica_label' => $selection_label_entity->id()])->toString(),
-        'tooltip' => $selection_label_entity->get('name')->value,
+      $label_display = $selection_label_entity->getEntityForDisplay($selection_label_entity);
+      $label_display['start_position'] = $selection->get('start_position')->value;
+      $label_display['end_position'] = $selection->get('end_position')->value;
 
-        'code' => $selection_label_entity->get('code')->value,
-        'color' => $selection_label_entity->get('color')->value ?? '#36454F',
+      $processed_labels[] = $label_display;
+    }
 
-        'start_position' => $selection->get('start_position')->value,
-        'end_position' => $selection->get('end_position')->value,
-
-      ];
-
-  }
     return $processed_labels;
-
-}
-public function buildSimplifiedDataForDisplay() {
-    return [
-      'label' => $this->label(),
-      'url' => Url::fromRoute('pragmatica.public_response_item', ['pragmatica_response' => $this->id()])->toString(),
-      'informant' => $this->getForeignEntityDataForDisplay('informant_id', $this, 'Informante: '),
-      'situation' => $this->getForeignEntityDataForDisplay('situation_id', $this, 'Situação: '),
-      'tags' => $this->getLabels()
-    ];
-}
-public function buildDataForDisplay()
-{
-  $processedData = [
-    'label' => $this->label(),
-    'url' => Url::fromRoute('pragmatica.public_response_item', ['pragmatica_response' => $this->id()])->toString(),
-    'informant' => $this->getForeignEntityDataForDisplay('informant_id', $this),
-    'situation' => $this->getForeignEntityDataForDisplay('situation_id', $this),
-    'tags' => $this->getLabels()
-  ];
-
-  // ########## todo: remove this snippet  ##########
-  $response_storage = Drupal::service('entity_type.manager')->getStorage('pragmatica_response');
-  $query = $response_storage->getQuery();
-  $query->condition('informant_id', $this->get('informant_id')->entity->get('id')->value);
-  $response_ids = $query->execute();
-  $responses = $response_storage->loadMultiple($response_ids);
-  $processed_responses = [];
-
-  foreach ($responses as $response) {
-    $processed_responses[] = [
-      'label' => $response->label(),
-      'url' => Url::fromRoute('pragmatica.public_response_item', ['pragmatica_response' => $response->id()])->toString(),
-      'informant' => $response->getForeignEntityDataForDisplay('informant_id', $response),
-      'situation' => $response->getForeignEntityDataForDisplay('situation_id', $response),
-      'tags' => $response->getLabels()
-    ];
-    $processed_responses[array_key_last($processed_responses)]['situation']['label'] = $response->get('situation_id')->entity->get('name')->value;
   }
-    $processedData['informant']['responses'] = $processed_responses;
-    $processedData['situation']['label'] = $this->get('situation_id')->entity->get('name')->value;
-    //  ####################
-  return $processedData;
-}
+
+
+  public function getEntityForDisplay(
+    PragmaticaBaseEntity $base_entity = null,
+    $label_prefix = '',
+    $add_url = TRUE
+  ) {
+
+    if (!$base_entity) {
+      $base_entity = $this;
+    }
+
+    $display = parent::getEntityForDisplay($base_entity, $label_prefix, $add_url);
+    $display['informant'] = $base_entity->getRelatedEntityForDisplay('informant_id', $base_entity, true);
+    $display['situation'] = $base_entity->getRelatedEntityForDisplay('situation_id', $base_entity, true);
+    $display['labels'] = $base_entity->getLabels();
+
+    return $display;
+  }
 }

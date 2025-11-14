@@ -31,6 +31,10 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
 
   public abstract static function getFieldsToXmlMapping(): array;
 
+  public static function getIgnoreFieldsForLabelValueDisplay(): array {
+    return ['id', 'guid', 'name', 'code', 'description', 'created', 'changed', 'modifying_user', 'creating_user']; 
+  }
+
   public static function addFieldsToXmlMapping(
     $instanceMapping = [],
     $instanceFieldsIds = []
@@ -217,7 +221,7 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
    *   An associative array of field labels and their values, or a formatted HTML string.
    */
   public function getLabelValueDisplay(bool $as_html = true) {
-    $skip_fields = ['id', 'guid', 'code', 'description', 'created', 'changed', 'modifying_user', 'creating_user'];
+    $skip_fields = $this->getIgnoreFieldsForLabelValueDisplay();
     $fields = $this->getFieldsIds();
     $fields_with_values = [];
 
@@ -239,11 +243,11 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
       }
     }
 
-    $form_fields = $this->baseFieldDefinitions($this->getEntityType());
     $label_fields = [];
     foreach ($fields_with_values as $field => $value) {
-      if (isset($form_fields[$field])) {
-        $label_fields[(string)$form_fields[$field]->getLabel()] = $value;
+      $field_label = $this->getLabelForField($field);
+      if ($field_label) {
+        $label_fields[$field_label] = $value;
       }
     }
 
@@ -257,6 +261,26 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
     }
 
     return $output;
+  }
+
+
+/**
+ * Returns the label for a given field as set in the form
+ *
+ * @param string $field The field to retrieve the label for.
+ * @return string The label for the given field, or an empty string if the field does not exist.
+ */
+  public function getLabelForField($field) {
+    if (empty($field)) {
+      return '';
+    }
+
+    $form_fields = $this->baseFieldDefinitions($this->getEntityType());
+    if (!isset($form_fields[$field])) {
+      return '';
+    }
+    
+    return (string)$form_fields[$field]->getLabel();
   }
 
 
@@ -367,28 +391,115 @@ abstract class PragmaticaBaseEntity extends ContentEntityBase {
   }
 
 
-  // todo: simplify and unify these 2 | overwrite on children
-  public static function getForeignEntityDataForDisplay($target_entity_id, $base_entity, $label_identifier = null) {
-    return [
-      'label' => ($label_identifier ?? '') . $base_entity->get($target_entity_id)->entity->label(),
-//     'url' => Url::fromRoute('pragmatica.public_informant_item', ['pragmatica_informant' => $base_entity->get($target_entity_id)->entity->id()])->toString(),
-      'tooltip' => $base_entity->get($target_entity_id)->entity->getLabelValueDisplay(),
-    ];
+/**
+ * Returns the type identifier for a given entity type, with or without
+ * the "pragmatica_" prefix.
+ *
+ * @param bool $with_prefix Whether to include the "pragmatica_" prefix.
+ * @return string The type identifier for the given entity type.
+ */
+  public function getPragmaticaTypeId($with_prefix = TRUE) {
+    $entity_type_id = $this->getEntityTypeId();
+    if (!$with_prefix) {
+      $entity_type_id = str_replace('pragmatica_', '', $entity_type_id);
+    }
 
+    return $entity_type_id;
+  }
+    
+/**
+ * Returns the public item route for the given entity type, with or
+ * without the full URL.
+ *
+ * @param \Drupal\pragmatica\Entity\PragmaticaBaseEntity $base_entity The entity to get the public item route for.
+ * @param bool $return_as_url Whether to return the route as a full URL or not.
+ * @return string The public item route for the given entity type, with or without the  full URL.
+ */
+  public static function getPublicItemRoute(PragmaticaBaseEntity $base_entity, $return_as_url = TRUE) {
+    $route = 'pragmatica.public.' . $base_entity->getPragmaticaTypeId(false) . '.item';
+    return $return_as_url ? Url::fromRoute($route, [$base_entity->getEntityTypeId() => $base_entity->id()])->toString() : $route;
   }
 
-  public static function processDataForDisplay($base_entity, $route_id = null, $route_param_id = null, $label_identifier = null) {
+  public static function getPublicListRoute(PragmaticaBaseEntity $base_entity, $return_as_url = TRUE) {
+    $route = 'pragmatica.public.' . $base_entity->getPragmaticaTypeId(false) . '.list';
+    return $return_as_url ? Url::fromRoute($route)->toString() : $route;
+  }
 
-    return [
-      'label' => ($label_identifier ?? '') . $base_entity->label(),
+
+  
+/**
+ * Returns a related entity for display, with an optional label identifier and URL.
+ *
+ * @param string $target_entity_id The ID of the related entity to retrieve.
+ * @param \Drupal\pragmatica\Entity\PragmaticaBaseEntity $base_entity 
+ *    The entity to retrieve the related entity from, or null to use the current entity.
+ * @param bool $add_label_identifier Whether to add a label identifier from the base entity to the display.
+ * @param bool $add_url Whether to add the URL of the related entity to the display.
+ *
+ * @return array The related entity for display.
+ */
+  public function getRelatedEntityForDisplay(
+    $target_entity_id, 
+    PragmaticaBaseEntity $base_entity = null, 
+    $add_label_identifier = false,
+    $add_url = TRUE
+  ) {
+
+    if (!$base_entity) {
+      $base_entity = $this;
+    }
+
+    $entity = $base_entity->get($target_entity_id)->entity;
+
+    if (!$entity) {
+      return [];
+    }
+
+    $label_identifier = '';
+
+    if ($add_label_identifier) {
+      $label_identifier = $base_entity->getLabelForField($target_entity_id);
+      if ($label_identifier) {
+        $label_identifier = $label_identifier . ': ';
+      }
+    }
+
+    $display = $entity->getEntityForDisplay($entity, $label_identifier, $add_url);
+    return $display;
+  }
+
+/**
+ * Returns an entity for display.
+ *
+ * @param \Drupal\pragmatica\Entity\PragmaticaBaseEntity $base_entity The entity to retrieve the display for, or null to use the current entity.
+ * @param string $label_prefix An optional label prefix to add to the label attribute.
+ * @param bool $add_url Whether to add the URL of the entity as the URL attribute.
+ *
+ * @return array The entity for display.
+ */
+  public function getEntityForDisplay(
+    PragmaticaBaseEntity $base_entity = null,
+    $label_prefix = '',
+    $add_url = TRUE
+  ) {
+
+    if (!$base_entity) {
+      $base_entity = $this;
+    }
+
+    $display = [
+      'id' => $base_entity->id(),
+      'label' => $label_prefix . $base_entity->label(),
       'description' => $base_entity->hasField('description') ? $base_entity->get('description')->value : '',
-//    'url' => Url::fromRoute('pragmatica.' . $route_id, ['pragmatica_label' => 1])->toString(),
-      'tooltip' => $base_entity->getLabelValueDisplay(),
+      'url' => '',
+      '_attributes' => $base_entity->getLabelValueDisplay(false)
     ];
 
+    if ($add_url) {
+      $display['url'] = $base_entity->getPublicItemRoute($base_entity);
+    }
+
+    return $display;
   }
-
-
-
 }
 

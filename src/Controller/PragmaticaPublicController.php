@@ -27,9 +27,6 @@ class PragmaticaPublicController extends ControllerBase {
     );
   }
 
-
-
-
   /**
    * @param  \Symfony\Component\HttpFoundation\Request  $request
    *
@@ -38,6 +35,7 @@ class PragmaticaPublicController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @todo: Highlight search results in the UI.
    * @todo: Include selections as results.
+   * @todo: Paginate results.
    */
   public function search(Request $request) {
     $query_params = $request->request->all();
@@ -51,35 +49,17 @@ class PragmaticaPublicController extends ControllerBase {
 
     $response_ids = $query->execute();
 
-    // TODO: Only show labels related responses (this is already done in the buildSearchQuery, it should be keep and used it here).
-    $tags = $form->getEntityOptions('label');
-    $tags_display = [];
-    foreach ($tags as $tag_id => $tag_label) {
-      $tags_display[] = [
-        'label' => strtoupper($tag_label),
-        'color' => '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT),
-        'tooltip' => "Ato de pragmatica: $tag_label",
-        'url' => Url::fromRoute('pragmatica.label_public_item', ['pragmatica_label' => $tag_id])->toString(),
-      ];
-    }
-
-
     if (!empty($response_ids)) {
-//     TODO: pagination
       $response_ids = array_slice($response_ids, 0, 50);
-
+      /** @var \Drupal\pragmatica\Entity\Response[] $responses */
       $responses = $response_storage->loadMultiple($response_ids);
       $results['responses'] = [];
       foreach ($responses as $response) {
-        shuffle($tags_display);
-        $results['responses'][] = $response->buildSimplifiedDataForDisplay();
-
+        $results['responses'][] =  $response->getEntityForDisplay();
       }
     }
 
-    $render_elements = [];
-
-    $render_elements[] = [
+    return [
       '#theme' => 'pragmatica_search_results',
       '#query' => '',
       '#results' => $results,
@@ -90,7 +70,5 @@ class PragmaticaPublicController extends ControllerBase {
         ],
       ],
     ];
-
-    return $render_elements;
   }
 }

@@ -1,34 +1,29 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
 
-<div class="pragmatica">
-  <h2 class="pragmatica-title">{{ 'Filtros'|t }}</h2>
+<h1 class="fs-3 my-3">{{ 'Busca'|t }}</h1>
+<h2 class="fs-4 mb-3">{{ 'Filtros'|t }}</h2>
 
-  <form method="POST">
-
-    <div class="container p-0 m-0">
-      <div class="row">
-        {% for field in filters %}
-          <div class="col-12 col-md-6 col-lg-4">
-            {{ macros.renderField(field) }}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">{{ 'Buscar'|t }}</button>
-  </form>
-
-  <div class="pragmatica-search-results">
-    <h2 class="pragmatica-subtitle mt-4">{{ 'Resultados'|t }}</h2>
-    {% if results.responses %}
-      {% for response in results.responses %}
-        {{ macros.annotation_card(response.label, response.url, response.situation, response.informant, response.tags) }}
+<form method="POST">
+  <div class="container p-0 m-0">
+    <div class="row">
+      {% for field in filters %}
+        <div class="col-12 col-md-6 col-lg-4">
+          {{ macros.renderField(field) }}
+        </div>
       {% endfor %}
-    {% else %}
-      <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
-    {% endif %}
+    </div>
   </div>
+  <button type="submit" class="btn btn-primary">{{ 'Buscar'|t }}</button>
+</form>
 
+<div>
+  <h2 class="pragmatica-subtitle mt-4">{{ 'Resultados'|t }}</h2>
+  {% if results.responses %}
+    {% for response in results.responses %}
+      {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
+    {% endfor %}
+  {% else %}
+    <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
+  {% endif %}
 </div>
-
 

@@ -84,4 +84,25 @@ class Situation extends PragmaticaBaseEntity {
 
     return self::addBaseFieldDefinitions($fields, self::getFieldsIds());
   }
+
+
+  public function getEntityForDisplay(
+    PragmaticaBaseEntity $base_entity = null,
+    $label_prefix = '',
+    $add_url = TRUE
+  ) {
+
+    if (!$base_entity) {
+      $base_entity = $this;
+    }
+
+    $display = parent::getEntityForDisplay($base_entity, $label_prefix, $add_url);
+    $display['name'] = $base_entity->get('name')->value;
+    return $display;
+  }
+
+
+  public static function getIgnoreFieldsForLabelValueDisplay(): array {
+    return array_diff(parent::getIgnoreFieldsForLabelValueDisplay(), ['name']);
+  }
 }
