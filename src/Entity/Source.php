@@ -53,9 +53,7 @@ class Source extends PragmaticaBaseEntity {
       'media_file',
       'url',
       'created',
-      'creating_user_id',
       'changed',
-      'modifying_user_id'
     ];
   }
 

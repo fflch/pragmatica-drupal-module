@@ -7,33 +7,164 @@ use Drupal\Core\Entity\EntityInterface;
  */
 function pragmatica_install() {
   $types = [
-    'pragmatica_source_type' => [
-      'Texto',
-      'Documento (PDF)',
-      'Áudio',
-      'Vídeo',
-      'Imagem'
-    ],
-    'pragmatica_selection_type' => [
-      'Texto',
-      'Áudio',
-      'Transcrição',
-      'Vídeo',
-      'Imagem',
-      'Documento (PDF)',
-    ],
+'pragmatica_source_type' => [
+  'load_by' =>  'name',
+  'items' => [
+    ['base' => ['name' => 'Texto']],
+    ['base' => ['name' =>'Documento (PDF)']],
+    ['base' => ['name' =>'Áudio']],
+    ['base' => ['name' =>'Vídeo']],
+    ['base' => ['name' =>'Imagem']],
+  ],
+
+],
+'pragmatica_label_type' => [
+      'load_by' =>  'name',
+      'items' => [
+        ['base' => [
+          'name' => 'Ato principal'],
+        ],
+        ['base' => [
+          'name' => 'Perspectiva']
+        ],
+        ['base' => [
+          'name' => 'Modificadores morfossintáticos']
+        ],
+        ['base' => [
+          'name' => 'Modificadores lexicais']
+        ],
+        ['base' => [
+          'name' => 'Modificadores discursivos']
+        ],
+        ['base' => [
+          'name' => 'Atos de Suporte']
+        ],
+      ],
+],
+  // pragmatica label load by code
+'pragmatica_label' => [
+  'load_by' => 'code',
+  'items' => [
+       ['base' => [
+         'name' => 'Ato principal direto',
+         'code' => 'ap1'
+       ],
+       'foreign' => [
+          'type_id' => [
+            'load_by' => 'name',
+            'source_table' => 'pragmatica_label_type',
+            'target_column' => 'id',
+            'search_value' => 'Ato principal'
+          ]
+       ],
+     ],
+
+    ['base' => ['name' => 'Ato principal convencionalmente indireto','code' => 'ap2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
+    ['base' => ['name' => 'Ato principal não convencionalmente indireto','code' => 'ap3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
+    ['base' => ['name' => 'Ato principal inexistente','code' => 'ap0'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Ato principal']],],
+    ['base' => ['name' => '1a pessoa do singular','code' => 'pp1'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],
+    ['base' => ['name' => '2a pessoa do singular ou plural','code' => 'pp2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],
+    ['base' => ['name' => '1a pessoa do plural (nós)','code' => 'pp3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],
+    ['base' => ['name' => 'impessoal','code' => 'pp4'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Perspectiva']],],
+    ['base' => ['name' => 'Deslocamento verbal','code' => 'mms1'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores morfossintáticos']],],
+    ['base' => ['name' => 'Modal ou construção equivalente','code' => 'mms2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores morfossintáticos']],],
+    ['base' => ['name' => 'Deslocamento verbal + verbo modal','code' => 'mms2+mms1'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores morfossintáticos']],],
+    ['base' => ['name' => 'Encaixe','code' => 'mms3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores morfossintáticos']],],
+    ['base' => ['name' => 'Negação ou fórmula dubitativa','code' => 'mms4'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores morfossintáticos']],],
+    ['base' => ['name' => 'Diminutivo','code' => 'mms5'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores morfossintáticos']],],
+    ['base' => ['name' => 'Minimizadores e indeterminadores lexicais','code' => 'ml1'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores lexicais']],],
+    ['base' => ['name' => 'Duvidadores lexicais','code' => 'ml2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores lexicais']],],
+    ['base' => ['name' => 'Reforçadores lexicais','code' => 'ml3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores lexicais']],],
+    ['base' => ['name' => 'Escolhas lexicais atenuantes','code' => 'ml4'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores lexicais']],],
+    ['base' => ['name' => 'Marcadores de vínculo ou empatia','code' => 'md1'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores discursivos']],],
+    ['base' => ['name' => 'Marcadores de cortesia','code' => 'md2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores discursivos']],],
+    ['base' => ['name' => 'Reformuladores','code' => 'md3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores discursivos']],],
+    ['base' => ['name' => 'Marcadores aduladores','code' => 'md4'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Modificadores discursivos']],],
+    ['base' => ['name' => 'Apelo','code' => 'as1+md2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Exclamação','code' => 'as2'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Minimizador de custo','code' => 'as3'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Preparador','code' => 'as4'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Justificativa','code' => 'as5'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Proposta de ressarcimento ou garantia','code' => 'as6'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Propostas de alternativas','code' => 'as7'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Aduladores','code' => 'as8'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Agradecimentos','code' => 'as9'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Reconhecimento do custo do pedidos','code' => 'as10'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],],
+    ['base' => ['name' => 'Justificativa + Preparador','code' => 'as4+as5'],'foreign' => ['type_id' => ['load_by' => 'name', 'source_table' => 'pragmatica_label_type','target_column' => 'id','search_value' => 'Atos de Suporte']],]
+  ]
+],
+    'pragmatica_situation' => [
+      'load_by' => 'code',
+      'items' => [
+        ['base' => [
+          'name' => 'Você e sua amiga acabaram de tomar café/chá, mas, na hora de pagar a conta, você percebe que esqueceu a carteira e o celular e não tem como pagar. O que você diz à sua amiga?',
+          'code' => '1'
+        ]],
+        ['base' => [
+          'name' => 'Você saiu à noite com um grupo de amigos. Na hora de ir embora, percebe que ficou tarde. Você está sem carro, já não há meios de transporte público disponíveis e você não está conseguindo outra forma de voltar para casa. Um amigo está indo embora de carro. O que você lhe diz?',
+          'code' => '2'
+        ]],
+        ['base' => [
+          'name' => 'Você está na fila em um consultório médico e precisa preencher um formulário. Em volta, não há canetas disponíveis para os pacientes, mas você percebe que a senhora do seu lado está com uma caneta na mão e acabando de preencher o formulário dela. O que você lhe diz?',
+          'code' => '3'
+        ]],
+        ['base' => [
+          'name' => 'Você está na rua indo encontrar um amigo estrangeiro, que está chegando de uma longa viagem e vai se hospedar na sua casa. Por causa de um imprevisto, você vai se atrasar e precisa avisá-lo. Por algum motivo, seu celular não está fazendo ligações nem mandando mensagens. Também não há telefones ao redor. Um senhor está passando com o celular na mão... O que você lhe diz?',
+          'code' => '4'
+        ]],
+        ['base' => [
+          'name' => 'Você acabou de entrar na casa de um amigo e está com sede. O que você lhe diz?',
+          'code' => '5'
+        ]],
+        ['base' => [
+          'name' => 'Você acabou de entrar na casa de uma amiga e está completamente encharcada/o porque está chovendo torrencialmente. Ela não oferece nada para você se secar, mas você quer evitar pegar um resfriado. O que você lhe diz?',
+          'code' => '6'
+        ]],
+        ['base' => [
+          'name' => 'Você foi convidado/a para um evento social em um restaurante e está na mesa sentado/a ao lado de um senhor que você não conhecia antes. Durante a refeição, você quer beber água, mas não alcança a garrafa, que está mais próxima dele. O que você lhe diz?',
+          'code' => '7'
+        ]],
+        ['base' => [
+          'name' => 'Você mudou recentemente para um novo apartamento, em um prédio sem porteiro. Uma encomenda importante, que você comprou on-line, teve a data de entrega alterada e chegará nos próximos dias, em coincidência com uma viagem já marcada há muito tempo. Você preferiria não deixar sua encomenda em um ponto de retirada e pensa na vizinha do lado, que você encontrou poucas vezes e parece ser uma senhora simpática. Você toca a campainha e ela abre a porta: o que você lhe diz?',
+          'code' => '8'
+        ]],
+      ]
+    ]
   ];
 
-  foreach ($types as $type => $values) {
+  foreach($types as $type => $type_content) {
+    $load_by = $type_content['load_by'];
     $entity_type = Drupal::entityTypeManager()->getDefinition($type);
+
     if ($entity_type) {
-      foreach ($values as $label) {
-        if (!Drupal::entityTypeManager()->getStorage($type)->loadByProperties(['name' => $label])) {
+      foreach ($type_content['items'] as $item) {
+        if (!Drupal::entityTypeManager()->getStorage($type)->loadByProperties([$load_by => $item['base'][$load_by]])) {
           $classType = $entity_type->getClass();
-          $classType = $classType::create([
-            'name' => $label,
-          ]);
+          $item_arr = [];
+
+          // fill base values
+          foreach ($item['base'] as $base_property_key => $base_property_value) {
+            $item_arr[$base_property_key] = $base_property_value;
+          }
+
+          if (isset($item['foreign'])) {
+            foreach ($item['foreign'] as $foreign_property_key => $foreign) {
+
+              // fill foreign values
+              $foreign_item = Drupal::entityTypeManager()->getStorage($foreign['source_table'])->loadByProperties([$foreign['load_by'] => $foreign['search_value']]);
+              if ($foreign_item) {
+                foreach ($foreign_item as $foreign_item_result) {
+                    $foreign_item_target_value = $foreign_item_result->id();
+                    $item_arr[$foreign_property_key] = $foreign_item_target_value;
+
+                  }
+              }
+            }
+          }
+
+          $classType = $classType::create($item_arr);
           $classType->save();
+
         }
       }
     }

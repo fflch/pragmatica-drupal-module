@@ -1,0 +1,26 @@
+{% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
+
+<div class="d-flex align-items-center d-flex justify-content-between fs-3 mt-3">            
+    <h1 class="fs-3">{{ label.label }}</h1>
+    {{ macros.label_badge(label, false, false) }}
+</div>
+
+<p class="text-muted mb-3 fs-6">
+  {{ label.description|slice(0, 400 , true) }}
+</p>
+
+{% if label._attributes %}
+  {{ macros.label_attributes(label, false, 'fw-bold fs-5', 'text-muted fs-5', 'd-block mb-3') }}
+{% endif %}
+
+
+<h2>{{ 'Utilizado em'|t }}</h2>
+<div class="d-flex flex-column gap-3 mt-3">
+  {% if responses %}
+    {% for response in responses %}
+      {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
+    {% endfor %}
+  {% else %}
+    <p>{{ 'Nenhum resposta associada.'|t }}</p>
+  {% endif %}
+</div>

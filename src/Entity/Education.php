@@ -5,13 +5,13 @@ namespace Drupal\pragmatica\Entity;
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Defines the User content entity.
+ * Defines the Education content entity.
  *
  * @ContentEntityType(
- *   id = "pragmatica_user",
- *   label = @Translation("Usuário"),
- *   label_plural = @Translation("Usuários"),
- *   base_table = "pragmatica_user",
+ *   id = "pragmatica_education",
+ *   label = @Translation("Escolaridade"),
+ *   label_plural = @Translation("Escolaridades"),
+ *   base_table = "pragmatica_education",
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
@@ -26,18 +26,18 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     }
  *   },
  *   links = {
- *     "canonical" = "/admin/pragmatica/user/{pragmatica_user}",
- *     "add-form" = "/admin/pragmatica/user/add",
- *     "edit-form" = "/admin/pragmatica/user/{pragmatica_user}/edit",
- *     "delete-form" = "/admin/pragmatica/user/{pragmatica_user}/delete",
- *     "collection" = "/admin/pragmatica/user"
+ *     "canonical" = "/admin/pragmatica/education/{pragmatica_education}",
+ *     "add-form" = "/admin/pragmatica/education/add",
+ *     "edit-form" = "/admin/pragmatica/education/{pragmatica_education}/edit",
+ *     "delete-form" = "/admin/pragmatica/education/{pragmatica_education}/delete",
+ *     "collection" = "/admin/pragmatica/education"
  *   }
  * )
  */
-class User extends PragmaticaBaseEntity {
+class Education extends PragmaticaBaseEntity {
 
   public static function getFieldsIds(): array {
-    return ['id', 'guid', 'name', 'created', 'changed'];
+    return ['id', 'name', 'created', 'changed'];
   }
 
   public static function getFieldsToXmlMapping(): array {

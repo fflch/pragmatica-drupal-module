@@ -1,0 +1,43 @@
+{% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
+
+
+
+<div class="d-flex align-items-center d-flex justify-content-between fs-3 mt-3">            
+    <h1 class="fs-3">{{ response.label }}</h1>
+</div>
+
+{% if response._attributes %}
+<div class="my-3">
+  {{ macros.label_attributes(response, false, 'fw-bold fs-6', 'text-muted fs-6', 'd-block mb-2') }}
+</div>
+{% endif %}
+
+<div class="mb-5">
+  <p class="fs-5 me-2 fw-bold mb-2">Etiquetas</p>
+  {% if response.labels is not empty %}
+    {% for label in response.labels %}
+        {{ macros.label_badge(label) }}
+    {% endfor %}
+  {% else %}
+      <p class="text-muted">Sem etiquetas</p>
+  {% endif %}
+</div>
+
+<h2>Outras respostas do mesmo informante</h2>
+<div class="d-flex flex-column gap-3 mt-3">
+  {% if informant_responses %}
+    {% for informant_response in informant_responses %}
+      {% if informant_response.id != response.id %}
+        {{ macros.response_card(
+          informant_response.label, 
+          informant_response.url, 
+          informant_response.situation, 
+          informant_response.informant, 
+          informant_response.labels
+        ) }}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>{{ 'Nenhuma outra resposta desse informante' }}</p>
+  {% endif %}
+</div>

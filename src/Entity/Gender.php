@@ -5,13 +5,13 @@ namespace Drupal\pragmatica\Entity;
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Defines the User content entity.
+ * Defines the Gender content entity.
  *
  * @ContentEntityType(
- *   id = "pragmatica_user",
- *   label = @Translation("Usuário"),
- *   label_plural = @Translation("Usuários"),
- *   base_table = "pragmatica_user",
+ *   id = "pragmatica_gender",
+ *   label = @Translation("Gênero"),
+ *   label_plural = @Translation("Gêneros"),
+ *   base_table = "pragmatica_gender",
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
@@ -26,18 +26,18 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     }
  *   },
  *   links = {
- *     "canonical" = "/admin/pragmatica/user/{pragmatica_user}",
- *     "add-form" = "/admin/pragmatica/user/add",
- *     "edit-form" = "/admin/pragmatica/user/{pragmatica_user}/edit",
- *     "delete-form" = "/admin/pragmatica/user/{pragmatica_user}/delete",
- *     "collection" = "/admin/pragmatica/user"
+ *     "canonical" = "/admin/pragmatica/gender/{pragmatica_gender}",
+ *     "add-form" = "/admin/pragmatica/gender/add",
+ *     "edit-form" = "/admin/pragmatica/gender/{pragmatica_gender}/edit",
+ *     "delete-form" = "/admin/pragmatica/gender/{pragmatica_gender}/delete",
+ *     "collection" = "/admin/pragmatica/gender"
  *   }
  * )
  */
-class User extends PragmaticaBaseEntity {
+class Gender extends PragmaticaBaseEntity {
 
   public static function getFieldsIds(): array {
-    return ['id', 'guid', 'name', 'created', 'changed'];
+    return ['id', 'name', 'created', 'changed'];
   }
 
   public static function getFieldsToXmlMapping(): array {

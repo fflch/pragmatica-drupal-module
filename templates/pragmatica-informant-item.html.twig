@@ -1,0 +1,22 @@
+{% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
+
+<div class="d-flex align-items-center d-flex justify-content-between fs-3 mt-3">            
+    <h1 class="fs-3">{{ informant.label }}</h1>
+</div>
+
+{% if informant._attributes %}
+<div class="my-3">
+{{ macros.label_attributes(informant, false, 'fw-bold fs-6', 'text-muted fs-6', 'd-block mb-2') }}
+</div>
+{% endif %}
+
+<h2>{{ 'Respostas do informante'|t }}</h2>
+<div class="d-flex flex-column gap-3 mt-3">
+  {% if responses %}
+    {% for response in responses %}
+      {{ macros.response_card(response.label, response.url, null, response.situation, response.labels) }}
+    {% endfor %}
+  {% else %}
+    <p>{{ 'Informante não respondeu a nenhuma situação'|t }}</p>
+  {% endif %}
+</div>

@@ -22,28 +22,46 @@ function pragmatica_help($route_name, RouteMatchInterface $route_match) {
  */
 function pragmatica_theme($existing, $type, $theme, $path) {
   return [
-    'pragmatica_source_list' => [
-      'variables' => ['sources' => []],
-    ],
-    'pragmatica_source_item' => [
+    'pragmatica_label_list' => [
       'variables' => [
-        'source' => NULL,
-        'codings' => [],
-      ]
+        'label_types' => []
+      ],
     ],
-    'pragmatica_code_list' => [
-      'variables' => ['codes' => []],
-    ],
-    'pragmatica_code_item' => [
+    'pragmatica_label_item' => [
       'variables' => [
-        'code' => NULL,
-        'selections' => [],
+        'label' => NULL,
+        'responses' => [],
+        'label_type' => NULL,
+      ],
+    ],
+    'pragmatica_situation_list' => [
+      'variables' => [
+        'situations' => []
+      ],
+    ],
+    'pragmatica_situation_item' => [
+      'variables' => [
+        'situation' => NULL,
+        'responses' => [],
+      ],
+    ],
+    'pragmatica_response_item' => [
+      'variables' => [
+        'response' => NULL,
+        'informant_responses' => [],
+      ],
+    ],
+    'pragmatica_informant_item' => [
+      'variables' => [
+        'informant' => NULL,
+        'responses' => [],
       ],
     ],
     'pragmatica_search_results' => [
       'variables' => [
         'query' => NULL,
         'results' => [],
+        'filters' => [],
       ],
     ]
   ];

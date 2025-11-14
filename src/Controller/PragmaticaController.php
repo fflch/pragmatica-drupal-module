@@ -18,9 +18,7 @@ class PragmaticaController extends ControllerBase {
 
     $links = [];
 
-    $entity_types = [
-      'pragmatica_code' => $this->t('Códigos'),
-    ];
+    $entity_types = [];
 
     foreach ($entity_types as $entity_type => $label) {
       $url = Url::fromRoute("entity.{$entity_type}.collection");

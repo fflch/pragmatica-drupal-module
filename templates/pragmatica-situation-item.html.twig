@@ -1,0 +1,34 @@
+{% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
+
+<h1 class="fs-3 mt-3">Situação {{ situation.label }}</h1>
+
+<p class="text-muted mb-0 fs-5 mt-0">
+    {{ situation.name }}
+</p>
+
+  {% if label._attributes %}
+  {% for label, value in label._attributes %}
+    <div class="mb-3">
+      <p class="fs-5 fw-bold mb-0">{{ label }}</p>
+      <p class="text-muted fs-6"> {{ value }}</p>
+    </div>
+  {% endfor %}
+  {% endif %}
+
+
+<div class="d-flex flex-column gap-3 mt-3">
+  <h2>{{ 'Respostas'|t }}</h2>
+
+  {% if responses %}
+    {% for response in responses %}
+      {{ macros.response_card(response.label, response.url, '', response.informant, response.labels) }}
+    {% endfor %}
+  {% else %}
+    <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
+  {% endif %}
+
+
+  <a href="{{ path('pragmatica.public.label.list') }}" class="pragmatica-back-link">
+    ← {{ 'Voltar para lista de etiquetas'|t }}
+  </a>
+</div>

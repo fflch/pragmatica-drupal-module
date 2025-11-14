@@ -1,8 +1,14 @@
-entity.pragmatica_code.add:
-  route_name: entity.pragmatica_code.add_form
-  title: 'Adicionar código'
+entity.pragmatica_label.add:
+  route_name: entity.pragmatica_label.add_form
+  title: 'Adicionar etiqueta'
   appears_on:
-    - entity.pragmatica_code.collection
+    - entity.pragmatica_label.collection
+
+entity.pragmatica_label_type.add:
+  route_name: entity.pragmatica_label_type.add_form
+  title: 'Adicionar tipo de etiqueta'
+  appears_on:
+    - entity.pragmatica_label_type.collection
 
 entity.pragmatica_source.add:
   route_name: entity.pragmatica_source.add_form
@@ -12,7 +18,7 @@ entity.pragmatica_source.add:
 
 entity.pragmatica_selection.add:
   route_name: entity.pragmatica_selection.add_form
-  title: 'Adicionar seleção'
+  title: 'Adicionar marcação'
   appears_on:
       - entity.pragmatica_selection.collection
 
@@ -22,8 +28,62 @@ entity.pragmatica_user.add:
   appears_on:
     - entity.pragmatica_user.collection
 
-entity.pragmatica_coding.add:
-  route_name: entity.pragmatica_coding.add_form
-  title: 'Adicionar codificação'
+entity.pragmatica_gender.add:
+  route_name: entity.pragmatica_gender.add_form
+  title: 'Adicionar gênero'
   appears_on:
-    - entity.pragmatica_coding.collection
+    - entity.pragmatica_gender.collection
+
+entity.pragmatica_language.add:
+  route_name: entity.pragmatica_language.add_form
+  title: 'Adicionar língua'
+  appears_on:
+    - entity.pragmatica_language.collection
+
+entity.pragmatica_country.add:
+  route_name: entity.pragmatica_country.add_form
+  title: 'Adicionar país'
+  appears_on:
+    - entity.pragmatica_country.collection
+
+entity.pragmatica_region.add:
+  route_name: entity.pragmatica_region.add_form
+  title: 'Adicionar região'
+  appears_on:
+    - entity.pragmatica_region.collection
+
+entity.pragmatica_city.add:
+  route_name: entity.pragmatica_city.add_form
+  title: 'Adicionar cidade'
+  appears_on:
+    - entity.pragmatica_city.collection
+
+entity.pragmatica_profession.add:
+  route_name: entity.pragmatica_profession.add_form
+  title: 'Adicionar profissão'
+  appears_on:
+    - entity.pragmatica_profession.collection
+
+entity.pragmatica_education.add:
+  route_name: entity.pragmatica_education.add_form
+  title: 'Adicionar escolaridade'
+  appears_on:
+    - entity.pragmatica_education.collection
+
+entity.pragmatica_situation.add:
+  route_name: entity.pragmatica_situation.add_form
+  title: 'Adicionar situação'
+  appears_on:
+    - entity.pragmatica_situation.collection
+
+entity.pragmatica_informant.add:
+  route_name: entity.pragmatica_informant.add_form
+  title: 'Adicionar informante'
+  appears_on:
+    - entity.pragmatica_informant.collection
+
+entity.pragmatica_response.add:
+  route_name: entity.pragmatica_response.add_form
+  title: 'Adicionar resposta'
+  appears_on:
+    - entity.pragmatica_response.collection

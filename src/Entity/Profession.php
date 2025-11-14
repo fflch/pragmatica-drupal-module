@@ -5,13 +5,13 @@ namespace Drupal\pragmatica\Entity;
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Defines the User content entity.
+ * Defines the Profession content entity.
  *
  * @ContentEntityType(
- *   id = "pragmatica_user",
- *   label = @Translation("Usuário"),
- *   label_plural = @Translation("Usuários"),
- *   base_table = "pragmatica_user",
+ *   id = "pragmatica_profession",
+ *   label = @Translation("Profissão"),
+ *   label_plural = @Translation("Profissões"),
+ *   base_table = "pragmatica_profession",
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
@@ -26,18 +26,18 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     }
  *   },
  *   links = {
- *     "canonical" = "/admin/pragmatica/user/{pragmatica_user}",
- *     "add-form" = "/admin/pragmatica/user/add",
- *     "edit-form" = "/admin/pragmatica/user/{pragmatica_user}/edit",
- *     "delete-form" = "/admin/pragmatica/user/{pragmatica_user}/delete",
- *     "collection" = "/admin/pragmatica/user"
+ *     "canonical" = "/admin/pragmatica/profession/{pragmatica_profession}",
+ *     "add-form" = "/admin/pragmatica/profession/add",
+ *     "edit-form" = "/admin/pragmatica/profession/{pragmatica_profession}/edit",
+ *     "delete-form" = "/admin/pragmatica/profession/{pragmatica_profession}/delete",
+ *     "collection" = "/admin/pragmatica/profession"
  *   }
  * )
  */
-class User extends PragmaticaBaseEntity {
+class Profession extends PragmaticaBaseEntity {
 
   public static function getFieldsIds(): array {
-    return ['id', 'guid', 'name', 'created', 'changed'];
+    return ['id', 'name', 'created', 'changed'];
   }
 
   public static function getFieldsToXmlMapping(): array {

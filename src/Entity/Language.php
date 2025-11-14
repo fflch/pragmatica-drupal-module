@@ -5,13 +5,13 @@ namespace Drupal\pragmatica\Entity;
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Defines the User content entity.
+ * Defines the Language content entity.
  *
  * @ContentEntityType(
- *   id = "pragmatica_user",
- *   label = @Translation("Usuário"),
- *   label_plural = @Translation("Usuários"),
- *   base_table = "pragmatica_user",
+ *   id = "pragmatica_language",
+ *   label = @Translation("Língua"),
+ *   label_plural = @Translation("Línguas"),
+ *   base_table = "pragmatica_language",
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
@@ -26,18 +26,18 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     }
  *   },
  *   links = {
- *     "canonical" = "/admin/pragmatica/user/{pragmatica_user}",
- *     "add-form" = "/admin/pragmatica/user/add",
- *     "edit-form" = "/admin/pragmatica/user/{pragmatica_user}/edit",
- *     "delete-form" = "/admin/pragmatica/user/{pragmatica_user}/delete",
- *     "collection" = "/admin/pragmatica/user"
+ *     "canonical" = "/admin/pragmatica/language/{pragmatica_language}",
+ *     "add-form" = "/admin/pragmatica/language/add",
+ *     "edit-form" = "/admin/pragmatica/language/{pragmatica_language}/edit",
+ *     "delete-form" = "/admin/pragmatica/language/{pragmatica_language}/delete",
+ *     "collection" = "/admin/pragmatica/language"
  *   }
  * )
  */
-class User extends PragmaticaBaseEntity {
+class Language extends PragmaticaBaseEntity {
 
   public static function getFieldsIds(): array {
-    return ['id', 'guid', 'name', 'created', 'changed'];
+    return ['id', 'name', 'created', 'changed'];
   }
 
   public static function getFieldsToXmlMapping(): array {

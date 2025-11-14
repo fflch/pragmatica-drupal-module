@@ -10,15 +10,15 @@
   };
 
   function highlightSnippetOnHover(context, settings) {
-    const codingItems = context.querySelectorAll('.pragmatica-coding-item');
+    const selectionItems = context.querySelectorAll('.pragmatica-selection-item');
     const sourceTextParagraph = context.querySelector('.pragmatica-plain-text');
     const fullText = settings.pragmatica.sourcePlainText || '';
 
-    if (!codingItems.length || !sourceTextParagraph || !fullText) {
+    if (!selectionItems.length || !sourceTextParagraph || !fullText) {
       return;
     }
 
-    codingItems.forEach(item => {
+    selectionItems.forEach(item => {
       item.addEventListener('mouseenter', function() {
         const start = this.getAttribute('data-start');
         const end = this.getAttribute('data-end');

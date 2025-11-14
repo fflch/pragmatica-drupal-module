@@ -5,13 +5,13 @@ namespace Drupal\pragmatica\Entity;
 use Drupal\Core\Entity\EntityTypeInterface;
 
 /**
- * Defines the User content entity.
+ * Defines the Country content entity.
  *
  * @ContentEntityType(
- *   id = "pragmatica_user",
- *   label = @Translation("Usuário"),
- *   label_plural = @Translation("Usuários"),
- *   base_table = "pragmatica_user",
+ *   id = "pragmatica_country",
+ *   label = @Translation("País"),
+ *   label_plural = @Translation("Países"),
+ *   base_table = "pragmatica_country",
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
@@ -26,18 +26,18 @@ use Drupal\Core\Entity\EntityTypeInterface;
  *     }
  *   },
  *   links = {
- *     "canonical" = "/admin/pragmatica/user/{pragmatica_user}",
- *     "add-form" = "/admin/pragmatica/user/add",
- *     "edit-form" = "/admin/pragmatica/user/{pragmatica_user}/edit",
- *     "delete-form" = "/admin/pragmatica/user/{pragmatica_user}/delete",
- *     "collection" = "/admin/pragmatica/user"
+ *     "canonical" = "/admin/pragmatica/country/{pragmatica_country}",
+ *     "add-form" = "/admin/pragmatica/country/add",
+ *     "edit-form" = "/admin/pragmatica/country/{pragmatica_country}/edit",
+ *     "delete-form" = "/admin/pragmatica/country/{pragmatica_country}/delete",
+ *     "collection" = "/admin/pragmatica/country"
  *   }
  * )
  */
-class User extends PragmaticaBaseEntity {
+class Country extends PragmaticaBaseEntity {
 
   public static function getFieldsIds(): array {
-    return ['id', 'guid', 'name', 'created', 'changed'];
+    return ['id', 'name', 'created', 'changed'];
   }
 
   public static function getFieldsToXmlMapping(): array {

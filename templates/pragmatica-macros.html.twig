@@ -1,0 +1,110 @@
+{% macro renderField(field) %}
+  <div class="mb-3">
+    <label for="{{ field.name }}" class="form-label">{{ field.label }}</label>
+    <br>
+
+    {% if field.type == 'select' %}
+      {% set selected = field.value ?? [] %}
+      <select name="{{ field.name }}" id="{{ field.name }}" {{ field.multiple ? 'multiple' : '' }} class="form-control">
+        {% for value, label in field.options %}
+          <option value="{{ value }}" {% if value in selected %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+
+    {% elseif field.type == 'number' %}
+      <input type="number" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}" min="{{ field.min }}" max="{{ field.max }}" class="form-control" />
+
+    {% elseif field.type == 'text' %}
+      <input type="text" name="{{ field.name }}" id="{{ field.name }}" value="{{ field.value }}" />
+
+    {% else %}
+      <p class="error">Unsupported field type: {{ field.type }}</p>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+
+{% macro label_badge(label, add_tooltip = true, add_url = true) %}
+  <span 
+    class="badge badge-square p-2 text-uppercase align-center me-1 text-center"
+    style="background-color: {{ label.color }};"
+    data-bs-toggle="tooltip"
+    data-bs-placement="bottom"
+    title="{{ add_tooltip ? label.label : '' }}"
+  >
+  {% if add_url %}
+    <a href="{{ label.url }}" class="hover-link text-white">
+      {{ label.code }}
+    </a>
+  {% else %}
+    {{ label.code }}
+  {% endif %}
+  </span>
+{% endmacro %}
+
+
+{% macro response_card(content, content_url, header_left, header_right, labels, count, add_header_tooltip = true) %}
+  <div class="card border rounded-0 shadow-sm mb-3">
+    <div class="card-header bg-light text-muted rounded-0 py-1 d-flex
+      {% if header_left is null and count is defined %}
+      justify-content-start
+      gap-4
+      {%  else %}
+      justify-content-between
+      align-items-center"
+      {% endif %}
+    >
+      {% if header_left is null and count is defined %}
+        <a href="#" class="text-muted hover-link me-3 mb-4" data-bs-toggle="tooltip"  data-bs-html="true"> {{ count }}</a>
+      {%  else %}
+        {{ _self._response_card_header(header_left, add_header_tooltip) }}
+      {% endif %}
+      {{ _self._response_card_header(header_right, add_header_tooltip) }}
+    </div>
+    <div class="card-body">
+      <p class="card-text mb-3">
+        {{ content|raw }}
+        <a href="{{ content_url }}" target="_blank">
+          »
+        </a>
+      </p>
+      <div>
+        {% for label in labels %}
+          {{ _self.label_badge(label) }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro _response_card_header(header, add_tooltip = true) %}
+  <a 
+    href="{{ header.url }}" 
+    class="text-muted hover-link" 
+    data-bs-toggle="tooltip" 
+    data-bs-html="true" 
+    title="{{ add_tooltip ? ('<div>' ~ _self.label_attributes(header) ~ '</div>') : '' }}"
+  >
+    {{ header.label }}
+  </a>
+{% endmacro %}
+
+{% macro label_attributes(
+  entity, 
+  add_linebreaks = true, 
+  label_class = 'fw-semibold', 
+  value_class = '',
+  wrapper_class = 'd-block',
+) %}
+  {% if entity._attributes is defined %}
+    {% for label, value in entity._attributes %}
+    <div class="{{ wrapper_class }}">
+      <span class="{{ label_class }}">{{ label }}: </span> 
+      <span class="{{ value_class }}">{{ value }}</span>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+
+

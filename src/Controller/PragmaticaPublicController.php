@@ -2,14 +2,13 @@
 
 namespace Drupal\pragmatica\Controller;
 
+use Drupal;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
-use Drupal\pragmatica\Entity\Coding;
-use Drupal\pragmatica\Entity\Source;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Drupal\pragmatica\Form\PragmaticaPublicSearchForm;
 
 class PragmaticaPublicController extends ControllerBase {
 
@@ -36,66 +35,38 @@ class PragmaticaPublicController extends ControllerBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @todo: Highlight search results in the UI.
    * @todo: Include selections as results.
+   * @todo: Paginate results.
    */
   public function search(Request $request) {
-    $query_term = $request->query->get('q');
+    $query_params = $request->request->all();
     $results = [];
 
-    $code_storage = $this->entityTypeManager()->getStorage('pragmatica_code');
-    $code_query = $code_storage->getQuery();
-    $source_storage = $this->entityTypeManager()->getStorage('pragmatica_source');
-    $source_query = $source_storage->getQuery();
+    $form = new PragmaticaPublicSearchForm();
+    $form->setFormValues($query_params);
+    $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
+    $query = $response_storage->getQuery();
+    $query = $form->buildSearchQuery($query);
 
-    if (!empty($query_term)) {
-      $query_term = trim($query_term);
+    $response_ids = $query->execute();
 
-      $source_or_condition = $source_query->orConditionGroup()
-        ->condition('name', $query_term, 'CONTAINS')
-        ->condition('description', $query_term, 'CONTAINS')
-        ->condition('plain_text', $query_term, 'CONTAINS');
-
-      $source_query->condition($source_or_condition);
-
-      $source_ids = $source_query->execute();
-      $source_results = $source_storage->loadMultiple($source_ids);
-
-      $code_or_condition = $code_query->orConditionGroup()
-        ->condition('name', $query_term, 'CONTAINS')
-        ->condition('description', $query_term, 'CONTAINS');
-
-      $code_query->condition($code_or_condition);
-
-      $code_ids = $code_query->execute();
-      $code_results = $code_storage->loadMultiple($code_ids);
-
-      if (!empty($source_results)) {
-        $results['sources'] = [];
-        foreach ($source_results as $source) {
-          $results['sources'][] = [
-            'name' => $source->label(),
-            'url' => Url::fromRoute('pragmatica.source_public_item', ['pragmatica_source' => $source->id()])->toString(),
-          ];
-        }
-      }
-
-      if (!empty($code_results)) {
-        $results['codes'] = [];
-        foreach ($code_results as $code) {
-          $results['codes'][] = [
-            'name' => $code->label(),
-            'url' => Url::fromRoute('pragmatica.code_public_item', ['pragmatica_code' => $code->id()])->toString(),
-          ];
-        }
+    if (!empty($response_ids)) {
+      $response_ids = array_slice($response_ids, 0, 50);
+      /** @var \Drupal\pragmatica\Entity\Response[] $responses */
+      $responses = $response_storage->loadMultiple($response_ids);
+      $results['responses'] = [];
+      foreach ($responses as $response) {
+        $results['responses'][] =  $response->getEntityForDisplay();
       }
     }
 
     return [
       '#theme' => 'pragmatica_search_results',
-      '#query' => $query_term,
+      '#query' => '',
       '#results' => $results,
+      '#filters' => $form->getFieldConfig(),
       '#attached' => [
         'library' => [
-          'pragmatica/pragmatica_styles',
+          'pragmatica/pragmatica'
         ],
       ],
     ];

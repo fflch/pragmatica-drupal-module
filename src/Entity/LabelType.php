@@ -2,19 +2,16 @@
 
 namespace Drupal\pragmatica\Entity;
 
-use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
 
 /**
- * Defines the SelectionType content entity.
+ * Defines the LabelType content entity.
  *
  * @ContentEntityType(
- *   id = "pragmatica_selection_type",
- *   label = @Translation("Tipo de fonte"),
- *   label_plural = @Translation("Tipos de fontes"),
- *   base_table = "pragmatica_selection_type",
+ *   id = "pragmatica_label_type",
+ *   label = @Translation("Tipo de etiqueta"),
+ *   label_plural = @Translation("Tipos de etiquetas"),
+ *   base_table = "pragmatica_label_type",
  *   admin_permission = "pragmatica",
  *   entity_keys = {
  *     "id" = "id",
@@ -29,17 +26,17 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *    }
  *   },
  *   links = {
- *      "canonical" = "/admin/pragmatica/selection_type/{pragmatica_selection_type}",
- *      "add-form" = "/admin/pragmatica/selection_type/add",
- *      "edit-form" = "/admin/pragmatica/selection_type/{pragmatica_selection_type}/edit",
- *      "delete-form" = "/admin/pragmatica/selection_type/{pragmatica_selection_type}/delete",
- *      "collection" = "/admin/pragmatica/selection_type"
+ *      "canonical" = "/admin/pragmatica/label_type/{pragmatica_label_type}",
+ *      "add-form" = "/admin/pragmatica/label_type/add",
+ *      "edit-form" = "/admin/pragmatica/label_type/{pragmatica_label_type}/edit",
+ *      "delete-form" = "/admin/pragmatica/label_type/{pragmatica_label_type}/delete",
+ *      "collection" = "/admin/pragmatica/label_type"
  *   },
  * )
  */
-class SelectionType extends PragmaticaBaseEntity {
+class LabelType extends PragmaticaBaseEntity {
   public static function getFieldsIds(): array {
-    return ['id', 'guid', 'name', 'description', 'created', 'changed'];
+    return ['id', 'name', 'description', 'created', 'changed'];
   }
 
   public static function getFieldsToXmlMapping(): array {
