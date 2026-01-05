@@ -5,7 +5,7 @@
 
     {% if field.type == 'select' %}
       {% set selected = field.value ?? [] %}
-      <select name="{{ field.name }}" id="{{ field.name }}" {{ field.multiple ? 'multiple' : '' }} class="form-control">
+      <select name="{{ field.name }}" id="{{ field.name }}" {{ field.multiple ? 'multiple' : '' }} class="form-control" data-multiplejs="true">
         {% for value, label in field.options %}
           <option value="{{ value }}" {% if value in selected %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
@@ -103,6 +103,90 @@
       <span class="{{ value_class }}">{{ value }}</span>
     </div>
     {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{#
+  Reusable pagination macro.
+  - Accepts `pager` (array) with keys: current, total_pages, pages (array of {index, label, is_current})
+  - `form_id` is the id of the search form that will be submitted on page change
+  - `select_id` is the id of the page select element
+#}
+{% macro renderPager(pager, form_id = 'pragmatica-search-form', select_id = 'pragmatica-page-select') %}
+  {% if pager.total_pages > 1 %}
+    <div class="d-flex align-items-center mt-3">
+      <nav aria-label="Page navigation">
+        <ul class="pagination mb-0">
+          {% if pager.current > 0 %}
+            <li class="page-item"><a class="page-link pragmatica-page-link" href="#" data-page="{{ pager.current - 1 }}">&laquo;</a></li>
+          {% endif %}
+
+          {% for p in pager.pages %}
+            <li class="page-item {% if p.is_current %}active{% endif %}">
+              <a class="page-link pragmatica-page-link" href="#" data-page="{{ p.index }}">{{ p.label }}</a>
+            </li>
+          {% endfor %}
+
+          {% if pager.current + 1 < pager.total_pages %}
+            <li class="page-item"><a class="page-link pragmatica-page-link" href="#" data-page="{{ pager.current + 1 }}">&raquo;</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <div class="ms-3 d-flex align-items-center">
+        {# <label for="{{ select_id }}" class="me-2 mb-0 small">{{ 'Ir para'|t }}</label> #}
+        <select id="{{ select_id }}" class="form-select" aria-label="{{ 'Selecionar página'|t }}">
+          {% for j in 0..(pager.total_pages - 1) %}
+            <option value="{{ j }}" {% if j == pager.current %}selected{% endif %}>{{ j + 1 }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <script>
+    (function () {
+      var form = document.getElementById('{{ form_id }}');
+      if (!form) return;
+      var pageInput = form.querySelector('input[name="page"]');
+      if (!pageInput) {
+        pageInput = document.createElement('input');
+        pageInput.type = 'hidden';
+        pageInput.name = 'page';
+        pageInput.value = '{{ pager.current|default(0) }}';
+        form.appendChild(pageInput);
+      }
+
+      var pageLinks = document.querySelectorAll('#' + '{{ form_id }}' + ' .pragmatica-page-link, .' + 'pragmatica-page-link');
+      Array.prototype.forEach.call(pageLinks, function(el) {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          form.dataset.paginating = '1';
+          var target = el.getAttribute('data-page');
+          pageInput.value = target;
+          var select = document.getElementById('{{ select_id }}');
+          if (select) select.value = target;
+          form.submit();
+        });
+      });
+
+      var select = document.getElementById('{{ select_id }}');
+      if (select) {
+        select.addEventListener('change', function() {
+          form.dataset.paginating = '1';
+          pageInput.value = this.value;
+          form.submit();
+        });
+      }
+
+      form.addEventListener('submit', function() {
+        if (this.dataset.paginating !== '1') {
+          pageInput.value = 0;
+        } else {
+          delete this.dataset.paginating;
+        }
+      });
+    })();
+    </script>
   {% endif %}
 {% endmacro %}
 

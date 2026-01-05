@@ -3,7 +3,7 @@
 <h1 class="fs-3 my-3">{{ 'Busca'|t }}</h1>
 <h2 class="fs-4 mb-3">{{ 'Filtros'|t }}</h2>
 
-<form method="POST">
+<form method="GET" id="pragmatica-search-form" class="mb-4">
   <div class="container p-0 m-0">
     <div class="row">
       {% for field in filters %}
@@ -17,13 +17,19 @@
 </form>
 
 <div>
-  <h2 class="pragmatica-subtitle mt-4">{{ 'Resultados'|t }}</h2>
+  <h2 class="pragmatica-subtitle mt-4">
+  {{ pager.total }} {{ pager.total == 1 ? 'resultado encontrado'|t : 'resultados encontrados'|t }}
+  </h2>
   {% if results.responses %}
     {% for response in results.responses %}
       {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
     {% endfor %}
   {% else %}
     <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
+  {% endif %}
+
+  {% if pager.total_pages > 1 %}
+    {{ macros.renderPager(pager, 'pragmatica-search-form', 'pragmatica-page-select') }}
   {% endif %}
 </div>
 

@@ -38,7 +38,7 @@ class PragmaticaPublicController extends ControllerBase {
    * @todo: Paginate results.
    */
   public function search(Request $request) {
-    $query_params = $request->request->all();
+    $query_params = array_merge($request->query->all(), $request->request->all());
     $results = [];
 
     $form = new PragmaticaPublicSearchForm();
@@ -47,15 +47,27 @@ class PragmaticaPublicController extends ControllerBase {
     $query = $response_storage->getQuery();
     $query = $form->buildSearchQuery($query);
 
-    $response_ids = $query->execute();
+    $per_page = 24;
+    $page = (int) ($request->query->get('page', 0));
 
-    if (!empty($response_ids)) {
-      $response_ids = array_slice($response_ids, 0, 50);
-      /** @var \Drupal\pragmatica\Entity\Response[] $responses */
-      $responses = $response_storage->loadMultiple($response_ids);
-      $results['responses'] = [];
-      foreach ($responses as $response) {
-        $results['responses'][] =  $response->getEntityForDisplay();
+    $count_query = clone $query;
+    $total = (int) $count_query->count()->execute();
+
+    $pager = $this->buildPager($total, $per_page, $page, 5);
+    $page = $pager['current'];
+
+    if ($total > 0) {
+      $offset = $page * $per_page;
+      $query->range($offset, $per_page);
+      $response_ids = $query->execute();
+
+      if (!empty($response_ids)) {
+        /** @var \Drupal\pragmatica\Entity\Response[] $responses */
+        $responses = $response_storage->loadMultiple($response_ids);
+        $results['responses'] = [];
+        foreach ($responses as $response) {
+          $results['responses'][] =  $response->getEntityForDisplay();
+        }
       }
     }
 
@@ -64,11 +76,69 @@ class PragmaticaPublicController extends ControllerBase {
       '#query' => '',
       '#results' => $results,
       '#filters' => $form->getFieldConfig(),
+      '#pager' => $pager,
       '#attached' => [
         'library' => [
           'pragmatica/pragmatica'
         ],
       ],
+    ];
+  }
+
+  /**
+   * Build pager metadata and visible page window.
+   *
+   * @param int $total Total number of items.
+   * @param int $per_page Items per page.
+   * @param int $current_page Current page index (0-based).
+   * @param int $max_visible  Maximum number of visible page links in the window.
+   *
+   * @return array
+   *   Pager metadata with keys: current, total, per_page, total_pages, pages (array of ['index','label','is_current']).
+   */
+  private function buildPager(int $total, int $per_page, int $current_page = 0, int $max_visible = 5) : array {
+    $total_pages = $per_page > 0 ? (int) ceil($total / $per_page) : 0;
+
+    if ($current_page < 0) {
+      $current_page = 0;
+    }
+    if ($total_pages > 0 && $current_page >= $total_pages) {
+      $current_page = $total_pages - 1;
+    }
+
+    if ($total_pages <= $max_visible) {
+      $start = 0;
+      $end = $total_pages - 1;
+    }
+    else {
+      $half = (int) floor($max_visible / 2);
+      $start = $current_page - $half;
+      if ($start < 0) {
+        $start = 0;
+      }
+      $end = $start + $max_visible - 1;
+      if ($end > $total_pages - 1) {
+        $end = $total_pages - 1;
+        $start = $end - $max_visible + 1;
+      }
+    }
+
+    $visible_pages = $total_pages > 0 ? range($start, $end) : [];
+    $pages = [];
+    foreach ($visible_pages as $i) {
+      $pages[] = [
+        'index' => $i,
+        'label' => $i + 1,
+        'is_current' => $i === $current_page,
+      ];
+    }
+
+    return [
+      'current' => $current_page,
+      'total' => $total,
+      'per_page' => $per_page,
+      'total_pages' => $total_pages,
+      'pages' => $pages,
     ];
   }
 }

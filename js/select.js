@@ -1,6 +1,6 @@
 (function (Drupal) {
   'use strict';
     $(function () {
-        $('select').multipleSelect()
+        $('[data-multiplejs="true"]').multipleSelect();
     })
 })(Drupal);
