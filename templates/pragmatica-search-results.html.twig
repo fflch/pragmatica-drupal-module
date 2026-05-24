@@ -58,7 +58,7 @@
             </h3>
             <div id="filter-group-{{ group_key }}" class="accordion-collapse collapse show">
               <div class="accordion-body p-3">
-                <div class="row g-3">
+                <div class="row">
                   {% for field in group.fields %}
                     <div class="{{ group_key == 'situacao' ? 'col-12' : 'col-12 col-md-6 col-lg-4' }}">
                       {{ macros.renderField(field) }}
@@ -71,7 +71,7 @@
         {% endif %}
       {% endfor %}
     </div>
-    <div class="mt-3">
+    <div class="mt-3 d-flex justify-content-end">
       <button type="submit" class="btn btn-primary">{{ 'Buscar'|t }}</button>
     </div>
   </form>
@@ -79,20 +79,30 @@
 
 {# ── Results ───────────────────────────────────────────────────────── #}
 <div>
-  <h2 class="pragmatica-subtitle mt-4">
-  {{ pager.total }} {{ pager.total == 1 ? 'resultado encontrado'|t : 'resultados encontrados'|t }}
-  </h2>
-  {% if results.responses %}
 
-    {{ macros.pager(pager, 'pragmatica-search-form', 'pragmatica-page-select') }}
-  
+  <div class="prag-results-header mt-4">
+    <span class="prag-results-header-label">{{ pager.total }} {{ pager.total == 1 ? 'resultado encontrado'|t : 'resultados encontrados'|t }}</span>
+    <span class="prag-results-header-rule"></span>
+    {% if pager.total_pages > 1 %}
+      <div class="prag-results-header-pager">{{ macros.pager(pager, 'pragmatica-search-form', 'pragmatica-page-select-top') }}</div>
+    {% endif %}
+  </div>
+
+  {% if results.responses %}
     {% for response in results.responses %}
       {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
     {% endfor %}
 
-    {{ macros.pager(pager, 'pragmatica-search-form', 'pragmatica-page-select') }}
+    <div class="prag-results-header">
+      <span class="prag-results-header-rule"></span>
+      {% if pager.total_pages > 1 %}
+        <div class="prag-results-header-pager">{{ macros.pager(pager, 'pragmatica-search-form', 'pragmatica-page-select-bottom') }}</div>
+      {% endif %}
+    </div>
+
   {% else %}
     <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
   {% endif %}
+
 </div>
 

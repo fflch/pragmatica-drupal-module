@@ -52,7 +52,7 @@
   // ---------------------------------------------------------------------------
 
   function findContainer(badge) {
-    return badge.closest('.card') || badge.closest('.pragmatica-response-container');
+    return badge.closest('.prag-card') || badge.closest('.pragmatica-response-container');
   }
 
   // ---------------------------------------------------------------------------

@@ -1,41 +1,45 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
 
-<h1 class="fs-3 mt-3">Situação {{ situation.label }}</h1>
-
-<p class="text-muted mb-0 fs-5 mt-0">
-    {{ situation.name }}
-</p>
-
-  {% if label._attributes %}
-  {% for label, value in label._attributes %}
-    <div class="mb-3">
-      <p class="fs-5 fw-bold mb-0">{{ label }}</p>
-      <p class="text-muted fs-6"> {{ value }}</p>
-    </div>
-  {% endfor %}
-  {% endif %}
-
-
-<div class="d-flex flex-column gap-3 mt-3">
-  <h2>{{ pager.total }} {{ pager.total == 1 ? 'resposta associada'|t : 'respostas associadas'|t }}</h2>
-
-  {# Simple GET form for pagination on situation page #}
-  <form id="pragmatica-situation-pagination-form" method="GET"></form>
-
-  {% if responses %}
-    {{ macros.pager(pager, 'pragmatica-situation-pagination-form', 'pragmatica-situation-page-select') }}
-
-    {% for response in responses %}
-      {{ macros.response_card(response.label, response.url, '', response.informant, response.labels) }}
-    {% endfor %}
-
-    {{ macros.pager(pager, 'pragmatica-situation-pagination-form', 'pragmatica-situation-page-select') }}
-  {% else %}
-    <p>{{ 'Nenhum resultado encontrado.'|t }}</p>
-  {% endif %}
-
-
-  <a href="{{ path('pragmatica.public.label.list') }}" class="pragmatica-back-link">
-    ← {{ 'Voltar para lista de etiquetas'|t }}
-  </a>
+<div class="prag-page-header">
+  <div class="prag-page-header-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+    </svg>
+  </div>
+  <div class="prag-page-header-body">
+    <p class="prag-page-header-eyebrow">{{ 'Situação'|t }} {{ situation.label }}</p>
+    <h1 class="prag-page-header-title">{{ situation.name }}</h1>
+  </div>
 </div>
+
+
+<div class="prag-results-header">
+  <span class="prag-results-header-label">{{ pager.total }} {{ pager.total == 1 ? 'resposta da situação'|t : 'respostas da situação'|t }} {{ situation.label }}</span>
+  <span class="prag-results-header-rule"></span>
+  {% if pager.total_pages > 1 %}
+    <div class="prag-results-header-pager">{{ macros.pager(pager, 'pragmatica-situation-pagination-form', 'pragmatica-situation-page-select-top') }}</div>
+  {% endif %}
+</div>
+
+{# Simple GET form for pagination on situation page #}
+<form id="pragmatica-situation-pagination-form" method="GET"></form>
+
+{% if responses %}
+  {% for response in responses %}
+    {{ macros.response_card(response.label, response.url, '', response.informant, response.labels) }}
+  {% endfor %}
+
+  <div class="prag-results-header">
+    <span class="prag-results-header-rule"></span>
+    {% if pager.total_pages > 1 %}
+      <div class="prag-results-header-pager">{{ macros.pager(pager, 'pragmatica-situation-pagination-form', 'pragmatica-situation-page-select-bottom') }}</div>
+    {% endif %}
+  </div>
+{% else %}
+  <p class="text-muted">{{ 'Nenhum resultado encontrado.'|t }}</p>
+{% endif %}
+
+<a href="{{ path('pragmatica.public.label.list') }}" class="pragmatica-back-link">
+  ← {{ 'Voltar para lista de etiquetas'|t }}
+</a>

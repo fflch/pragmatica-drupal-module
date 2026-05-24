@@ -1,52 +1,48 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
 
-<div class="container-fluid py-4 px-0 mx-0">
-  {% for label_type in label_types %}
-    <div class="row mb-3">
-      <div class="col-12">
-        <div 
-            class="mb-4 collapse-btn"
-            data-bs-toggle="collapse"
-            href="#labels-{{ label_type.id }}"
-            role="button"
-            aria-expanded="{{ loop.first ? 'true' : 'false' }}"
-        >
-            <div class="d-flex align-items-center justify-content-between fs-4 fw-bold mb-3 border-bottom-2">
-                <h2>{{ label_type.label }}</h2>
-                <span class="toggle-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 5v14M5 12h14"/>
-                    </svg>
-                    <span class="visually-hidden">Expandir/Recolher</span>
-                </span>
-            </div>
-            <p class="text-muted lead">{{ label_type.description }}</p>
-        </div>
+<h1 class="fs-3 mt-3 mb-4">{{ 'Etiquetas'|t }}</h1>
 
-        {% if label_type.labels %}
-          <div class="collapse {{ loop.first ? 'show' : '' }}" id="labels-{{ label_type.id }}">
-            {% for label in label_type.labels %}
-              <div class="mb-3 ml-1">
-                <div class="d-flex align-items-center border-bottom d-flex justify-content-between fs-5">            
-                    <a href="{{ label.url }}" class="fs-5">{{ label.label }}</a>
-                    {{ macros.label_badge(label, false, false) }}
-                </div>
-                {% if label.description %}
-                  <div id="label-{{ label.id }}">
-                    <div class="p-3">
-                        <p class="text-muted mb-0 fs-6">{{ label.description|raw|slice(0, 300) }}</p>
-                    </div>
-                  </div>
-                {% endif %}
-              </div>
-            {% endfor %}
+{% for label_type in label_types %}
+  <div class="prag-label-type">
+
+    {# Collapsible group header #}
+    <button
+      class="prag-label-type-header"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#labels-{{ label_type.id }}"
+      aria-expanded="{{ loop.first ? 'true' : 'false' }}"
+      aria-controls="labels-{{ label_type.id }}"
+    >
+      <h2>{{ label_type.label }}</h2>
+      <svg class="prag-label-type-toggle-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+      </svg>
+    </button>
+
+    {# Optional group description #}
+    {% if label_type.description %}
+      <p class="prag-label-type-desc">{{ label_type.description }}</p>
+    {% endif %}
+
+    {# Label rows #}
+    <div class="collapse {{ loop.first ? 'show' : '' }}" id="labels-{{ label_type.id }}">
+      {% if label_type.labels %}
+        {% for label in label_type.labels %}
+          <div class="prag-label-row">
+            <div class="prag-label-row-left">
+              <a href="{{ label.url }}">{{ label.label }}</a>
+              {% if label.description %}
+                <span class="prag-label-row-desc">{{ label.description|slice(0, 120) }}</span>
+              {% endif %}
+            </div>
+            {{ macros.label_badge(label, false, false) }}
           </div>
-        {% else %}
-          <div class="text-muted">
-            {{ 'Nenhuma etiqueta cadastrada'|t }}
-          </div>
-        {% endif %}
-      </div>
+        {% endfor %}
+      {% else %}
+        <p class="prag-label-type-desc">{{ 'Nenhuma etiqueta cadastrada'|t }}</p>
+      {% endif %}
     </div>
-  {% endfor %}
-</div>
+
+  </div>
+{% endfor %}

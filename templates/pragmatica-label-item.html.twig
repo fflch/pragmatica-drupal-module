@@ -1,34 +1,45 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
 
-<div class="d-flex align-items-center d-flex justify-content-between fs-3 mt-3">            
-    <h1 class="fs-3">{{ label.label }}</h1>
-    {{ macros.label_badge(label, false, false) }}
+<div class="prag-page-header">
+  <div class="prag-page-header-body">
+    <p class="prag-page-header-eyebrow">{{ 'Etiqueta'|t }}</p>
+    <h1 class="prag-page-header-title">{{ label.label }}</h1>
+    {% if label.description %}
+      <p class="prag-page-header-sub">{{ label.description|slice(0, 300, true) }}</p>
+    {% endif %}
+    {% if label._attributes %}
+      <p class="prag-page-header-sub mt-1">
+        {% for attr_label, attr_value in label._attributes %}
+          <span class="me-3"><strong>{{ attr_label }}:</strong> {{ attr_value }}</span>
+        {% endfor %}
+      </p>
+    {% endif %}
+  </div>
+  <div class="prag-page-header-badge">{{ macros.label_badge(label, false, false) }}</div>
 </div>
 
-<p class="text-muted mb-3 fs-6">
-  {{ label.description|slice(0, 400 , true) }}
-</p>
-
-{% if label._attributes %}
-  {{ macros.label_attributes(label, false, 'fw-bold fs-5', 'text-muted fs-5', 'd-block mb-3') }}
-{% endif %}
-
-
-<h2>{{ pager.total }} {{ pager.total == 1 ? 'resposta associada'|t : 'respostas associadas'|t }}</h2>
+<div class="prag-results-header">
+  <span class="prag-results-header-label">{{ pager.total }} {{ pager.total == 1 ? 'resposta associada'|t : 'respostas associadas'|t }}</span>
+  <span class="prag-results-header-rule"></span>
+  {% if pager.total_pages > 1 %}
+    <div class="prag-results-header-pager">{{ macros.pager(pager, 'pragmatica-label-pagination-form', 'pragmatica-label-page-select-top') }}</div>
+  {% endif %}
+</div>
 
 {# Simple GET form for pagination actions on the label page (submitted by the pager macro) #}
 <form id="pragmatica-label-pagination-form" method="GET"></form>
 
-<div class="d-flex flex-column gap-3 mt-3">
-  {% if responses %}
-    {{ macros.pager(pager, 'pragmatica-label-pagination-form', 'pragmatica-label-page-select') }}
+{% if responses %}
+  {% for response in responses %}
+    {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
+  {% endfor %}
 
-    {% for response in responses %}
-      {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
-    {% endfor %}
-
-    {{ macros.pager(pager, 'pragmatica-label-pagination-form', 'pragmatica-label-page-select') }}
-  {% else %}
-    <p>{{ 'Nenhum resposta associada.'|t }}</p>
-  {% endif %}
-</div>
+  <div class="prag-results-header">
+    <span class="prag-results-header-rule"></span>
+    {% if pager.total_pages > 1 %}
+      <div class="prag-results-header-pager">{{ macros.pager(pager, 'pragmatica-label-pagination-form', 'pragmatica-label-page-select-bottom') }}</div>
+    {% endif %}
+  </div>
+{% else %}
+  <p class="text-muted">{{ 'Nenhum resposta associada.'|t }}</p>
+{% endif %}

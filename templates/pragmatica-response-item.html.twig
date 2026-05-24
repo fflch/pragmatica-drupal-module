@@ -1,47 +1,80 @@
 {% import '@pragmatica/pragmatica-macros.html.twig' as macros %}
 
-
-
 <div class="pragmatica-response-container">
 
-<div class="d-flex align-items-center d-flex justify-content-between fs-3 mt-3">            
-    <h1 class="fs-3 pragmatica-response-text">{{ response.label }}</h1>
+{# ── Main response header ─────────────────────────────────────────── #}
+<div class="prag-page-header">
+  <div class="prag-page-header-icon prag-response-quote-icon" aria-hidden="true">
+    “
+  </div>
+  <div class="prag-page-header-body">
+    <p class="prag-page-header-eyebrow">{{ 'Resposta'|t }}</p>
+    <p class="prag-response-hero-text pragmatica-response-text">{{ response.label }}</p>
+    <div class="prag-response-hero-meta">
+      {% if response.situation is not empty %}
+        <span class="prag-response-hero-meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
+            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
+          </svg>
+          {% if response.situation.url %}
+            <a href="{{ response.situation.url }}" class="hover-link fw-semibold">{{ response.situation.label }}</a>
+          {% else %}
+            <span class="fw-semibold">{{ response.situation.label }}</span>
+          {% endif %}
+          {% if response.situation.name %}
+            <span class="text-muted">— {{ response.situation.name }}</span>
+          {% endif %}
+        </span>
+      {% endif %}
+      {% if response.informant is not empty %}
+        <span class="prag-response-hero-meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+          </svg>
+          {% if response.informant.url %}
+            <a href="{{ response.informant.url }}" class="hover-link fw-semibold">{{ response.informant.label }}</a>
+          {% else %}
+            <span class="fw-semibold">{{ response.informant.label }}</span>
+          {% endif %}
+        </span>
+      {% endif %}
+    </div>
+  </div>
 </div>
 
-{% if response._attributes %}
-<div class="my-3">
-  {{ macros.label_attributes(response, false, 'fw-bold fs-6', 'text-muted fs-6', 'd-block mb-2') }}
-</div>
-{% endif %}
-
-<div class="mb-5">
-  <p class="fs-5 me-2 fw-bold mb-2">Etiquetas</p>
-  {% if response.labels is not empty %}
-    {% for label in response.labels %}
+{# ── Labels ────────────────────────────────────────────────────────── #}
+<div class="prag-labels-section">
+  <p class="prag-labels-section-title">{{ 'Etiquetas'|t }}</p>
+  <div class="prag-labels-grid">
+    {% if response.labels is not empty %}
+      {% for label in response.labels %}
         {{ macros.label_badge(label) }}
-    {% endfor %}
-  {% else %}
-      <p class="text-muted">Sem etiquetas</p>
-  {% endif %}
+      {% endfor %}
+    {% else %}
+      <span class="text-muted small">{{ 'Sem etiquetas'|t }}</span>
+    {% endif %}
+  </div>
 </div>
 
-</div>{# end pragmatica-response-container #}
-
-<h2>Outras respostas do mesmo informante</h2>
-<div class="d-flex flex-column gap-3 mt-3">
+{# ── Other responses by same informant ────────────────────────────── #}
+<div class="prag-section-divider">{{ 'Outras respostas do mesmo informante'|t }}</div>
+<div>
   {% if informant_responses %}
     {% for informant_response in informant_responses %}
       {% if informant_response.id != response.id %}
         {{ macros.response_card(
-          informant_response.label, 
-          informant_response.url, 
-          informant_response.situation, 
-          informant_response.informant, 
+          informant_response.label,
+          informant_response.url,
+          informant_response.situation,
+          informant_response.informant,
           informant_response.labels
         ) }}
       {% endif %}
     {% endfor %}
   {% else %}
-    <p>{{ 'Nenhuma outra resposta desse informante' }}</p>
+    <p class="text-muted small">{{ 'Nenhuma outra resposta desse informante'|t }}</p>
   {% endif %}
 </div>
+
+</div>{# end .pragmatica-response-container #}
