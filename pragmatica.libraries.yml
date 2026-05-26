@@ -1,16 +1,15 @@
-# TODO: Download libraries and add to module static files
 pragmatica:
   js:
-    https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js: { type: external , integrity: "sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" , crossorigin: "anonymous" }
-    https://unpkg.com/multiple-select@2.3.1/dist/multiple-select.min.js: { type: external }
+    js/bootstrap.bundle.min.js: {}
+    js/multiple-select.min.js: {}
     js/select.js: {}
     js/tooltip.js: {}
     js/pragmatica.card.js: {}
   css:
     theme:
-      https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css: { type: external , integrity: "sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" , crossorigin: "anonymous" }
-      https://unpkg.com/multiple-select@2.3.1/dist/multiple-select.min.css: { type: external }
-      https://unpkg.com/multiple-select@2.3.1/dist/themes/bootstrap.css: { type: external }
+      css/bootstrap.min.css: {}
+      css/multiple-select.min.css: {}
+      css/multiple-select.bootstrap.css: {}
       css/pragmatica.css: {}
   dependencies:
     - core/jquery
