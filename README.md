@@ -2,13 +2,48 @@
 
 Módulo para Drupal 9 para importar, gerenciar e exibir dados de análises linguísticas resultantes pesquisa realizada pelo
 [Grupo de Pesquisa - Pragmática (inter)linguística, intercultural e cross-cultural (GPP)](https://www.gppragmatica-usp.com/).
-O módulo é desenvolvido especificamente para ser usado com a instalação do [Drupal da FFLCH-USP](https://github.com/fflch/drupal).
+O módulo foi desenvolvido pela Páramo Software (https://www.paramosoftware.com.br/) para ser usado com a instalação do [Drupal da FFLCH-USP](https://github.com/fflch/drupal)
+
 
 ## Instalação
 
 Para instalação do Drupal 9 com o tema da FFLCH, siga as instruções em [docs/instalacao-drupal-fflch.md](docs/instalacao-drupal-fflch.md).
 
-Depois de instalar o Drupal, siga as instruções abaixo para instalar o módulo Pragmática:
+Para o funcionamento do módulo Pragmática, foram necessárias duas alterações no código fonte da instalação do Drupal da FFLCH, listadas abaixo:
+
+1. **Atualização do Drush para a versão 10:**
+
+```json
+Para compatibilidade, é necessário usar a versão 10 ou superior do Drush, que é a mínima compatível com o Drupal 9. No `composer.json` do Drupal, alterou-se a versão do Drush de `^8.0` para `^10.0`:
+
+```json
+"require": {
+    ...
+    "drush/drush": "^10.0",
+    ...
+}
+```
+
+2. **Correção de constante REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL**:
+
+A constante `REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL` foi alterada para utilizar o namespace `Drupal\user\UserInterface` no arquivo `web/profiles/contrib/fflchprofile/fflchprofile.install`, linha 23. A alteração é a seguinte: 
+
+```php
+...
+// adicionar novo namespace
+use Drupal\user\UserInterface;
+...
+
+// Antes 
+$user_settings->set('register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)->save(FALSE);
+// Depois
+$user_settings->set('register', UserInterface::REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL)->save(FALSE);
+```
+
+Para alterações exatas, ver commit `665b0571b320dc8518bab00bb957c7b138b93e51` na branch `modulo-pragmatica` do [fork do repositório drupal da FFLCH](https://github.com/paramosoftware/fflch-drupal).
+
+
+Depois de instalar o Drupal e aplicar as alterações acima, siga as instruções abaixo para instalar o módulo Pragmática:
 
 1. Na raiz projeto do Drupal, clone o repositório do módulo Pragmática:
 
@@ -120,12 +155,3 @@ sudo -u www-data ./vendor/bin/drush php:eval '
                               }
                               '
 ```
-
-**Para futuras investigações:**
-Aparentemente, o comando drush `updb` somente registra a informação abaixo na tabela `key_value`:
-
-| collection    | name       | value   |
-|---------------|------------|---------|
-| system.schema | pragmatica | i:8000; |
-
-Indicando que o módulo Pragmática foi atualizado para a versão/hook 8000 (?)
