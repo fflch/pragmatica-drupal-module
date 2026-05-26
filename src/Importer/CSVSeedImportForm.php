@@ -5,11 +5,16 @@ namespace Drupal\pragmatica\Importer;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Security\TrustedCallbackInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CSVSeedImportForm extends FormBase {
+class CSVSeedImportForm extends FormBase implements TrustedCallbackInterface {
 
   protected $entityTypeManager;
+
+  public static function trustedCallbacks(): array {
+    return ['preRenderCsvFileInput'];
+  }
 
   const MODULE_DATA_PATH = __DIR__ . '/../../data/seed/';
 
@@ -82,6 +87,8 @@ class CSVSeedImportForm extends FormBase {
       ];
       $form['types'][$entity_type]['csv_file'] = [
         '#type' => 'file',
+        '#csv_entity_type' => $entity_type,
+        '#pre_render' => [[static::class, 'preRenderCsvFileInput']],
         '#upload_validators' => [
           'file_validate_extensions' => ['csv'],
         ],
@@ -96,9 +103,20 @@ class CSVSeedImportForm extends FormBase {
     return $form;
   }
 
+  /**
+   * Pre-render callback: gives each CSV file input a unique name.
+   */
+  public static function preRenderCsvFileInput(array $element): array {
+    $entity_type = $element['#csv_entity_type'];
+    $element['#attributes']['name'] = 'csv_file[' . $entity_type . ']';
+    // Keep the element type intact so the theme renders it as a file input.
+    $element['#attributes']['type'] = 'file';
+    return $element;
+  }
+
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $types_values = $form_state->getValue('types', []);
-    $uploaded_files = \Drupal::request()->files->get('files', []);
+    $csv_files = \Drupal::request()->files->get('csv_file', []);
     $importer = new CSVImporter($this->entityTypeManager);
 
     foreach (self::SEED_TYPES as $entity_type => $info) {
@@ -111,8 +129,8 @@ class CSVSeedImportForm extends FormBase {
 
       // Resolve CSV path: prefer uploaded file, fall back to bundled default.
       $csv_path = NULL;
-      $uploaded = $uploaded_files['types'][$entity_type]['csv_file'] ?? NULL;
-      if ($uploaded && $uploaded->isValid()) {
+      $uploaded = is_array($csv_files) ? ($csv_files[$entity_type] ?? NULL) : NULL;
+      if ($uploaded instanceof \Symfony\Component\HttpFoundation\File\UploadedFile && $uploaded->isValid()) {
         $csv_path = $uploaded->getPathname();
       }
       if (!$csv_path) {
