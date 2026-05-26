@@ -420,8 +420,8 @@ class CSVImporter {
         $i = $end + 1;
 
         if (substr($tag_content, 0, 1) === '/') {
-          // Closing tag — strip leading '/' then any '+' prefix
-          $code = ltrim(substr($tag_content, 1), '+');
+          // Closing tag — strip leading '/'
+          $code = substr($tag_content, 1);
           if (in_array($code, self::SKIP_TAGS)) continue;
           // Pop matching entry from stack
           for ($k = count($stack) - 1; $k >= 0; $k--) {
@@ -441,8 +441,8 @@ class CSVImporter {
           }
         }
         else {
-          // Opening tag — strip any '+' prefix
-          $code = ltrim($tag_content, '+');
+          // Opening tag
+          $code = $tag_content;
           if (in_array($code, self::SKIP_TAGS)) continue;
           $stack[] = ['code' => $code, 'start' => $pos];
         }
@@ -546,12 +546,11 @@ class CSVImporter {
   }
 
   /**
-   * Get or create a label by its code. Strips '+' prefix. Generates a color if new.
+   * Get or create a label by its code.
    */
   protected function getOrCreateLabel(string $code): ?int {
     if (trim($code) === '') return NULL;
-    // Strip '+' prefix — <+ap2> is treated as label ap2
-    $clean_code = ltrim($code, '+');
+    $clean_code = trim($code);
     $id = $this->getEntityIdByField('pragmatica_label', 'code', $clean_code);
     if ($id) return $id;
     try {
