@@ -487,18 +487,17 @@
 }
 
 .prag-label-type-header h2 {
-  font-size: var(--font-size-ui);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   margin: 0;
   color: var(--color-primary);
 }
 
 .prag-label-type-desc {
-  font-size: 0.83rem;
+  font-size: var(--font-size-md);
   color: var(--color-text-muted);
   padding: 0.5rem 1rem;
   margin: 0;
-  font-style: italic;
   background: var(--color-bg-light);
   border-bottom: 1px solid var(--color-border-lighter);
 }
@@ -543,7 +542,7 @@
 .prag-label-row a {
   color: var(--color-text);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: var(--font-size-ui);
   font-weight: var(--font-weight-medium);
 }
 
@@ -552,9 +551,8 @@
 }
 
 .prag-label-row-desc {
-  font-size: 0.77rem;
+  font-size: var(--font-size-sm);
   color: var(--color-text-muted);
-  font-style: italic;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
