@@ -33,6 +33,7 @@ function pragmatica_theme($existing, $type, $theme, $path) {
         'responses' => [],
         'label_type' => NULL,
         'pager' => [],
+        'autopins' => [],
       ],
     ],
     'pragmatica_situation_list' => [
@@ -67,6 +68,7 @@ function pragmatica_theme($existing, $type, $theme, $path) {
         'filter_groups' => [],
         'active_filters' => [],
         'pager' => [],
+        'autopins' => [],
       ],
     ]
   ];

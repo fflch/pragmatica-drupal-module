@@ -81,6 +81,7 @@ class PragmaticaPublicController extends ControllerBase {
       '#filter_groups' => $form->getGroupedFieldConfig(),
       '#active_filters' => $form->getActiveFiltersDisplay(),
       '#pager' => $pager,
+      '#autopins' => $form->getSelectedLabelIds(),
       '#attached' => [
         'library' => [
           'pragmatica/pragmatica'

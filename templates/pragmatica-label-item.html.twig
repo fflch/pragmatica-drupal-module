@@ -30,9 +30,11 @@
 <form id="pragmatica-label-pagination-form" method="GET"></form>
 
 {% if responses %}
-  {% for response in responses %}
-    {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
-  {% endfor %}
+  <div{% if autopins is not empty %} data-autopins="{{ autopins|join(',') }}"{% endif %}>
+    {% for response in responses %}
+      {{ macros.response_card(response.label, response.url, response.situation, response.informant, response.labels) }}
+    {% endfor %}
+  </div>
 
   <div class="prag-results-header">
     <span class="prag-results-header-rule"></span>

@@ -30,6 +30,7 @@
   <span
     class="badge badge-square text-uppercase me-1 text-center d-inline-flex align-items-center pragmatica-label-badge"
     style="background-color: {{ label.color }}; color: {{ text_color }};"
+    data-label-id="{{ label.id }}"
     data-bs-toggle="tooltip"
     data-bs-placement="bottom"
     title="{{ add_tooltip ? label.label : '' }}"

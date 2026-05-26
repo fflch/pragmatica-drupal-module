@@ -106,6 +106,7 @@ class LabelPublicController extends ControllerBase {
     $build['#label'] = $pragmatica_label->getEntityForDisplay();
     $build['#responses'] = $processed_responses;
     $build['#pager'] = $pager;
+    $build['#autopins'] = [(int) $pragmatica_label->id()];
     $build['#attached'] = [
       'library' => [
         'pragmatica/pragmatica',

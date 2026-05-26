@@ -27,6 +27,25 @@ class PragmaticaPublicSearchForm extends FormBase {
     return $this->field_config;
   }
 
+  /**
+   * Returns the flat list of selected label entity IDs from the current form values.
+   */
+  public function getSelectedLabelIds(): array {
+    $config = !empty($this->field_config) ? $this->field_config : $this->setFieldsConfiguration();
+    $ids = [];
+    foreach ($config as $field) {
+      if (($field['parent'] ?? '') !== 'label' || empty($field['value'])) {
+        continue;
+      }
+      foreach ((array) $field['value'] as $id) {
+        $int_id = (int) $id;
+        if ($int_id > 0) {
+          $ids[] = $int_id;
+        }
+      }
+    }
+    return array_values(array_unique($ids));
+  }
 
   public function buildForm(array $form, FormStateInterface $form_state) {
     foreach ($this->setFieldsConfiguration() as $key => $field) {

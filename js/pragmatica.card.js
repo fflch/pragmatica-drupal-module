@@ -44,6 +44,32 @@
           });
         }
       });
+
+      // Auto-pin badges whose label ID is listed in a [data-autopins].
+      var autopinContainers = context.querySelectorAll('[data-autopins]');
+      Array.prototype.forEach.call(autopinContainers, function (wrapper) {
+        var ids = (wrapper.getAttribute('data-autopins') || '').split(',').filter(Boolean);
+        if (!ids.length) return;
+        var autoBadges = wrapper.querySelectorAll('.pragmatica-label-badge[data-label-id]');
+        Array.prototype.forEach.call(autoBadges, function (badge) {
+          if (ids.indexOf(badge.getAttribute('data-label-id')) === -1) return;
+          if (badge.hasAttribute('data-pinned')) return; // already interacted
+          badge.dataset.pinned = '1';
+          var pinBtn = badge.querySelector('.pragmatica-pin-btn');
+          if (pinBtn) {
+            pinBtn.classList.add('pinned');
+            pinBtn.setAttribute('aria-pressed', 'true');
+          }
+          var cardContainer = findContainer(badge);
+          var textEl = cardContainer ? cardContainer.querySelector('.pragmatica-response-text') : null;
+          if (textEl) {
+            if (!textEl.dataset.originalText) {
+              textEl.dataset.originalText = textEl.textContent;
+            }
+            renderHighlights(textEl, cardContainer, null);
+          }
+        });
+      });
     }
   };
 

@@ -78,7 +78,7 @@
 </div>
 
 {# ── Results ───────────────────────────────────────────────────────── #}
-<div>
+<div{% if autopins is not empty %} data-autopins="{{ autopins|join(',') }}"{% endif %}>
 
   <div class="prag-results-header mt-4">
     <span class="prag-results-header-label">{{ pager.total }} {{ pager.total == 1 ? 'resultado encontrado'|t : 'resultados encontrados'|t }}</span>
