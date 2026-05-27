@@ -107,7 +107,7 @@ class PragmaticaPublicSearchForm extends FormBase {
       $config[$name] = $this->addField(
         $name, 
         $label_type_name, 
-        $this->getEntityOptions('label', ['type_id' => $label_type_id]),
+        $this->getEntityOptions('label', ['type_id' => $label_type_id], true),
         true,
         'label'
       );
@@ -317,7 +317,7 @@ class PragmaticaPublicSearchForm extends FormBase {
   }
 
 
-  public function getEntityOptions(string $entity_type_id, $properties_filter = []) {
+  public function getEntityOptions(string $entity_type_id, $properties_filter = [], $add_code_prefix = false) {
     $entity_type_id = $this->getPrefixedEntityTypeId($entity_type_id);
     $entity_storage = Drupal::entityTypeManager()->getStorage($entity_type_id);
     $entities = $entity_storage->loadByProperties($properties_filter);
@@ -328,6 +328,12 @@ class PragmaticaPublicSearchForm extends FormBase {
 
       if (!empty($name) && $name != $label) {
           $label .= ' - ' . $name;
+      }
+      if ($add_code_prefix) {
+          $code = $entity->hasField('code') ? $entity->get('code')->value : '';
+          if (!empty($code) && $code != $label && $code != $name) {
+              $label = $code . ' - ' . $label;
+          }
       }
 
       $options[$entity->id()] = $label;
