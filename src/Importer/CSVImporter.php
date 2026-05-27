@@ -96,6 +96,7 @@ class CSVImporter {
 
   /**
    * Read a simple CSV file (comma-separated, with headers).
+   * Uses fgetcsv() so quoted cells containing embedded newlines are handled correctly.
    */
   public function readSimpleCsv(string $path): array {
     $raw = file_get_contents($path);
@@ -108,20 +109,24 @@ class CSVImporter {
     }
     $raw = str_replace("\r\n", "\n", $raw);
     $raw = str_replace("\r", "\n", $raw);
-    $lines = explode("\n", trim($raw));
-    if (empty($lines)) {
-      return [];
-    }
-    $headers = str_getcsv(array_shift($lines), ',');
+
+    $handle = fopen('php://memory', 'r+');
+    fwrite($handle, $raw);
+    rewind($handle);
+
+    $headers = NULL;
     $rows = [];
-    foreach ($lines as $line) {
-      if (trim($line) === '') continue;
-      $values = str_getcsv($line, ',');
-      while (count($values) < count($headers)) {
-        $values[] = '';
+    while (($values = fgetcsv($handle, 0, ',')) !== FALSE) {
+      if ($headers === NULL) {
+        $headers = $values;
+        continue;
       }
-      $rows[] = array_combine($headers, array_slice($values, 0, count($headers)));
+      if (count($values) >= count($headers)) {
+        $rows[] = array_combine($headers, array_slice($values, 0, count($headers)));
+      }
     }
+    fclose($handle);
+
     return $rows;
   }
 
