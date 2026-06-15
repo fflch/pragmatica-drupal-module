@@ -38,10 +38,10 @@ pragmatica.import.research:
 ###################################################
 
 pragmatica.public.search:
-  path: '/pragmatica/busca'
+  path: '/pesquisa/corpus'
   defaults:
       _controller: '\Drupal\pragmatica\Controller\PragmaticaPublicController::search'
-      _title: 'Buscar'
+      _title: 'Corpus anotado de pedidos'
   requirements:
       _permission: 'access content'
 
@@ -51,7 +51,7 @@ pragmatica.public.search:
 ###################################################
 
 pragmatica.public.label.item:
-  path: '/pragmatica/etiqueta/{pragmatica_label}'
+  path: '/pesquisa/etiqueta/{pragmatica_label}'
   defaults:
     _controller: '\Drupal\pragmatica\Controller\LabelPublicController::item'
     _title_callback: '\Drupal\pragmatica\Controller\LabelPublicController::itemTitle'
@@ -60,7 +60,7 @@ pragmatica.public.label.item:
     _permission: 'access content'
 
 pragmatica.public.label.list:
-  path: '/pragmatica/etiquetas'
+  path: '/pesquisa/etiquetas'
   defaults:
     _controller: '\Drupal\pragmatica\Controller\LabelPublicController::list'
     _title: 'Etiquetas'
@@ -73,7 +73,7 @@ pragmatica.public.label.list:
 
 
 pragmatica.public.response.item:
-  path: '/pragmatica/resposta/{pragmatica_response}'
+  path: '/pesquisa/resposta/{pragmatica_response}'
   defaults:
     _controller: '\Drupal\pragmatica\Controller\ResponsePublicController::item'
     _title: 'Resposta'
@@ -86,7 +86,7 @@ pragmatica.public.response.item:
 ###################################################
 
 pragmatica.public.situation.item:
-  path: '/pragmatica/situacao/{pragmatica_situation}'
+  path: '/pesquisa/situacao/{pragmatica_situation}'
   defaults:
     _controller: '\Drupal\pragmatica\Controller\SituationPublicController::item'
     _title: 'Situação'
@@ -98,7 +98,7 @@ pragmatica.public.situation.item:
 ###################################################
 
 pragmatica.public.informant.item:
-  path: '/pragmatica/informante/{pragmatica_informant}'
+  path: '/pesquisa/informante/{pragmatica_informant}'
   defaults:
     _controller: '\Drupal\pragmatica\Controller\InformantPublicController::item'
     _title: 'Informante'
