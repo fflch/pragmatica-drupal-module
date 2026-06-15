@@ -101,6 +101,10 @@
   text-align: left !important;
 }
 
+.pragmatica-label-tooltip .tooltip-inner {
+  text-align: center !important;
+}
+
 .hover-link {
   text-decoration: none;
 }
