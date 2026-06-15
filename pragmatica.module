@@ -69,6 +69,7 @@ function pragmatica_theme($existing, $type, $theme, $path) {
         'active_filters' => [],
         'pager' => [],
         'autopins' => [],
+        'has_search' => false,
       ],
     ]
   ];

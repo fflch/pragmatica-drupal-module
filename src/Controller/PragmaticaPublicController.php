@@ -45,32 +45,41 @@ class PragmaticaPublicController extends ControllerBase {
 
     $form = new PragmaticaPublicSearchForm();
     $form->setFormValues($query_params);
-    $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
-    $query = $response_storage->getQuery();
-    $query = $form->buildSearchQuery($query);
 
-    $per_page = 24;
-    $page = (int) ($request->query->get('page', 0));
+    // Check if any search filter was actually selected.
+    $form->getFieldConfig();
+    $has_search = !empty($form->getActiveFiltersDisplay());
 
-    $count_query = clone $query;
-    $total = (int) $count_query->count()->execute();
+    if ($has_search) {
+      $response_storage = $this->entityTypeManager->getStorage('pragmatica_response');
+      $query = $response_storage->getQuery();
+      $query = $form->buildSearchQuery($query);
 
-    $pager = $this->buildPager($total, $per_page, $page, 5);
-    $page = $pager['current'];
+      $per_page = 24;
+      $page = (int) ($request->query->get('page', 0));
 
-    if ($total > 0) {
-      $offset = $page * $per_page;
-      $query->range($offset, $per_page);
-      $response_ids = $query->execute();
+      $count_query = clone $query;
+      $total = (int) $count_query->count()->execute();
 
-      if (!empty($response_ids)) {
-        /** @var \Drupal\pragmatica\Entity\Response[] $responses */
-        $responses = $response_storage->loadMultiple($response_ids);
-        $results['responses'] = [];
-        foreach ($responses as $response) {
-          $results['responses'][] =  $response->getEntityForDisplay();
+      $pager = $this->buildPager($total, $per_page, $page, 5);
+      $page = $pager['current'];
+
+      if ($total > 0) {
+        $offset = $page * $per_page;
+        $query->range($offset, $per_page);
+        $response_ids = $query->execute();
+
+        if (!empty($response_ids)) {
+          /** @var \Drupal\pragmatica\Entity\Response[] $responses */
+          $responses = $response_storage->loadMultiple($response_ids);
+          $results['responses'] = [];
+          foreach ($responses as $response) {
+            $results['responses'][] = $response->getEntityForDisplay();
+          }
         }
       }
+    } else {
+      $pager = $this->buildPager(0, 24, 0, 5);
     }
 
     return [
@@ -82,6 +91,7 @@ class PragmaticaPublicController extends ControllerBase {
       '#active_filters' => $form->getActiveFiltersDisplay(),
       '#pager' => $pager,
       '#autopins' => $form->getSelectedLabelIds(),
+      '#has_search' => $has_search,
       '#attached' => [
         'library' => [
           'pragmatica/pragmatica'

@@ -56,6 +56,7 @@
   --font-size-sm: 0.85rem;
   --font-size-md: 0.88rem;
   --font-size-ui: 0.95rem;
+  --font-size-sub: 1.05rem;
   --font-size-lg: 1.25rem;
 
   /* ── Font weights ────────────────────────────────────────────────────────── */
@@ -461,7 +462,13 @@
 
 .prag-no-results p {
   margin: 0;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
+}
+
+@media (min-width: 768px) {
+  .prag-no-results p {
+    max-width: 60% !important;
+  }
 }
 
 .prag-section-divider {
