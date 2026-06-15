@@ -24,6 +24,9 @@ class PragmaticaPublicSearchForm extends FormBase {
   }
 
   public function getFieldConfig() {
+    if (empty($this->field_config)) {
+      $this->setFieldsConfiguration();
+    }
     return $this->field_config;
   }
 
@@ -276,9 +279,21 @@ class PragmaticaPublicSearchForm extends FormBase {
   public function getGroupedFieldConfig(): array {
     $config = $this->getFieldConfig();
     $groups = [
-      'situacao' => ['label' => 'Situação', 'fields' => []],
-      'etiquetas' => ['label' => 'Etiquetas', 'fields' => []],
-      'informante' => ['label' => 'Informante', 'fields' => []],
+      'situacao' => [
+        'label' => 'Situação',
+        'fields' => [],
+        'tooltip' => '',
+      ],
+      'etiquetas' => [
+        'label' => 'Etiquetas',
+        'fields' => [],
+        'tooltip' => '',
+      ],
+      'informante' => [
+        'label' => 'Informante',
+        'fields' => [],
+        'tooltip' => '',
+      ],
     ];
     foreach ($config as $key => $field) {
       $parent = $field['parent'] ?? '';

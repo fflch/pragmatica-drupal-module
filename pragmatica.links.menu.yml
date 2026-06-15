@@ -1,8 +1,8 @@
 #################### PRAGMÁTICA PUBLIC MENU ####################
 
 pragmatica.search:
-  title: 'Buscar'
-  description: 'Buscar etiquetas'
+  title: 'Corpus anotado de pedidos'
+  description: 'Pesquisar e navegar pelo corpus anotado de pedidos.'
   route_name: pragmatica.public.search
   menu_name: main
   weight: 0

@@ -33,7 +33,9 @@
     data-label-id="{{ label.id }}"
     data-bs-toggle="tooltip"
     data-bs-placement="bottom"
-    title="{{ add_tooltip ? label.label : '' }}"
+    data-bs-html="true"
+    data-bs-custom-class="pragmatica-label-tooltip" 
+    title="{{ add_tooltip ? (label.description ? '<b>' ~ label.label ~ '</b> <br> ' ~ label.description : label.label) : '' }}"
     {% if has_selections %}
     data-selections="{{ label.selections|json_encode }}"
     data-color="{{ label.color }}"
