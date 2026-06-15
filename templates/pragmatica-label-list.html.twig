@@ -2,16 +2,25 @@
 
 <h1 class="fs-3 mt-3 mb-4">{{ 'Etiquetas'|t }}</h1>
 
+<p class="prag-label-list-intro">
+  {{ 
+  'Cada categoria abaixo reúne etiquetas relacionadas a um mesmo tipo linguístico — como atos de fala, 
+  perspectivas ou modificadores. Clique no nome da categoria para ver as etiquetas disponíveis, 
+  suas descrições e exemplos de uso em português brasileiro. Para saber mais sobre o uso da etiqueta 
+  no corpus anotado de pedidos, clique no nome de uma etiqueta ou acesse a'|t }}
+  <a href="{{ path('pragmatica.public.search') }}">{{ 'página do corpus'|t }}</a> {{ ' e use os filtros de etiqueta para explorar os dados.'|t }}
+</p>
+
 {% for label_type in label_types %}
   <div class="prag-label-type">
 
     {# Collapsible group header #}
     <button
-      class="prag-label-type-header"
+      class="prag-label-type-header collapsed"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#labels-{{ label_type.id }}"
-      aria-expanded="{{ loop.first ? 'true' : 'false' }}"
+      aria-expanded="false"
       aria-controls="labels-{{ label_type.id }}"
     >
       <h2>{{ label_type.label }}</h2>
@@ -26,12 +35,13 @@
     {% endif %}
 
     {# Label rows #}
-    <div class="collapse {{ loop.first ? 'show' : '' }}" id="labels-{{ label_type.id }}">
+    <div class="collapse" id="labels-{{ label_type.id }}">
       {% if label_type.labels %}
         {% for label in label_type.labels %}
           <div class="prag-label-row">
+            <a href="{{ label.url }}" class="prag-label-row-link" aria-label="{{ label.label }}"></a>
             <div class="prag-label-row-left">
-              <a href="{{ label.url }}">{{ label.label }}</a>
+              <span class="prag-label-row-name">{{ label.label }}</span>
               {% if label.description %}
                 <span class="prag-label-row-desc">{{ label.description }}</span>
               {% endif %}
@@ -43,7 +53,9 @@
                 {% endfor %}
               {% endif %}
             </div>
-            {{ macros.label_badge(label, false, false) }}
+            <div class="prag-label-row-right">
+              {{ macros.label_badge(label, true, false) }}
+            </div>
           </div>
         {% endfor %}
       {% else %}
