@@ -53,6 +53,10 @@ class InformantPublicController extends ControllerBase {
       ],
     ];
 
+    $build['#cache'] = [
+      'contexts' => ['url.query_args'],
+    ];
+
     return $build;
   }
 

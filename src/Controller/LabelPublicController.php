@@ -66,6 +66,9 @@ class LabelPublicController extends ControllerBase {
           'pragmatica/pragmatica',
         ],
       ],
+      '#cache' => [
+        'contexts' => ['url.query_args'],
+      ],
     ];
   }
 
@@ -111,6 +114,9 @@ class LabelPublicController extends ControllerBase {
       'library' => [
         'pragmatica/pragmatica',
       ],
+    ];
+    $build['#cache'] = [
+      'contexts' => ['url.query_args'],
     ];
 
     return $build;

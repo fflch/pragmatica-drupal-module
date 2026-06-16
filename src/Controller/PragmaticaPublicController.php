@@ -97,6 +97,9 @@ class PragmaticaPublicController extends ControllerBase {
           'pragmatica/pragmatica'
         ],
       ],
+      '#cache' => [
+        'contexts' => ['url.query_args'],
+      ],
     ];
   }
 
