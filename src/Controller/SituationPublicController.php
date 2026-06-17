@@ -72,6 +72,10 @@ class SituationPublicController extends ControllerBase {
         'pragmatica/pragmatica',
       ],
     ];
+    
+    $build['#cache'] = [
+      'contexts' => ['url.query_args'],
+    ];
 
     return $build;
   }
