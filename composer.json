@@ -1,19 +1,8 @@
 {
-    "name": "paramosoftware/pragmatica",
+    "name": "fflch/pragmatica",
     "description": "Módulo para Drupal 9 para importar, gerenciar e exibir dados de análises linguísticas do GPP (FFLCH-USP)",
     "type": "drupal-module",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Drupal\\pragmatica\\": "src/"
-        }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/paramosoftware/pragmatica-drupal-module"
-        }
-    ],
     "authors": [
         {
             "name": "Páramo Software",
